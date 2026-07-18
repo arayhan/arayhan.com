@@ -1,14 +1,17 @@
 'use client';
 
+import { useState } from 'react';
 import { Marquee, RevealOnScroll, StatStrip } from '@arayhan/prima-ui';
 import { useLocale, useTranslations } from 'next-intl';
 import { SectionShell } from '@/components/section-shell';
 import { getContent, type Locale } from '@/content';
+import { DECK_SIZE, TalkDeck } from './talk-deck';
 
 export function SpeakingSection() {
   const t = useTranslations();
   const locale = useLocale() as Locale;
   const { talks, awards, communityRoles } = getContent(locale);
+  const [hoveredTalk, setHoveredTalk] = useState<number | null>(null);
 
   const topics = Array.from(new Set(talks.map((talk) => talk.topic)));
 
@@ -94,22 +97,29 @@ export function SpeakingSection() {
         <Marquee inverse items={topics} separator="//" />
       </div>
 
-      {/* talks + awards */}
+      {/* deck + talks + awards */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: 'var(--space-7)',
           marginTop: 'var(--space-7)',
+          alignItems: 'start',
         }}
       >
         <RevealOnScroll>
+          <TalkDeck talks={talks} activeIndex={hoveredTalk} />
+        </RevealOnScroll>
+        <RevealOnScroll delay={80}>
           <div>
             <h3 style={{ margin: 0 }}>{t('speaking.talksTitle')}</h3>
             <div style={{ marginTop: 'var(--space-4)' }}>
-              {talks.map((talk) => (
+              {talks.map((talk, talkIndex) => (
                 <div
                   key={talk.title}
+                  onMouseEnter={() => setHoveredTalk(talkIndex < DECK_SIZE ? talkIndex : null)}
+                  onMouseLeave={() => setHoveredTalk(null)}
+                  data-cursor
                   style={{
                     display: 'flex',
                     gap: 'var(--space-4)',
