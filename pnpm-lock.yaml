@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@arayhan/prima-ui':
-        specifier: file:vendor\arayhan-prima-ui-0.1.0.tgz
+        specifier: file:vendor/arayhan-prima-ui-0.1.0.tgz
         version: file:vendor/arayhan-prima-ui-0.1.0.tgz(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@gsap/react':
         specifier: ^2.1.2
@@ -49,37 +49,40 @@ importers:
         version: 4.4.3
     devDependencies:
       '@eslint/eslintrc':
-        specifier: ^3.3.6
+        specifier: ^3
         version: 3.3.6
       '@playwright/test':
         specifier: ^1.61.1
         version: 1.61.1
+      '@rolldown/binding-win32-x64-msvc':
+        specifier: ^1.2.0
+        version: 1.2.0
       '@tailwindcss/postcss':
-        specifier: ^4.3.3
+        specifier: ^4
         version: 4.3.3
       '@types/node':
-        specifier: ^20.19.43
+        specifier: ^20
         version: 20.19.43
       '@types/react':
-        specifier: ^19.2.17
+        specifier: ^19
         version: 19.2.17
       '@types/react-dom':
-        specifier: ^19.2.3
+        specifier: ^19
         version: 19.2.3(@types/react@19.2.17)
       '@vitejs/plugin-react':
         specifier: ^6.0.3
         version: 6.0.3(vite@8.1.5(@types/node@20.19.43)(jiti@2.7.0))
       eslint:
-        specifier: ^9.39.5
+        specifier: ^9
         version: 9.39.5(jiti@2.7.0)
       eslint-config-next:
         specifier: 15.5.20
         version: 15.5.20(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
       tailwindcss:
-        specifier: ^4.3.3
+        specifier: ^4
         version: 4.3.3
       typescript:
-        specifier: ^5.9.3
+        specifier: ^5
         version: 5.9.3
       vitest:
         specifier: ^4.1.10
@@ -604,6 +607,12 @@ packages:
 
   '@rolldown/binding-win32-x64-msvc@1.1.5':
     resolution: {integrity: sha512-tTZuDBPw85tEN5PQi1pnEBzDy0Z49HtScLAbD5t6hyeU92A95pRWaSMw1GZZi/RwgSgUIl0xrSlXIT/9QzvYSA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [win32]
+
+  '@rolldown/binding-win32-x64-msvc@1.2.0':
+    resolution: {integrity: sha512-WfFv6/qGufotqBSBzBYwgpCkJBk8Nj7697LL9vTz/XWc67e0r3oewu8iMRwQj3AUL45GVD7wVsPjCsAAtW66Wg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
@@ -2890,6 +2899,8 @@ snapshots:
 
   '@rolldown/binding-win32-x64-msvc@1.1.5':
     optional: true
+
+  '@rolldown/binding-win32-x64-msvc@1.2.0': {}
 
   '@rolldown/pluginutils@1.0.1': {}
 
