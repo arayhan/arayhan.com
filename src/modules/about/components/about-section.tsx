@@ -4,6 +4,7 @@ import { RevealOnScroll, StatStrip } from '@arayhan/prima-ui';
 import { useLocale, useTranslations } from 'next-intl';
 import { SectionShell } from '@/components/section-shell';
 import { getContent, type Locale } from '@/content';
+import { AvatarFrame } from './avatar-frame';
 
 export function AboutSection() {
   const t = useTranslations();
@@ -20,12 +21,15 @@ export function AboutSection() {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: 'var(--space-7)',
           alignItems: 'start',
         }}
       >
         <RevealOnScroll>
+          <AvatarFrame alt={t('about.avatarAlt')} />
+        </RevealOnScroll>
+        <RevealOnScroll delay={80}>
           <p
             style={{
               fontSize: 'var(--text-body-lg)',
@@ -36,7 +40,7 @@ export function AboutSection() {
             {profile.summary}
           </p>
         </RevealOnScroll>
-        <RevealOnScroll delay={120}>
+        <RevealOnScroll delay={140}>
           <div
             style={{
               borderLeft: 'var(--border-width-rule) solid var(--primary)',
@@ -47,6 +51,12 @@ export function AboutSection() {
             }}
           >
             <p style={{ color: 'var(--text-secondary)', margin: 0 }}>{t('about.mentoringNote')}</p>
+            <p style={{ color: 'var(--text-secondary)', margin: 0 }}>
+              {t('about.designSystemNote')}{' '}
+              <a href="#products" className="eyebrow" style={{ whiteSpace: 'nowrap' }}>
+                {'// PRIMA UI'}
+              </a>
+            </p>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-code)' }}>
               <div>
                 <span className="eyebrow">{'// LOCATION'}</span>
