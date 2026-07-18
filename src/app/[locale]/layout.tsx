@@ -10,11 +10,14 @@ import { SiteNavbar } from '@/components/site-navbar';
 import { SiteFooter } from '@/components/site-footer';
 import '../globals.css';
 
+/* Clash Display is self-hosted (see globals.css); Inter/JetBrains Mono and
+   the Phosphor icon font still ride their CDNs. */
 const FONT_LINKS = [
-  'https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap',
   'https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css',
 ];
+
+const CLASH_PRELOADS = ['/fonts/clash-display-600.woff2', '/fonts/clash-display-700.woff2'];
 
 export const metadata: Metadata = {
   title: {
@@ -45,9 +48,11 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <head>
-        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {CLASH_PRELOADS.map((href) => (
+          <link key={href} rel="preload" href={href} as="font" type="font/woff2" crossOrigin="anonymous" />
+        ))}
         {FONT_LINKS.map((href) => (
           <link key={href} rel="stylesheet" href={href} />
         ))}
