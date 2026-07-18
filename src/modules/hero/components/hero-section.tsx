@@ -2,17 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { MagneticButton, TextScramble } from '@arayhan/prima-ui';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { gsap, useGSAP } from '@/libs/gsap';
-import { getContent, type Locale } from '@/content';
 import { IsometricScene } from './isometric-scene';
 
 const ROLE_CYCLE_MS = 3400;
 
 export function HeroSection() {
   const t = useTranslations('hero');
-  const locale = useLocale() as Locale;
-  const { profile } = getContent(locale);
   const sectionRef = useRef<HTMLElement>(null);
   const cueRef = useRef<HTMLDivElement>(null);
 

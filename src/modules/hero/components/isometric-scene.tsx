@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { gsap, ScrollTrigger, useGSAP } from '@/libs/gsap';
+import { gsap, useGSAP } from '@/libs/gsap';
 
 /* True 2:1 isometric projection. One unit = 26px.
    Screen X = (x − y)·cos30°·u, screen Y = (x + y)·0.5·u − z·u. */
