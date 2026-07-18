@@ -4,6 +4,7 @@ const SECTION_IDS = [
   'hero',
   'about',
   'work',
+  'products',
   'experience',
   'freelance',
   'academic',
