@@ -4,16 +4,19 @@ import { experiences as experiencesEn } from './en/experience';
 import { projects as projectsEn } from './en/projects';
 import { awards as awardsEn, communityRoles as communityRolesEn, talks as talksEn } from './en/talks';
 import { posts as postsEn } from './en/posts';
+import { products as productsEn } from './en/products';
 import { profile as profileId } from './id/profile';
 import { experiences as experiencesId } from './id/experience';
 import { projects as projectsId } from './id/projects';
 import { awards as awardsId, communityRoles as communityRolesId, talks as talksId } from './id/talks';
 import { posts as postsId } from './id/posts';
+import { products as productsId } from './id/products';
 
 const en: LocaleContent = {
   profile: profileEn,
   experiences: experiencesEn,
   projects: projectsEn,
+  products: productsEn,
   talks: talksEn,
   awards: awardsEn,
   communityRoles: communityRolesEn,
@@ -24,6 +27,7 @@ const id: LocaleContent = {
   profile: profileId,
   experiences: experiencesId,
   projects: projectsId,
+  products: productsId,
   talks: talksId,
   awards: awardsId,
   communityRoles: communityRolesId,

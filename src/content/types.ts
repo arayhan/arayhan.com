@@ -57,6 +57,18 @@ export interface Talk {
   event: string;
   year: string;
   topic: string;
+  /** Photo path under public/ — placeholder card rendered when absent. */
+  image?: string;
+}
+
+export interface Product {
+  id: string;
+  name: string;
+  kind: string;
+  description: string;
+  status: 'live' | 'building' | 'planned';
+  technologies: string[];
+  link?: string;
 }
 
 export interface Award {
@@ -86,6 +98,7 @@ export interface LocaleContent {
   profile: Profile;
   experiences: ExperienceEntry[];
   projects: Project[];
+  products: Product[];
   talks: Talk[];
   awards: Award[];
   communityRoles: CommunityRole[];

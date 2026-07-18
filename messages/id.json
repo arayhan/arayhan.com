@@ -1,6 +1,7 @@
 {
   "nav": {
     "about": "Tentang",
+    "products": "Produk",
     "work": "Karya",
     "experience": "Pengalaman",
     "speaking": "Speaking",
@@ -21,6 +22,7 @@
   "sections": {
     "about": { "eyebrow": "TENTANG", "title": "Engineer, builder, organizer" },
     "work": { "eyebrow": "KARYA PILIHAN", "title": "Yang pernah saya rilis" },
+    "products": { "eyebrow": "PRODUK", "title": "Yang saya miliki dan bangun" },
     "professional": { "eyebrow": "PENGALAMAN", "title": "Perjalanan profesional" },
     "freelance": { "eyebrow": "FREELANCE", "title": "Kerja independen" },
     "academic": { "eyebrow": "AKADEMIK", "title": "Pendidikan & mentoring" },
@@ -29,7 +31,15 @@
     "contact": { "eyebrow": "KONTAK", "title": "Ayo bangun sesuatu" }
   },
   "about": {
-    "mentoringNote": "Juga mentor di GoTo Impact Foundation dan instruktur di Skydu Academy."
+    "mentoringNote": "Juga mentor di GoTo Impact Foundation dan instruktur di Skydu Academy.",
+    "designSystemNote": "Situs ini berjalan di atas Prima UI — design system yang saya bangun dari nol.",
+    "avatarAlt": "Ahmed Rayhan Primadedas berbicara di atas panggung"
+  },
+  "products": {
+    "statusLive": "LIVE",
+    "statusBuilding": "DI BENGKEL",
+    "statusPlanned": "DIRENCANAKAN",
+    "visit": "Kunjungi"
   },
   "work": {
     "viewCaseStudy": "Baca studi kasus",

@@ -71,7 +71,7 @@ export function AcademicSection() {
   return (
     <SectionShell
       id="academic"
-      number="05"
+      number="06"
       eyebrow={t('sections.academic.eyebrow')}
       title={t('sections.academic.title')}
     >

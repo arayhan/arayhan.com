@@ -15,7 +15,7 @@ export function SpeakingSection() {
   return (
     <SectionShell
       id="speaking"
-      number="06"
+      number="07"
       ink
       eyebrow={t('sections.speaking.eyebrow')}
       title={t('sections.speaking.title')}

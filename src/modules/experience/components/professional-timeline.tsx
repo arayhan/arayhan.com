@@ -200,7 +200,7 @@ export function ProfessionalTimeline() {
   return (
     <SectionShell
       id="experience"
-      number="03"
+      number="04"
       eyebrow={t('sections.professional.eyebrow')}
       title={t('sections.professional.title')}
     >

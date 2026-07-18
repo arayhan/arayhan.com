@@ -15,7 +15,7 @@ export function FreelanceGrid() {
   return (
     <SectionShell
       id="freelance"
-      number="04"
+      number="05"
       eyebrow={t('sections.freelance.eyebrow')}
       title={t('sections.freelance.title')}
     >

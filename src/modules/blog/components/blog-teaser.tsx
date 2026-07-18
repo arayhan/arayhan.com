@@ -15,7 +15,7 @@ export function BlogTeaser() {
   const latest = posts?.slice(0, 3) ?? [];
 
   return (
-    <SectionShell id="blog" number="07" eyebrow={t('sections.blog.eyebrow')} title={t('sections.blog.title')}>
+    <SectionShell id="blog" number="08" eyebrow={t('sections.blog.eyebrow')} title={t('sections.blog.title')}>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {latest.map((post, i) => (
           <RevealOnScroll key={post.slug} delay={i * 80}>

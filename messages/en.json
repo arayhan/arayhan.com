@@ -1,6 +1,7 @@
 {
   "nav": {
     "about": "About",
+    "products": "Products",
     "work": "Work",
     "experience": "Experience",
     "speaking": "Speaking",
@@ -21,6 +22,7 @@
   "sections": {
     "about": { "eyebrow": "ABOUT", "title": "Engineer, builder, organizer" },
     "work": { "eyebrow": "SELECTED WORK", "title": "Things I've shipped" },
+    "products": { "eyebrow": "PRODUCTS", "title": "Things I own and build" },
     "professional": { "eyebrow": "EXPERIENCE", "title": "Professional journey" },
     "freelance": { "eyebrow": "FREELANCE", "title": "Independent work" },
     "academic": { "eyebrow": "ACADEMIC", "title": "Education & mentoring" },
@@ -29,7 +31,15 @@
     "contact": { "eyebrow": "CONTACT", "title": "Let's build something" }
   },
   "about": {
-    "mentoringNote": "Also a mentor at GoTo Impact Foundation and instructor at Skydu Academy."
+    "mentoringNote": "Also a mentor at GoTo Impact Foundation and instructor at Skydu Academy.",
+    "designSystemNote": "This site runs on Prima UI — the design system I built from scratch.",
+    "avatarAlt": "Ahmed Rayhan Primadedas speaking on stage"
+  },
+  "products": {
+    "statusLive": "LIVE",
+    "statusBuilding": "IN THE WORKSHOP",
+    "statusPlanned": "PLANNED",
+    "visit": "Visit"
   },
   "work": {
     "viewCaseStudy": "Read the case study",

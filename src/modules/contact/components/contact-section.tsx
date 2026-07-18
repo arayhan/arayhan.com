@@ -62,7 +62,7 @@ export function ContactSection() {
   return (
     <SectionShell
       id="contact"
-      number="08"
+      number="09"
       eyebrow={t('sections.contact.eyebrow')}
       title={t('sections.contact.title')}
     >
