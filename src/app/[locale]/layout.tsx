@@ -4,6 +4,8 @@ import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { Providers } from '@/components/providers';
+import { PageTransitionProvider } from '@/components/page-transition';
+import { CursorDot } from '@/components/cursor-dot';
 import '../globals.css';
 
 const FONT_LINKS = [
@@ -50,7 +52,12 @@ export default async function LocaleLayout({
       </head>
       <body>
         <NextIntlClientProvider>
-          <Providers>{children}</Providers>
+          <Providers>
+            <PageTransitionProvider>
+              {children}
+              <CursorDot />
+            </PageTransitionProvider>
+          </Providers>
         </NextIntlClientProvider>
       </body>
     </html>
