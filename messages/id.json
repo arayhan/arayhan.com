@@ -1,0 +1,105 @@
+{
+  "nav": {
+    "about": "Tentang",
+    "work": "Karya",
+    "experience": "Pengalaman",
+    "speaking": "Speaking",
+    "blog": "Blog",
+    "contact": "Kontak",
+    "downloadCv": "Unduh CV"
+  },
+  "hero": {
+    "eyebrow": "FRONTEND ENGINEER",
+    "headlineTop": "Ahmed Rayhan",
+    "headlineBottom": "Primadedas",
+    "roles": "Frontend Engineer|Design System Builder|Community Organizer|Technical Speaker",
+    "intro": "7+ tahun membangun frontend yang scalable — dari platform kesehatan skala nasional sampai design system startup.",
+    "ctaWork": "Lihat karya saya",
+    "ctaContact": "Hubungi saya",
+    "scroll": "SCROLL"
+  },
+  "sections": {
+    "about": { "eyebrow": "TENTANG", "title": "Engineer, builder, organizer" },
+    "work": { "eyebrow": "KARYA PILIHAN", "title": "Yang pernah saya rilis" },
+    "professional": { "eyebrow": "PENGALAMAN", "title": "Perjalanan profesional" },
+    "freelance": { "eyebrow": "FREELANCE", "title": "Kerja independen" },
+    "academic": { "eyebrow": "AKADEMIK", "title": "Pendidikan & mentoring" },
+    "speaking": { "eyebrow": "SPEAKING & KOMUNITAS", "title": "Di panggung dan di ruangan" },
+    "blog": { "eyebrow": "TULISAN", "title": "Terbaru dari blog" },
+    "contact": { "eyebrow": "KONTAK", "title": "Ayo bangun sesuatu" }
+  },
+  "about": {
+    "mentoringNote": "Juga mentor di GoTo Impact Foundation dan instruktur di Skydu Academy."
+  },
+  "work": {
+    "viewCaseStudy": "Baca studi kasus",
+    "backToWork": "Kembali ke semua karya",
+    "role": "PERAN",
+    "period": "PERIODE",
+    "stack": "STACK",
+    "client": "KLIEN",
+    "prevProject": "Proyek sebelumnya",
+    "nextProject": "Proyek berikutnya",
+    "highlights": "SOROTAN"
+  },
+  "experience": {
+    "now": "sekarang",
+    "education": "Pendidikan",
+    "mentoring": "Mentoring & mengajar"
+  },
+  "speaking": {
+    "talksTitle": "Talk",
+    "awardsTitle": "Penghargaan",
+    "membersLabel": "anggota komunitas",
+    "perEventLabel": "peserta per acara",
+    "talksLabel": "talk teknis"
+  },
+  "blog": {
+    "readAll": "Baca semua tulisan",
+    "backToList": "Semua tulisan",
+    "minRead": "{minutes} menit baca",
+    "title": "Blog",
+    "description": "Catatan tentang frontend engineering, design system, dan komunitas developer.",
+    "empty": "Belum ada tulisan — yang pertama sedang dalam perjalanan.",
+    "notFoundTitle": "Tulisan tidak ditemukan",
+    "notFoundBody": "Tulisan ini tidak ada atau sudah dipindahkan.",
+    "dummyNote": "Konten contoh — artikel sungguhan segera hadir."
+  },
+  "contact": {
+    "heading": "Punya proyek, posisi, atau panggung yang butuh pembicara?",
+    "body": "Ceritakan apa yang sedang kamu bangun. Semua pesan yang masuk saya baca.",
+    "name": "Nama",
+    "namePlaceholder": "Nama kamu",
+    "email": "Email",
+    "emailPlaceholder": "kamu@perusahaan.com",
+    "message": "Pesan",
+    "messagePlaceholder": "Apa yang sedang kamu bangun?",
+    "send": "Kirim pesan",
+    "sending": "Mengirim…",
+    "success": "Pesan terkirim. Saya akan segera membalas.",
+    "error": "Pesan gagal terkirim. Coba lagi, atau email saya langsung.",
+    "mailtoCta": "Email saya langsung",
+    "validation": {
+      "nameRequired": "Tulis namamu supaya saya tahu siapa yang menulis.",
+      "emailInvalid": "Email itu kelihatannya belum benar.",
+      "messageTooShort": "Ceritakan sedikit lagi — minimal 10 karakter."
+    }
+  },
+  "notFound": {
+    "title": "HALAMAN TIDAK DITEMUKAN",
+    "body": "Halaman ini tidak ada, atau sudah pindah ke tempat baru.",
+    "backHome": "Kembali ke beranda"
+  },
+  "error": {
+    "title": "ADA YANG RUSAK",
+    "body": "Terjadi error tak terduga. Salah saya, bukan kamu.",
+    "retry": "Coba lagi"
+  },
+  "footer": {
+    "note": "Didesain dan dibangun oleh Rayhan — design system Prima, Next.js, dan GSAP.",
+    "rights": "© {year} Ahmed Rayhan Primadedas"
+  },
+  "localeSwitcher": {
+    "label": "Bahasa"
+  }
+}

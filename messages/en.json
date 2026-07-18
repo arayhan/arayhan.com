@@ -1,0 +1,105 @@
+{
+  "nav": {
+    "about": "About",
+    "work": "Work",
+    "experience": "Experience",
+    "speaking": "Speaking",
+    "blog": "Blog",
+    "contact": "Contact",
+    "downloadCv": "Download CV"
+  },
+  "hero": {
+    "eyebrow": "FRONTEND ENGINEER",
+    "headlineTop": "Ahmed Rayhan",
+    "headlineBottom": "Primadedas",
+    "roles": "Frontend Engineer|Design System Builder|Community Organizer|Technical Speaker",
+    "intro": "7+ years building scalable frontends — from national-scale healthcare platforms to startup design systems.",
+    "ctaWork": "See my work",
+    "ctaContact": "Get in touch",
+    "scroll": "SCROLL"
+  },
+  "sections": {
+    "about": { "eyebrow": "ABOUT", "title": "Engineer, builder, organizer" },
+    "work": { "eyebrow": "SELECTED WORK", "title": "Things I've shipped" },
+    "professional": { "eyebrow": "EXPERIENCE", "title": "Professional journey" },
+    "freelance": { "eyebrow": "FREELANCE", "title": "Independent work" },
+    "academic": { "eyebrow": "ACADEMIC", "title": "Education & mentoring" },
+    "speaking": { "eyebrow": "SPEAKING & COMMUNITY", "title": "On stage and in the room" },
+    "blog": { "eyebrow": "WRITING", "title": "Latest from the blog" },
+    "contact": { "eyebrow": "CONTACT", "title": "Let's build something" }
+  },
+  "about": {
+    "mentoringNote": "Also a mentor at GoTo Impact Foundation and instructor at Skydu Academy."
+  },
+  "work": {
+    "viewCaseStudy": "Read the case study",
+    "backToWork": "Back to all work",
+    "role": "ROLE",
+    "period": "PERIOD",
+    "stack": "STACK",
+    "client": "CLIENT",
+    "prevProject": "Previous project",
+    "nextProject": "Next project",
+    "highlights": "HIGHLIGHTS"
+  },
+  "experience": {
+    "now": "now",
+    "education": "Education",
+    "mentoring": "Mentoring & teaching"
+  },
+  "speaking": {
+    "talksTitle": "Talks",
+    "awardsTitle": "Awards",
+    "membersLabel": "community members",
+    "perEventLabel": "participants per event",
+    "talksLabel": "technical talks"
+  },
+  "blog": {
+    "readAll": "Read all posts",
+    "backToList": "All posts",
+    "minRead": "{minutes} min read",
+    "title": "Blog",
+    "description": "Notes on frontend engineering, design systems, and developer communities.",
+    "empty": "No posts yet — the first one is on its way.",
+    "notFoundTitle": "Post not found",
+    "notFoundBody": "This post doesn't exist or has moved.",
+    "dummyNote": "Sample content — real articles coming soon."
+  },
+  "contact": {
+    "heading": "Have a project, a role, or a stage that needs a speaker?",
+    "body": "Tell me what you're building. I read everything that lands here.",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "emailPlaceholder": "you@company.com",
+    "message": "Message",
+    "messagePlaceholder": "What are you building?",
+    "send": "Send message",
+    "sending": "Sending…",
+    "success": "Message sent. I'll get back to you soon.",
+    "error": "The message didn't send. Try again, or email me directly.",
+    "mailtoCta": "Email me directly",
+    "validation": {
+      "nameRequired": "Add your name so I know who's writing.",
+      "emailInvalid": "That email doesn't look right.",
+      "messageTooShort": "Tell me a bit more — at least 10 characters."
+    }
+  },
+  "notFound": {
+    "title": "PAGE NOT FOUND",
+    "body": "This page doesn't exist, or it moved somewhere new.",
+    "backHome": "Back to home"
+  },
+  "error": {
+    "title": "SOMETHING BROKE",
+    "body": "An unexpected error occurred. It's on me, not you.",
+    "retry": "Try again"
+  },
+  "footer": {
+    "note": "Designed and built by Rayhan — Prima design system, Next.js, and GSAP.",
+    "rights": "© {year} Ahmed Rayhan Primadedas"
+  },
+  "localeSwitcher": {
+    "label": "Language"
+  }
+}
