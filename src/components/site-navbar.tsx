@@ -51,7 +51,12 @@ export function SiteNavbar() {
         },
       ]}
       action={{ label: t('downloadCv'), href: profile.cvPath }}
-      style={{ zIndex: 80 }}
+      style={{
+        zIndex: 80,
+        // Prima's Navbar has no inner container — center its content to the
+        // site container width while the bar + rule stay full-bleed.
+        padding: 'var(--space-5) max(var(--container-pad), calc((100% - var(--container-max)) / 2))',
+      }}
     />
   );
 }

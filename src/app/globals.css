@@ -15,6 +15,11 @@
   color: var(--on-inverse);
 }
 
+/* Anchor targets stop below the sticky navbar instead of flush under it. */
+section[id] {
+  scroll-margin-top: 108px;
+}
+
 /* Mono eyebrow: the `// LABEL` convention. */
 .eyebrow {
   font-family: var(--font-mono);

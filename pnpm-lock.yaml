@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@arayhan/prima-ui':
-        specifier: file:vendor/arayhan-prima-ui-0.1.0.tgz
+        specifier: file:vendor\arayhan-prima-ui-0.1.0.tgz
         version: file:vendor/arayhan-prima-ui-0.1.0.tgz(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@gsap/react':
         specifier: ^2.1.2
@@ -95,7 +95,7 @@ packages:
     engines: {node: '>=10'}
 
   '@arayhan/prima-ui@file:vendor/arayhan-prima-ui-0.1.0.tgz':
-    resolution: {integrity: sha512-uUbObiuWCOzYRFwEEy/QogCVZgmsaacHmTwFEwOxlSMl9PtG5VQqnIeDc9m7D6PLIvbYcsYh+pCnrk+Ph9GKhg==, tarball: file:vendor/arayhan-prima-ui-0.1.0.tgz}
+    resolution: {integrity: sha512-kAFZIPv0/1/bEg8whHfFDc+MNPvlMsyxu45NdxPV8RVbasMeqZvUhzC1g6CXYvlN5/WfQ8jS92VsZ718Rsj2Lg==, tarball: file:vendor/arayhan-prima-ui-0.1.0.tgz}
     version: 0.1.0
     peerDependencies:
       react: '>=18'
@@ -614,7 +614,6 @@ packages:
   '@rolldown/binding-win32-x64-msvc@1.2.0':
     resolution: {integrity: sha512-WfFv6/qGufotqBSBzBYwgpCkJBk8Nj7697LL9vTz/XWc67e0r3oewu8iMRwQj3AUL45GVD7wVsPjCsAAtW66Wg==}
     engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [x64]
     os: [win32]
 
   '@rolldown/pluginutils@1.0.1':

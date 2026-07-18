@@ -31,7 +31,8 @@ export function CursorDot() {
     const onMove = (e: PointerEvent) => {
       if (!visible) {
         visible = true;
-        gsap.to([dot, ring], { opacity: 1, duration: 0.2 });
+        gsap.to(dot, { opacity: 1, duration: 0.2 });
+        gsap.to(ring, { opacity: 0.5, duration: 0.2 });
       }
       dotX(e.clientX);
       dotY(e.clientY);
@@ -72,6 +73,9 @@ export function CursorDot() {
     zIndex: 95,
     pointerEvents: 'none',
     borderRadius: 'var(--radius-full)',
+    // Hidden until the first pointermove — otherwise the pre-hydration paint
+    // shows both shapes parked at the top-left corner.
+    opacity: 0,
   };
 
   return (
@@ -84,7 +88,6 @@ export function CursorDot() {
           width: 34,
           height: 34,
           border: '1.5px solid var(--primary)',
-          opacity: 0.5,
         }}
       />
     </div>
