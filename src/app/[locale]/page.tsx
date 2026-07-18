@@ -7,6 +7,7 @@ import { WorkSection } from '@/modules/work/components/work-section';
 import { ProfessionalTimeline } from '@/modules/experience/components/professional-timeline';
 import { FreelanceGrid } from '@/modules/experience/components/freelance-grid';
 import { AcademicSection } from '@/modules/experience/components/academic-section';
+import { SpeakingSection } from '@/modules/speaking/components/speaking-section';
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <ProfessionalTimeline />
       <FreelanceGrid />
       <AcademicSection />
+      <SpeakingSection />
     </main>
   );
 }
