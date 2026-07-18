@@ -7,7 +7,7 @@ import { gsap, useGSAP } from '@/libs/gsap';
 import { SectionShell } from '@/components/section-shell';
 import { getContent, type ExperienceEntry, type Locale } from '@/content';
 import { formatPeriod } from '../utils';
-import { useMediaQuery } from './use-media-query';
+import { useMediaQuery } from '@/libs/use-media-query';
 
 const SCROLL_PER_ENTRY = 620;
 

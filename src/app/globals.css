@@ -53,6 +53,25 @@ section[id] {
   scroll-margin-top: 108px;
 }
 
+/* Navbar links: mono caps, pointer cursor, cobalt on hover. */
+.nav-link {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--on-surface);
+  text-decoration: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-spatial);
+}
+.nav-link:hover {
+  color: var(--primary);
+}
+
 /* Mono eyebrow: the `// LABEL` convention. */
 .eyebrow {
   font-family: var(--font-mono);
