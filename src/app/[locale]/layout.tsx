@@ -6,6 +6,8 @@ import { routing } from '@/i18n/routing';
 import { Providers } from '@/components/providers';
 import { PageTransitionProvider } from '@/components/page-transition';
 import { CursorDot } from '@/components/cursor-dot';
+import { SiteNavbar } from '@/components/site-navbar';
+import { SiteFooter } from '@/components/site-footer';
 import '../globals.css';
 
 const FONT_LINKS = [
@@ -54,7 +56,9 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <Providers>
             <PageTransitionProvider>
+              <SiteNavbar />
               {children}
+              <SiteFooter />
               <CursorDot />
             </PageTransitionProvider>
           </Providers>

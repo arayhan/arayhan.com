@@ -66,7 +66,8 @@ export function PageTransitionProvider({ children }: { children: React.ReactNode
   // Reveal once the new route has mounted (pathname flipped while covered).
   useEffect(() => {
     if (!coveringRef.current || !overlayRef.current) return;
-    window.scrollTo(0, 0);
+    // A hash target means the browser is scrolling to an anchor — don't fight it.
+    if (!window.location.hash) window.scrollTo(0, 0);
     const tl = gsap.timeline({ delay: 0.2 });
     tl.to(labelRef.current, { opacity: 0, y: -16, duration: 0.2, ease: 'power2.in' })
       .to(overlayRef.current, { yPercent: -100, duration: 0.5, ease: 'power3.inOut' }, '-=0.05')
