@@ -53,9 +53,9 @@ export function PageTransitionProvider({ children }: { children: React.ReactNode
 
       const tl = gsap.timeline();
       tl.set(overlayRef.current, { yPercent: 100 })
-        .set(labelRef.current, { opacity: 0, y: 24 })
-        .to(overlayRef.current, { yPercent: 0, duration: 0.45, ease: 'power3.inOut' })
-        .to(labelRef.current, { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' }, '-=0.15')
+        .set(labelRef.current, { opacity: 0, y: 28 })
+        .to(overlayRef.current, { yPercent: 0, duration: 0.55, ease: 'power4.inOut' })
+        .to(labelRef.current, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }, '-=0.2')
         .add(() => {
           router.push(href);
         });
@@ -68,14 +68,38 @@ export function PageTransitionProvider({ children }: { children: React.ReactNode
     if (!coveringRef.current || !overlayRef.current) return;
     // A hash target means the browser is scrolling to an anchor — don't fight it.
     if (!window.location.hash) window.scrollTo(0, 0);
-    const tl = gsap.timeline({ delay: 0.2 });
-    tl.to(labelRef.current, { opacity: 0, y: -16, duration: 0.2, ease: 'power2.in' })
-      .to(overlayRef.current, { yPercent: -100, duration: 0.5, ease: 'power3.inOut' }, '-=0.05')
-      .set(overlayRef.current, { yPercent: 100 })
-      .add(() => {
-        coveringRef.current = false;
+
+    const content = document.querySelector('main');
+    const tl = gsap.timeline({ paused: true });
+    tl.to(labelRef.current, { opacity: 0, y: -20, duration: 0.22, ease: 'power2.in' })
+      .to(overlayRef.current, { yPercent: -100, duration: 0.65, ease: 'power4.inOut' }, '-=0.06');
+    if (content) {
+      // The incoming page rises with the panel exit instead of sitting static.
+      tl.fromTo(
+        content,
+        { y: 32, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', clearProps: 'transform,opacity' },
+        '-=0.45',
+      );
+    }
+    tl.set(overlayRef.current, { yPercent: 100 }).add(() => {
+      coveringRef.current = false;
+    });
+
+    // Hold the cover until the new route has actually painted (two frames),
+    // plus a beat so the reveal never catches a half-rendered page.
+    let raf1 = 0;
+    let raf2 = 0;
+    let timer = 0;
+    raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => {
+        timer = window.setTimeout(() => tl.play(), 120);
       });
+    });
     return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+      window.clearTimeout(timer);
       tl.kill();
     };
   }, [pathname]);
