@@ -37,7 +37,7 @@ All routes are locale-prefixed (`/en`, `/id`; EN default).
 
 1. **Hero** — animated isometric workspace SVG (GSAP parallax layers, idle float), Clash Display caps headline, TextScramble role line, scroll cue; fixed `ScrollProgress` bar at top.
 2. **About** — short bio (from CV summary) + `CountUp` stat strip: 7+ years, 71% hosting cost cut, 1,800+ community members, 10+ talks.
-3. **Selected Work** — 4–5 `TiltCard` case studies (SMILE 5.0, Anify, Founderplus, Astra SAM Advance, Unit Cost RS) linking to `/work/[slug]` via page transition.
+3. **Selected Work** — 5 `TiltCard` case studies (SMILE 5.0, Anify, Founderplus, Astra SAM Advance, Unit Cost RS) linking to `/work/[slug]` via page transition.
 4. **Experience — Professional** — pinned, scrub-through `TimelineItem` timeline: Anify (Lead, 2025–2026), Badr Interactive (2022–present), Founderplus (2020–2022), Skydu (2019–2020), Integrasi Media Kreasi (2017–2018).
 5. **Experience — Freelance** — compact grid: Founderplus freelance (2022–2024), Unit Cost RS, client outsourcing (NFJuara, SOHO E-Detailing).
 6. **Experience — Academic & Mentoring** — STT Terpadu Nurul Fikri (GPA 3.67), Kampus Merdeka bootcamps, GoTo Impact Foundation mentorships (Generasi Gigih 2.0 & 3.0), Skydu Academy instructor.
@@ -140,7 +140,7 @@ React Hook Form + Zod (name, email, message; honeypot field for spam). POST `/ap
 
 - **Vitest:** content getters, contact schema validation, use-cases
 - **Playwright smoke:** home renders all sections, locale switch preserves route, blog list → detail navigation fires transition, contact validation errors show
-- **Perf budget:** Lighthouse 90+ performance — inline hero SVG, `next/font` (or preloaded Fontshare/Google fonts per Prima), lazy-mount below-the-fold GSAP scenes
+- **Perf budget:** Lighthouse 90+ performance — inline hero SVG, Prima's CDN webfonts (Clash Display/Inter/JetBrains Mono) with `<link rel="preload">` hints in the root layout, lazy-mount below-the-fold GSAP scenes
 - **CI-less v1:** scripts `lint`, `typecheck`, `test`, `test:e2e` run locally; CI can come later
 
 ## 11. Git Workflow
