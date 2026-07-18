@@ -1,26 +1,46 @@
-@import "tailwindcss";
+/* Prima UI — tokens, base styles, Tailwind v4 @theme bridge.
+   Self-contained: imports tailwindcss + all Prima tokens. */
+@import '@arayhan/prima-ui/tailwind.css';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ————— site-level layer ————— */
+
+/* Ink section: color-block storytelling surface (Prima: NOT a dark mode). */
+.surface-ink {
+  background: var(--inverse-surface);
+  color: var(--on-inverse);
+}
+.surface-ink h1,
+.surface-ink h2,
+.surface-ink h3 {
+  color: var(--on-inverse);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Mono eyebrow: the `// LABEL` convention. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--primary);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Hide the custom cursor affordance on touch devices. */
+@media (pointer: coarse) {
+  .cursor-dot {
+    display: none;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Page-transition overlay must sit above everything, including navbars. */
+.transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: var(--primary);
+  transform: translateY(100%);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
