@@ -60,7 +60,7 @@ export function CaseStudy({ slug }: { slug: string }) {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))',
             gap: 'var(--space-5)',
             borderTop: 'var(--border-width-rule) solid var(--border-strong)',
             marginTop: 'var(--space-7)',
@@ -109,7 +109,7 @@ export function CaseStudy({ slug }: { slug: string }) {
             style={{
               marginTop: 'var(--space-8)',
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
               gap: 'var(--space-5)',
             }}
           >
@@ -136,6 +136,7 @@ export function CaseStudy({ slug }: { slug: string }) {
       <nav
         style={{
           display: 'flex',
+          flexWrap: 'wrap',
           justifyContent: 'space-between',
           gap: 'var(--space-5)',
           borderTop: 'var(--border-width) solid var(--border)',

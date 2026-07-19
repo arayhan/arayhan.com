@@ -48,9 +48,37 @@
   color: var(--on-inverse);
 }
 
-/* Anchor targets stop below the sticky navbar instead of flush under it. */
+/* Anchor targets stop below the sticky navbar instead of flush under it.
+   overflow-x clip keeps rotated decorations (talk deck, parallax cubes)
+   from widening the page — clip, not hidden, so no scroll container is
+   created and ScrollTrigger pinning is unaffected. */
 section[id] {
   scroll-margin-top: 108px;
+  overflow-x: clip;
+}
+
+/* Tighter vertical rhythm on small screens. */
+@media (max-width: 640px) {
+  :root {
+    --section-gap: var(--space-8);
+  }
+}
+
+/* Blog teaser row: date | body | chips on wide screens, stacked on small. */
+.blog-row {
+  display: grid;
+  grid-template-columns: minmax(90px, auto) 1fr auto;
+  gap: var(--space-5);
+  align-items: baseline;
+  padding: var(--space-5) 0;
+  border-bottom: var(--border-width) solid var(--border);
+  color: inherit;
+}
+@media (max-width: 640px) {
+  .blog-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
 }
 
 /* Navbar links: mono caps, pointer cursor, cobalt on hover. */

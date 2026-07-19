@@ -74,7 +74,7 @@ export function HeroSection() {
           margin: '0 auto',
           padding: 'var(--space-8) var(--container-pad)',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))',
           alignItems: 'center',
           gap: 'var(--space-7)',
           width: '100%',

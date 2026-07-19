@@ -66,16 +66,13 @@ export function ContactSection() {
       eyebrow={t('sections.contact.eyebrow')}
       title={t('sections.contact.title')}
     >
-      <Spotlight>
+      {/* Spotlight IS the card — no nested second card. */}
+      <Spotlight style={{ padding: 'clamp(var(--space-5), 4vw, var(--space-7))' }}>
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: 'var(--space-7)',
-            padding: 'var(--space-7)',
-            border: 'var(--border-width) solid var(--border)',
-            borderRadius: 'var(--radius-lg)',
-            background: 'var(--surface)',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+            gap: 'clamp(var(--space-5), 4vw, var(--space-7))',
           }}
         >
           <div>
@@ -96,11 +93,17 @@ export function ContactSection() {
           </div>
 
           {configured === false ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)', justifyContent: 'center' }}>
-              <p style={{ color: 'var(--text-secondary)', margin: 0 }}>{t('contact.body')}</p>
-              <div>
-                <MagneticButton href={`mailto:${profile.email}`}>{t('contact.mailtoCta')}</MagneticButton>
-              </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 'var(--space-4)',
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+              }}
+            >
+              <span className="eyebrow">{`// ${profile.email}`}</span>
+              <MagneticButton href={`mailto:${profile.email}`}>{t('contact.mailtoCta')}</MagneticButton>
             </div>
           ) : (
             <form onSubmit={onSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>

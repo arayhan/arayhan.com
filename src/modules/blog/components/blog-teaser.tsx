@@ -19,19 +19,7 @@ export function BlogTeaser() {
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {latest.map((post, i) => (
           <RevealOnScroll key={post.slug} delay={i * 80}>
-            <TransitionLink
-              href={`/blog/${post.slug}`}
-              transitionLabel="blog"
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'minmax(90px, auto) 1fr auto',
-                gap: 'var(--space-5)',
-                alignItems: 'baseline',
-                padding: 'var(--space-5) 0',
-                borderBottom: 'var(--border-width) solid var(--border)',
-                color: 'inherit',
-              }}
-            >
+            <TransitionLink href={`/blog/${post.slug}`} transitionLabel="blog" className="blog-row">
               <span
                 style={{
                   fontFamily: 'var(--font-mono)',
