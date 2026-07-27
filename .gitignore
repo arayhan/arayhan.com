@@ -45,6 +45,7 @@ next-env.d.ts
 /playwright-report/
 
 
-# throwaway verification scripts
+# throwaway verification scripts and commit-message drafts
 *.tmp.mjs
+.git-commit-msg.tmp
 
