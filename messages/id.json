@@ -72,8 +72,7 @@
     "description": "Catatan tentang frontend engineering, design system, dan komunitas developer.",
     "empty": "Belum ada tulisan — yang pertama sedang dalam perjalanan.",
     "notFoundTitle": "Tulisan tidak ditemukan",
-    "notFoundBody": "Tulisan ini tidak ada atau sudah dipindahkan.",
-    "dummyNote": "Konten contoh — artikel sungguhan segera hadir."
+    "notFoundBody": "Tulisan ini tidak ada atau sudah dipindahkan."
   },
   "contact": {
     "heading": "Punya proyek, posisi, atau panggung yang butuh pembicara?",

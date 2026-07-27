@@ -39,7 +39,7 @@ export function BlogListPage() {
         <span className="eyebrow">{`// ${t('title').toUpperCase()}`}</span>
         <h1 style={{ margin: 'var(--space-3) 0 0' }}>{t('title')}</h1>
         <p style={{ color: 'var(--text-secondary)', maxWidth: '55ch', margin: 'var(--space-4) 0 0' }}>
-          {t('description')} <em>{t('dummyNote')}</em>
+          {t('description')}
         </p>
       </header>
 

@@ -72,8 +72,7 @@
     "description": "Notes on frontend engineering, design systems, and developer communities.",
     "empty": "No posts yet — the first one is on its way.",
     "notFoundTitle": "Post not found",
-    "notFoundBody": "This post doesn't exist or has moved.",
-    "dummyNote": "Sample content — real articles coming soon."
+    "notFoundBody": "This post doesn't exist or has moved."
   },
   "contact": {
     "heading": "Have a project, a role, or a stage that needs a speaker?",
