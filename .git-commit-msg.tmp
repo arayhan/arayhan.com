@@ -1,0 +1,14 @@
+feat: add SEO/OG infrastructure - metadata, sitemap, robots, OG image
+
+generateMetadata now reads locale-aware profile.tagline for description
+and OpenGraph/Twitter cards, plus metadataBase and alternate-language
+links. Branded opengraph-image.tsx renders name/role/tagline on the
+ink/cobalt palette via next/og. sitemap.ts enumerates every locale x
+route (home, blog list, case studies, posts); robots.ts allows all and
+points at the sitemap. SITE_URL centralized in libs/site.ts, overridable
+via NEXT_PUBLIC_SITE_URL.
+
+Verified in-browser: opengraph-image renders at 1200x630, sitemap.xml
+lists all routes, robots.txt references the sitemap.
+
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>

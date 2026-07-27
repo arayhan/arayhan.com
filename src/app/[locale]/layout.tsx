@@ -8,6 +8,8 @@ import { PageTransitionProvider } from '@/components/page-transition';
 import { CursorDot } from '@/components/cursor-dot';
 import { SiteNavbar } from '@/components/site-navbar';
 import { SiteFooter } from '@/components/site-footer';
+import { SITE_URL } from '@/libs/site';
+import { getContent, type Locale } from '@/content';
 import '../globals.css';
 
 /* Clash Display is self-hosted (see globals.css); Inter/JetBrains Mono and
@@ -19,14 +21,36 @@ const FONT_LINKS = [
 
 const CLASH_PRELOADS = ['/fonts/clash-display-600.woff2', '/fonts/clash-display-700.woff2'];
 
-export const metadata: Metadata = {
-  title: {
-    default: 'Ahmed Rayhan Primadedas — Frontend Engineer',
-    template: '%s — Rayhan Primadedas',
-  },
-  description:
-    'Frontend engineer with 7+ years in React and Next.js. Design systems, clean architecture, national-scale platforms, and developer community work.',
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const { profile } = getContent(locale as Locale);
+  const title = { default: `${profile.name} — ${profile.role}`, template: `%s — ${profile.shortName}` };
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title,
+    description: profile.tagline,
+    alternates: {
+      languages: Object.fromEntries(routing.locales.map((l) => [l, `${SITE_URL}/${l}`])),
+    },
+    openGraph: {
+      title: title.default,
+      description: profile.tagline,
+      type: 'website',
+      locale,
+      url: `${SITE_URL}/${locale}`,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: title.default,
+      description: profile.tagline,
+    },
+  };
+}
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
