@@ -37,9 +37,10 @@ export const experiences: ExperienceEntry[] = [
     highlights: [
       'Frontend developer for SMILE, a national-scale healthcare logistics platform serving Indonesia’s Ministry of Health, UNDP Indonesia, UNICC, and UNDP Global.',
       'Co-initiated the complete rewrite from legacy SMILE 3.0 to SMILE 5.0 with React, TypeScript, and scalable architecture for a 40+ person engineering team.',
-      'Delivered the Astra SAM Advance mobile app in React Native for PT Astra International Tbk.',
+      'Delivered the Astra SAM Advance mobile app in React Native for PT Astra International Tbk — one codebase giving a nationwide sales team customer database, task tracking, and incentive program management across Android and iOS.',
       'Built the Unit Cost RS hospital costing system fullstack with Remix, Prisma, and MySQL in collaboration with Universitas Indonesia.',
       'Shipped Invoice Tracking for DKSH Wicaksana, SOHO Digitail CMS, and SIAP NG for the Ministry of Education.',
+      'Four+ years of continuous SMILE ownership (2022–present), sustained alongside full-time roles elsewhere.',
     ],
     technologies: [
       'React',
