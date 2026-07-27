@@ -4,7 +4,10 @@ export const profile: Profile = {
   name: 'Ahmed Rayhan Primadedas',
   shortName: 'Rayhan',
   role: 'Frontend Engineer',
-  tagline: 'Membangun frontend yang scalable, design system, dan komunitas di sekitarnya.',
+  tagline:
+    'Frontend Engineer yang membangun design system dari startup hingga infrastruktur kesehatan nasional.',
+  hookStatement:
+    'Saya membangun design system yang tidak rapuh — baik timnya dua orang maupun platformnya melayani satu negara. Tujuh tahun melakukan itu dengan React dan Next.js, sambil mengajarkannya ke 1.800+ developer.',
   summary:
     'Frontend engineer dengan pengalaman 7+ tahun di React dan Next.js, dengan rekam jejak membangun sistem yang scalable dari nol — mulai dari clean architecture dan design system hingga pipeline CI/CD yang memangkas biaya hosting 71%. Terakhir memimpin tim frontend di startup edtech asal AS lintas zona waktu AS–Indonesia, sambil membangun sistem kesehatan berskala nasional untuk UNDP dan Kementerian Kesehatan RI. Di luar engineering, saya aktif berkontribusi ke ekosistem developer lewat community organizing dan menjadi pembicara teknis rutin seputar frontend dan Firebase.',
   location: 'Depok, Indonesia',

@@ -30,15 +30,29 @@ export function AboutSection() {
           <AvatarFrame alt={t('about.avatarAlt')} />
         </RevealOnScroll>
         <RevealOnScroll delay={80}>
-          <p
-            style={{
-              fontSize: 'var(--text-body-lg)',
-              lineHeight: 'var(--leading-body-lg)',
-              margin: 0,
-            }}
-          >
-            {profile.summary}
-          </p>
+          <div>
+            <p
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'var(--text-h3)',
+                fontWeight: 'var(--weight-semibold)',
+                lineHeight: 'var(--leading-h3)',
+                margin: 0,
+              }}
+            >
+              {profile.hookStatement}
+            </p>
+            <p
+              style={{
+                fontSize: 'var(--text-body-lg)',
+                lineHeight: 'var(--leading-body-lg)',
+                color: 'var(--text-secondary)',
+                margin: 'var(--space-5) 0 0',
+              }}
+            >
+              {profile.summary}
+            </p>
+          </div>
         </RevealOnScroll>
         <RevealOnScroll delay={140}>
           <div

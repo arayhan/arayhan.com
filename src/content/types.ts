@@ -15,7 +15,10 @@ export interface Profile {
   name: string;
   shortName: string;
   role: string;
+  /** Short (~100-120 char) hook — footer tagline + meta/OG description. */
   tagline: string;
+  /** Full hook sentence — rendered as the About section's lead line. */
+  hookStatement: string;
   summary: string;
   location: string;
   email: string;
