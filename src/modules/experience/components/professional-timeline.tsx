@@ -9,7 +9,10 @@ import { getContent, type ExperienceEntry, type Locale } from '@/content';
 import { formatPeriod } from '../utils';
 import { useMediaQuery } from '@/libs/use-media-query';
 
-const SCROLL_PER_ENTRY = 620;
+// Was 620 — a recruiter skimming fast shouldn't need 3000px of scroll to
+// reach Freelance/Academic/Speaking. Shorter distance keeps the pinned-scrub
+// craft moment without turning it into scan friction.
+const SCROLL_PER_ENTRY = 380;
 
 function PinnedTimeline({ entries, nowWord }: { entries: ExperienceEntry[]; nowWord: string }) {
   const wrapRef = useRef<HTMLDivElement>(null);
