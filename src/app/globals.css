@@ -81,6 +81,32 @@ section[id] {
   }
 }
 
+/* Skip-to-content: invisible until keyboard-focused, then jumps above
+   everything (navbar, transition overlay, cursor). */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 100;
+  background: var(--primary);
+  color: var(--on-primary);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: top var(--duration-fast) var(--ease-spatial);
+}
+.skip-link:focus {
+  top: var(--space-4);
+}
+
+#main-content:focus {
+  outline: none;
+}
+
 /* Navbar links: mono caps, pointer cursor, cobalt on hover. */
 .nav-link {
   font-family: var(--font-mono);

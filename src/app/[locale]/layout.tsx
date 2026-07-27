@@ -86,8 +86,13 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <Providers>
             <PageTransitionProvider>
+              <a href="#main-content" className="skip-link">
+                {locale === 'id' ? 'Lompat ke konten' : 'Skip to content'}
+              </a>
               <SiteNavbar />
-              {children}
+              <div id="main-content" tabIndex={-1}>
+                {children}
+              </div>
               <SiteFooter />
               <CursorDot />
             </PageTransitionProvider>
