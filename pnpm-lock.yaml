@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@arayhan/prima-ui':
-        specifier: file:vendor\arayhan-prima-ui-0.1.0.tgz
+        specifier: file:vendor/arayhan-prima-ui-0.1.0.tgz
         version: file:vendor/arayhan-prima-ui-0.1.0.tgz(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@gsap/react':
         specifier: ^2.1.2
