@@ -49,3 +49,6 @@ next-env.d.ts
 *.tmp.mjs
 .git-commit-msg.tmp
 
+
+.vercel
+.env*
