@@ -1,0 +1,56 @@
+{
+  "version": 1,
+
+  "project": {
+    "name": "personal-web",
+    "brand": "Rayhan",
+    "type": "product",
+    "here": true,
+    "mode": "guided"
+  },
+
+  "stack": {
+    "platform": "web",
+    "kind": "app",
+    "framework": "nextjs",
+    "target": "frontend",
+    "backend": null,
+    "monorepo": false,
+    "packageManager": "pnpm",
+    "addons": {
+      "styling": "tailwind",
+      "forms": "none",
+      "icons": "lucide-react",
+      "stateManagement": false,
+      "httpClient": false,
+      "dataFetching": false,
+      "dates": false,
+      "validation": false,
+      "tables": false,
+      "urlState": false,
+      "designSystem": true
+    }
+  },
+
+  "agents": ["claude-code"],
+
+  "preferences": {
+    "comments": "minimal",
+    "buildFocus": "ui-first",
+    "viewport": "mobile-first"
+  },
+
+  "interview": {
+    "problem": "Recruiters and hiring managers screening for senior/staff frontend roles spend seconds per candidate. A CV PDF and LinkedIn list tasks and titles, but do not show that Rayhan makes product and business decisions, not just UI. The v1 site (archived at release/v1) told a broad 'does everything' story, leaned on heavy structure (8 sections, i18n, blog, vendored Prima UI) and its visual design did not represent him.",
+    "solution": "A fast, single-page personal site that positions Ahmed Rayhan Primadedas as a product-minded senior frontend engineer: outcome-first proof (business impact per project), a short experience summary, and a clear path to CV download and contact. Built to be read by humans and by AI search engines (SEO + GEO).",
+    "insight": "Seven years of frontend work spanning startup speed and national scale: led frontend at a US-based edtech startup (Anify, cut hosting costs 71% via CI/CD), built national-scale healthcare systems for UNDP and Indonesia's Ministry of Health, and led a 1,800+ member developer community (GDG Depok). Few candidates can show outcomes at both ends of that range.",
+    "targetUsers": "First reader: recruiters and hiring managers screening for Senior/Staff Frontend Engineer (individual contributor) roles. Leadership (Anify team, mentoring, community) is shown as a strength, not the headline. Secondary: freelance clients and the dev community.",
+    "competitors": "The do-nothing option: LinkedIn profile plus the CV PDF, which is what most recruiters read anyway. The site must give them something those cannot: outcomes in context, and a page AI assistants can cite when asked about him.",
+    "differentiation": "Outcome-first framing (what changed for the business, with numbers) instead of task lists, plus a site that is itself a craft signal: minimalist layout with showcase-grade motion, perfect Core Web Vitals, and machine-readable identity (Person JSON-LD, llms.txt).",
+    "successMetrics": "Within 6 months of launch (numbers are guesses to be corrected): (1) recruiter outreach or interviews that mention the site, tracked monthly; (2) Lighthouse 95+ on performance, accessibility, best practices and SEO, all Core Web Vitals green; (3) ranks #1 on Google for 'Ahmed Rayhan Primadedas' and is cited by ChatGPT/Perplexity when asked about him; (4) Vercel Analytics: visitors, CV downloads, contact clicks.",
+    "roadmap": "Phase 0 (before UI): write 3 outcome bullets for each of 3-5 key projects into typed content files; this copy is the mock data for the UI. Phase 1: English home page only, built UI-first on that content: hero with positioning statement, outcome-led selected work, condensed experience, community/speaking proof, CV download and contact (mailto + LinkedIn), SEO/GEO basics (metadata, OG image, sitemap, robots, Person JSON-LD, llms.txt), Vercel Analytics, showcase motion. Phase 2: /work/[slug] case-study pages, then /blog. Later: Indonesian locale, dark mode, contact form if needed.",
+    "riskiestAssumption": "That there are enough quantified business outcomes to back the 'product-minded engineer' message. v1 content has about two hard numbers (71% hosting cut, 1,800+ community members); most project bullets describe tasks. A minimalist layout exposes thin copy. Test: write the outcome bullets first (phase 0) and only then design the UI around them.",
+    "nonGoals": "Phase 1 explicitly excludes: Prima UI in any form (no dependency, no vendored tarball, not featured); i18n (English only); dark mode; contact API or form backend (mailto + LinkedIn only); blog and case-study pages (phase 2); fabricated testimonials; invented metrics (every number must come from the CV or Rayhan directly).",
+    "designDirection": "New visual identity from scratch, not derived from v1 or Prima UI. Professional, minimalist, responsive (mobile-first), SEO and GEO friendly: semantic HTML, strong typography and grid, restrained palette. Motion is a showcase (rich scroll and interaction detail) but must never delay LCP or hide content from crawlers, and must fully respect prefers-reduced-motion. GSAP to be added after scaffolding for the motion layer."
+  }
+}
