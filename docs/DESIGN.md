@@ -29,12 +29,17 @@ Source: [`src/styles/tokens.css`](../src/styles/tokens.css), mapped to Tailwind 
 
 | Token | Light | Dark | Role |
 |---|---|---|---|
-| `canvas` | `#FAFAFA` | `#09090B` | Page ground |
-| `ink` | `#18181B` | `#F4F4F5` | Text, hover borders |
-| `mute` | `#52525B` | `#A1A1AA` | Secondary text, idle icons |
-| `line` | `#E4E4E7` | `#27272A` | Hairlines, secondary button border, icon hover fill |
-| `accent` | `#047857` | `#34D399` | **The only accent**: logo, primary button, rotating phrase, focus ring |
-| `on-accent` | `#FFFFFF` | `#052E1F` | Text and strokes on accent |
+| `canvas` | `#F8FAFC` | `#020617` | Page ground |
+| `ink` | `#0F172A` | `#F1F5F9` | Text, hover borders |
+| `mute` | `#475569` | `#94A3B8` | Secondary text, idle icons |
+| `line` | `#E2E8F0` | `#1E293B` | Hairlines, secondary button border, icon hover fill |
+| `accent` | `#1D4ED8` | `#60A5FA` | **The only accent**: logo, primary button, rotating phrase, focus ring |
+| `on-accent` | `#FFFFFF` | `#0B1B3A` | Text and strokes on accent |
+
+Neutrals are slate (a slight blue bias) so they sit with the blue accent. Chosen on
+2026-10-25 over "blue + green" after a side-by-side comparison: with no metric on the
+page, a second color only split the brand. If green ever returns, it gets one job,
+marking a measured result, and its own token; it never decorates.
 
 Theme: light and dark, following the OS by default. The menu toggle saves an explicit
 choice to `localStorage` (`theme`); an inline script in `<head>` applies it before
