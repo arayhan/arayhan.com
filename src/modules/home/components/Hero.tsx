@@ -1,40 +1,55 @@
-import type { CSSProperties } from "react";
+import { Fragment, type CSSProperties } from "react";
+import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
 import type { Profile } from "@/domain/portfolio";
 import { actionClass } from "../home.actions";
-import { CopyEmailButton } from "./CopyEmailButton";
-import { metricItems, ProofStrip } from "./ProofStrip";
+import { RotatingPhrase } from "./RotatingPhrase";
 
-const rise = "animate-rise [animation-delay:calc(var(--i)*var(--stagger))]";
 const step = (i: number) => ({ "--i": i }) as CSSProperties;
 
 export function Hero({ profile }: { profile: Profile }) {
+  const words = profile.headline.lead.split(" ");
+  const afterHeadline = words.length + 2;
+
   return (
-    <header className="grid gap-6 pt-3 md:pt-12">
-      <p className={`flex flex-wrap items-center gap-2 font-mono text-xs text-mute ${rise}`} style={step(0)}>
-        <span className="rounded-sm bg-ink px-1.5 py-0.5 text-paper">{profile.yearsBadge}</span>
-        {profile.role} · {profile.city} · {profile.timezone}
-      </p>
-      <h1
-        className={`max-w-hero font-display text-hero font-bold tracking-tight [font-variation-settings:'opsz'_96] ${rise}`}
-        style={step(1)}
-      >
-        {profile.headline.lead} <em className="text-plus not-italic">{profile.headline.emphasis}</em>
-      </h1>
-      <p className={`max-w-lede text-lede text-ink-soft ${rise}`} style={step(2)}>
-        {profile.lede}
-      </p>
-      <div className={`flex flex-wrap gap-2.5 ${rise}`} style={step(3)}>
-        <a href={profile.cvPath} className={actionClass("primary")} download>
-          Download CV
-        </a>
-        <CopyEmailButton email={profile.email} />
-        <a href={profile.linkedin} className={actionClass("outline")} target="_blank" rel="noopener noreferrer">
-          LinkedIn
-        </a>
+    <section
+      aria-labelledby="hero-title"
+      className="mx-auto grid min-h-[calc(100dvh-var(--header-h))] max-w-page content-center gap-10 px-4 pt-16 pb-14 sm:px-8 md:gap-14 md:pt-24 md:pb-20 lg:px-14"
+    >
+      <div className="grid gap-5">
+        <p className="fade-rise text-sm font-medium text-mute" style={step(0)}>
+          {profile.role}
+        </p>
+        <h1 id="hero-title" className="text-hero font-semibold tracking-tighter text-ink">
+          <span className="block">
+            {words.map((word, i) => (
+              <Fragment key={`${word}-${i}`}>
+                {i > 0 && " "}
+                <span className="mask-word">
+                  <span style={step(i + 1)}>{word}</span>
+                </span>
+              </Fragment>
+            ))}
+          </span>
+          <RotatingPhrase phrases={profile.headline.phrases} enterIndex={words.length + 1} />
+        </h1>
       </div>
-      <div className={rise} style={step(4)}>
-        <ProofStrip items={metricItems(profile.proof)} />
+
+      <div className="grid md:grid-cols-[7fr_5fr]">
+        <div className="grid gap-7 md:col-start-2">
+          <p className="fade-rise max-w-[42ch] text-sub text-mute" style={step(afterHeadline)}>
+            {profile.subtext}
+          </p>
+          <div className="fade-rise flex flex-wrap gap-3" style={step(afterHeadline + 1)}>
+            <a href={`mailto:${profile.email}`} className={actionClass("primary")}>
+              Email me
+            </a>
+            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className={actionClass("secondary")}>
+              LinkedIn
+              <ArrowUpRightIcon size={16} aria-hidden="true" />
+            </a>
+          </div>
+        </div>
       </div>
-    </header>
+    </section>
   );
 }

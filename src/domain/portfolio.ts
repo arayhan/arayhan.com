@@ -4,9 +4,9 @@ export type Metric = {
   suffix?: string;
   label: string;
   detail?: string;
-  /** After/before ratio (0-1) for the before/after bar. */
+  /** After/before ratio (0-1) for a before/after bar. */
   ratio?: number;
-  /** Only a measured improvement is drawn in the plus colour; scale facts stay ink. */
+  /** Only a measured improvement is drawn in the accent colour; scale facts stay ink. */
   improvement?: boolean;
 };
 
@@ -36,17 +36,14 @@ export type CommunityStat = {
 
 export type Profile = {
   name: string;
+  shortName: string;
   role: string;
-  city: string;
-  timezone: string;
-  yearsBadge: string;
   email: string;
   linkedin: string;
   github: string;
-  cvPath: string;
-  headline: { lead: string; emphasis: string };
-  lede: string;
-  proof: Metric[];
+  cvPath: string | null;
+  headline: { lead: string; phrases: string[] };
+  subtext: string;
 };
 
 export function formatMetric(metric: Metric): string {
