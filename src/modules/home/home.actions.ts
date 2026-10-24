@@ -1,24 +1,21 @@
 import { cx } from "@/utils/cx";
 
-export type ActionVariant = "primary" | "outline" | "ghost";
-export type ActionTone = "paper" | "ink";
+export type ActionVariant = "primary" | "secondary";
+export type ActionSize = "md" | "sm";
 
 const base =
-  "inline-flex items-center gap-2 rounded-md border px-4 py-2.5 text-sm font-semibold transition-[transform,background-color,color] duration-200 ease-soft hover:-translate-y-px";
+  "inline-flex shrink-0 items-center gap-2 rounded-full font-medium whitespace-nowrap transition-[transform,background-color,color,border-color] duration-200 ease-out-soft hover:-translate-y-px active:scale-[0.98]";
 
-const variants: Record<ActionTone, Record<ActionVariant, string>> = {
-  paper: {
-    primary: "border-ink bg-ink text-paper",
-    outline: "border-ink text-ink",
-    ghost: "border-rule font-mono text-xs font-medium text-ink",
-  },
-  ink: {
-    primary: "border-paper bg-paper text-ink",
-    outline: "border-mute text-paper",
-    ghost: "border-mute font-mono text-xs font-medium text-paper",
-  },
+const sizes: Record<ActionSize, string> = {
+  md: "h-11 px-5 text-sm",
+  sm: "h-9 px-4 text-sm",
 };
 
-export function actionClass(variant: ActionVariant, tone: ActionTone = "paper"): string {
-  return cx(base, variants[tone][variant]);
+const variants: Record<ActionVariant, string> = {
+  primary: "bg-accent text-on-accent hover:bg-accent/90",
+  secondary: "border border-line text-ink hover:border-ink",
+};
+
+export function actionClass(variant: ActionVariant, size: ActionSize = "md"): string {
+  return cx(base, sizes[size], variants[variant]);
 }

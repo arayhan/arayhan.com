@@ -8,7 +8,7 @@ export const projects: Project[] = [
     client: "Anify LLC · Honolulu, remote",
     role: "Frontend Engineer Lead",
     tag: "Lead",
-    years: "2025–2026",
+    years: "2025-2026",
     metric: { value: 71, prefix: "−", suffix: "%", label: "monthly hosting cost", detail: "$84 → $24 a month", ratio: 24 / 84, improvement: true },
     impactPending: false,
     lines: [
@@ -24,7 +24,7 @@ export const projects: Project[] = [
     client: "Indonesia Ministry of Health · UNDP · UNICC",
     role: "Frontend Developer",
     tag: "Part-time",
-    years: "2022–now",
+    years: "2022-now",
     metric: { value: 40, suffix: "+", label: "engineers building on one frontend architecture" },
     // TODO(content): phase 0 impact number (facilities covered, users, velocity, performance).
     impactPending: true,
@@ -41,7 +41,7 @@ export const projects: Project[] = [
     client: "Pre-seed accelerator · Depok",
     role: "Solo fullstack developer",
     tag: "Solo",
-    years: "2020–2024",
+    years: "2020-2024",
     metric: { value: 50, suffix: "+", label: "startup applications handled by the platform" },
     impactPending: false,
     lines: [

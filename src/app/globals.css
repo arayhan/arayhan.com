@@ -2,69 +2,31 @@
 @import "../styles/tokens.css";
 
 @theme inline {
-  --color-paper: var(--paper);
-  --color-card: var(--card);
+  --color-canvas: var(--canvas);
   --color-ink: var(--ink);
-  --color-ink-soft: var(--ink-soft);
   --color-mute: var(--mute);
-  --color-rule: var(--rule);
-  --color-plus: var(--plus);
-  --color-plus-bg: var(--plus-bg);
-  --color-pend: var(--pend);
-  --color-pend-bg: var(--pend-bg);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
 
-  --radius-sm: var(--round-sm);
-  --radius-md: var(--round-md);
-  --radius-lg: var(--round-lg);
-  --radius-xl: var(--round-xl);
-
-  --font-display: var(--font-bricolage), "Public Sans", system-ui, sans-serif;
-  --font-sans: var(--font-public-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, Consolas, monospace;
+  --font-sans: var(--font-geist), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, Consolas, monospace;
 
   --text-hero: var(--size-hero);
-  --text-hero--line-height: 1.02;
-  --text-close: var(--size-close);
-  --text-close--line-height: 1.05;
-  --text-h2: var(--size-h2);
-  --text-h2--line-height: 1.15;
-  --text-h3: var(--size-h3);
-  --text-h3--line-height: 1.2;
-  --text-metric: var(--size-metric);
-  --text-metric--line-height: 1;
-  --text-proof: var(--size-proof);
-  --text-proof--line-height: 1.1;
-  --text-lede: var(--size-lede);
-  --text-lede--line-height: 1.55;
+  --text-hero--line-height: 1.04;
+  --text-sub: var(--size-sub);
+  --text-sub--line-height: 1.55;
 
-  --container-hero: var(--measure-hero);
-  --container-close: var(--measure-close);
-  --container-lede: var(--measure-lede);
   --container-page: var(--page-max);
-
-  --ease-soft: var(--ease-soft);
-  --animate-rise: rise var(--dur-base) var(--ease-soft) both;
-}
-
-/* Starts at 0.01, not 0: the hero text is the LCP element and must count as painted on the first frame. */
-@keyframes rise {
-  from {
-    opacity: 0.01;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+  --ease-out-soft: var(--ease-out-soft);
 }
 
 html {
-  color-scheme: light;
   scroll-behavior: smooth;
 }
 
 body {
-  background: var(--paper);
+  background: var(--canvas);
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: 16px;
@@ -79,8 +41,125 @@ h3 {
 }
 
 :focus-visible {
-  outline: 2px solid var(--plus);
-  outline-offset: 2px;
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Load sequence: words rise out of a clipping mask, the rest fades up after. */
+@keyframes rise-mask {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.mask-word {
+  display: inline-block;
+  overflow: clip;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+  vertical-align: top;
+}
+
+.mask-word > span {
+  display: inline-block;
+  animation: rise-mask var(--dur-rise) var(--ease-out-soft) both;
+  animation-delay: calc(var(--i, 0) * var(--stagger));
+}
+
+.fade-rise {
+  animation: fade-rise var(--dur-rise) var(--ease-out-soft) both;
+  animation-delay: calc(var(--i, 0) * var(--stagger));
+}
+
+/* Rotating phrase: every phrase shares one grid cell, so the slot is as tall as the
+   longest phrase at the current width and swapping never shifts the layout. */
+.phrase-slot {
+  display: grid;
+  overflow: clip;
+  padding-bottom: 0.08em;
+}
+
+.phrase-slot > span {
+  grid-area: 1 / 1;
+  transition:
+    transform 700ms var(--ease-out-soft),
+    opacity 500ms var(--ease-out-soft);
+}
+
+.phrase-slot > [data-state="next"] {
+  opacity: 0;
+  transform: translateY(100%);
+  transition: none;
+}
+
+.phrase-slot > [data-state="out"] {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
+/* Header hairline fades in as soon as the page scrolls; always shown where scroll timelines are unsupported. */
+.site-header::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: var(--line);
+}
+
+@supports (animation-timeline: scroll()) {
+  @keyframes header-line {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Base 0: a page too short to scroll has an inactive timeline and must not show the line. */
+  .site-header::after {
+    opacity: 0;
+    animation: header-line linear both;
+    animation-timeline: scroll();
+    animation-range: 0 48px;
+  }
+}
+
+/* Theme toggle shows the icon of the theme it switches to. */
+.theme-sun {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-sun {
+  display: block;
+}
+
+:root[data-theme="dark"] .theme-moon {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-sun {
+    display: block;
+  }
+
+  :root:not([data-theme="light"]) .theme-moon {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -92,6 +171,7 @@ h3 {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }

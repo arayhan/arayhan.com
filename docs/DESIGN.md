@@ -1,124 +1,119 @@
-# Rayhan — Design System
+# Rayhan - Design System
 
-Direction **A · Changelog**, chosen 2026-10-24 from three mockups
-([review page](https://claude.ai/artifact/LrLQHyiidegDwpyfdykyQR), private to the owner).
+Reset on 2026-10-24 with the `design-taste` skill. Replaces the earlier "Changelog"
+direction. Phase 1 scope right now: **favicon, logo, menu, hero**. Sections below the
+hero come back one at a time and must follow this file.
 
-This file is the design system itself — what the tokens are, what the type scale is, what the components look like. **How to write the styles that implement it** is a separate file: [`docs/rules/ui-styling.md`](rules/ui-styling.md).
+This file is the design system itself. **How to write the styles that implement it**
+is a separate file: [`docs/rules/ui-styling.md`](rules/ui-styling.md).
 
 ## Direction
 
-Each project reads like a release note. The outcome is the headline, written as a
-diff (`−71%` in diff green), and the work underneath is the list of what shipped,
-each line marked `+`. That device is the product-minded message made visual: a
-recruiter skimming for ten seconds sees results before tasks.
+Design read: a developer portfolio for recruiters, in a professional, minimal
+language. Tailwind v4, Geist, purposeful motion.
 
-Professional and minimal: one reading column, grey-green paper, ink type, one
-semantic accent. Motion is a showcase but never gates content (see Motion).
+| Dial | Value | Meaning here |
+|---|---|---|
+| Design variance | 6 | Left-aligned, asymmetric offsets; never a centered hero |
+| Motion intensity | 7 | The hero's kinetic type is the visual; every motion has a reason |
+| Visual density | 3 | Airy; one idea per screen |
 
-Rejected alternatives, for the record: **B · Index** (huge name, work as an
-openable index — outcomes sat one click deep) and **C · Scale** (scale dial and
-time axis — leaned on SMILE's missing impact number).
+The hero has **no image on purpose**: kinetic type is the visual (owner's decision,
+an explicit exception to design-taste's real-image rule).
 
 ## Tokens
 
-Source: [`src/styles/tokens.css`](../src/styles/tokens.css), exposed to Tailwind in
-`src/app/globals.css` via `@theme inline` (`bg-paper`, `text-plus`, `rounded-lg`, …).
+Source: [`src/styles/tokens.css`](../src/styles/tokens.css), mapped to Tailwind in
+`src/app/globals.css` (`bg-canvas`, `text-ink`, `text-mute`, `border-line`,
+`bg-accent`, `text-on-accent`).
 
-| Token | Value | Role |
-|---|---|---|
-| `paper` | `#F5F6F3` | Page ground. Grey with a green bias, not neutral grey |
-| `card` | `#FFFFFF` | Raised surfaces only: metric cards, proof strip cells |
-| `ink` | `#16191C` | Text, rules under section heads, primary buttons, closing block |
-| `ink-soft` | `#2E3430` | Lede paragraphs |
-| `mute` | `#5A615C` | Secondary text, mono metadata |
-| `rule` | `#DADFD8` | Hairlines between entries, card borders |
-| `plus` / `plus-bg` | `#0B7A4B` / `#E2F0E8` | **Semantic only**: a measured positive outcome, the `+` marker, before/after bars |
-| `pend` / `pend-bg` | `#8F5B00` / `#F6ECD8` | **Semantic only**: an outcome still missing its number |
+| Token | Light | Dark | Role |
+|---|---|---|---|
+| `canvas` | `#FAFAFA` | `#09090B` | Page ground |
+| `ink` | `#18181B` | `#F4F4F5` | Text, hover borders |
+| `mute` | `#52525B` | `#A1A1AA` | Secondary text, idle icons |
+| `line` | `#E4E4E7` | `#27272A` | Hairlines, secondary button border, icon hover fill |
+| `accent` | `#047857` | `#34D399` | **The only accent**: logo, primary button, rotating phrase, focus ring |
+| `on-accent` | `#FFFFFF` | `#052E1F` | Text and strokes on accent |
 
-Radius: `sm 4` (tags), `md 8` (buttons), `lg 10` (cards), `xl 14` (closing block).
-Space: 4 · 8 · 12 · 16 · 24 · 32 · 56 · 104 px; sections are separated by 56–104 px
-(fluid).
-
-Light theme only in phase 1.
+Theme: light and dark, following the OS by default. The menu toggle saves an explicit
+choice to `localStorage` (`theme`); an inline script in `<head>` applies it before
+first paint. Never flip one section to the other theme.
 
 ## Typography
 
-| Role | Face | Use |
+Geist and Geist Mono, via `next/font/google`. One family: emphasis is weight or the
+accent color, never a second face.
+
+| Role | Size | Weight / tracking |
 |---|---|---|
-| Display | Bricolage Grotesque (variable, `opsz` 96 at large sizes) | h1–h3, big metrics, proof numbers |
-| Body | Public Sans | Running text, buttons |
-| Utility | JetBrains Mono 400/500 | Dates, tags, stack lists, eyebrows, the `+` marker |
+| Hero headline | `text-hero` 40 -> 80px, line-height 1.04 | 600, `tracking-tighter` |
+| Hero subtext | `text-sub` 16 -> 19px, max 42ch | 400, `mute` |
+| Eyebrow / labels | 14px | 500, `mute`, sentence case (no uppercase tracking) |
+| Buttons | 14px | 500 |
 
-Loaded with `next/font/google` in `src/app/layout.tsx` (self-hosted at build, no
-layout shift).
+## Shape
 
-Scale (fluid, `clamp`, mobile → desktop):
+One rule: **everything interactive is a full pill** (buttons, icon buttons, focus
+targets). The logo square is the only other rounded shape (radius 7/32, about 22%).
+No cards and no shadows in this scope.
 
-| Step | Size | Weight / tracking |
-|---|---|---|
-| h1 | 38 → 84 px, line-height 1.02 | 700, −0.025em, max 15ch |
-| h2 | 24 → 34 px | 700, −0.015em |
-| h3 | 21 → 26 px | 650, −0.01em |
-| Metric | 36 → 52 px, line-height 1 | 700, tabular numbers |
-| Lede | 16 → 19 px | 400, max 60ch |
-| Body | 15–16 px, line-height 1.55 | 400 |
-| Mono meta | 12–12.5 px | 400–500 |
+## Logo and favicon
 
-Every digit that lines up or counts uses `tabular-nums`.
+Geometric lowercase **"ar"** monogram: a single-storey `a` (circle + stem) and an `r`
+(stem + quarter arc), stroked in `on-accent` on an `accent` rounded square. The letters
+are paths, not text, so the mark is identical at 16px and 180px with no font loaded.
 
-## Components
+- `src/components/Logo.tsx` holds the geometry (`MARK`), `LogoMark`, and `Logo`
+  (mark + full name, name hidden under 640px).
+- `src/app/icon.svg` copies the geometry with a `prefers-color-scheme` style, so the
+  browser tab matches the OS theme.
+- `src/app/apple-icon.tsx` renders the 180px PNG from `MARK`.
 
-Live under `src/components/` once a second surface uses them; until then inside
-the home module.
+Change the geometry in `MARK` and in `icon.svg` together.
 
-- **Hero** — mono eyebrow (`7+ yrs` ink badge + role · city · GMT+7), h1 with the
-  outcome clause in `plus`, lede, CTA row (Download CV primary, copyable email in
-  mono, LinkedIn), proof strip.
-- **ProofStrip** — 2 columns on phone, 4 from 720 px; hairline grid (1 px `rule`
-  gaps on a `rule` ground), white cells, display number + mute label.
-- **ReleaseEntry** — one per project: `when` column (years + tag), body (h3,
-  client · role, DiffList, mono stack line), MetricCard. Stacks on phone; three
-  columns (150 px / fluid / 260 px) from 720 px. Entries separated by `rule`
-  hairlines.
-- **DiffList** — `<ul>`, each line prefixed with a mono `+` in `plus`.
-- **MetricCard** — white card, big metric (in `plus` only when it is a measured
-  improvement), label, optional mono before → after detail, optional
-  before/after bar, optional PendingChip.
-- **PendingChip** — mono `± impact number pending` on `pend-bg`. It is the visible
-  form of a `TODO(content)`: it must not ship to production.
-- **RoleRow** — years (mono) · company (600) · role (mute); stacks on phone.
-- **CloseBlock** — `ink` panel, `paper` text, "Hiring a senior frontend
-  engineer?", CTA row inverted.
-- **SectionHead** — h2 left, mono summary right (`5 releases · 2020–now`), 1 px
-  `ink` rule below.
+## Menu
+
+`src/components/SiteHeader.tsx`. Sticky, 64px tall, one line at every width:
+logo left; GitHub, LinkedIn, theme toggle and the **"Email me"** pill right. The
+hairline under it fades in once the page scrolls (CSS scroll-driven animation, no
+scroll listeners). Background is `canvas` at 85% with a backdrop blur.
+
+## Hero
+
+`src/modules/home/components/Hero.tsx`. Exactly four text elements:
+
+1. Eyebrow: the role.
+2. Headline, two lines on desktop: "I build frontends for" + a rotating phrase in
+   `accent` that cycles real facts (`profile.headline.phrases`).
+3. Subtext, 20 words max.
+4. Actions: "Email me" (primary) and "LinkedIn" (secondary). A resume action appears
+   only once `profile.cvPath` is set.
+
+Content is centered in the first viewport (`min-h` = viewport minus header, `content-center`).
+From 768px the subtext and actions move to an offset right column (`7fr 5fr`).
 
 ## Motion
 
-GSAP (+ `@gsap/react`) for the orchestrated parts, CSS transitions for hover.
+| Motion | Why | How |
+|---|---|---|
+| Headline words rise out of a mask, 60ms stagger | Reading order: the claim lands word by word | CSS keyframes, no JS, so nothing flashes on hydration |
+| Rotating phrase slot-roll every 2.8s | Shows the range of scale in one line | Client leaf; every phrase shares one grid cell so the slot never resizes (no CLS); pauses on hover and in background tabs |
+| Eyebrow, subtext, actions fade up after the headline | Hierarchy: claim first, proof second | CSS keyframes on the same stagger |
+| Buttons lift 1px, press to 0.98 | Feedback | CSS transitions |
+| Header hairline on scroll | State change: content is under the header | `animation-timeline: scroll()` |
 
-1. **Load sequence** — hero children rise 16 px and fade in, 700 ms, 70 ms stagger,
-   `ease-out`. Runs once on first paint; the h1 must not be the LCP element held
-   back by it (start from opacity ≥ 0.01 and keep text in the server HTML).
-2. **Counters** — metrics count up from 0 when 40% visible, 1.1 s, ease-out cubic.
-   The **final value is server-rendered**; the animation only replays it, so
-   crawlers, AI readers and no-JS clients always see the real number.
-3. **Before/after bar** — fill shrinks from 100% to the after-ratio when scrolled
-   in. Animate `transform: scaleX()` with `transform-origin: left`, never `width`.
-4. **Hover** — buttons lift 1 px, 200 ms.
-
-Under `prefers-reduced-motion: reduce` all of it is off and everything renders in
-its final state. Nothing is ever hidden waiting for an observer.
+Only `transform` and `opacity` animate. Under `prefers-reduced-motion: reduce`
+everything renders in its final state and the phrase stays on the first value.
+All phrases are in the server HTML; the animated copy is `aria-hidden` and an sr-only
+sentence carries the full claim.
 
 ## Do's and don'ts
 
-- **Do** lead every entry with its outcome. If there is no number yet, show the
-  PendingChip in drafts and resolve it before launch.
-- **Do** use `plus` only for a measured improvement. A scale fact (`40+
-  engineers`) is set in `ink`.
-- **Don't** add a second accent color, gradients, or shadows beyond the card
-  border. Hierarchy comes from type size and the ink rules.
-- **Don't** number sections or entries (`01 / 02`): order here is by date, and
-  the dates are already shown.
-- **Don't** invent metrics to fill a MetricCard (see `docs/PRODUCT.md`).
-- **Don't** put content behind interaction. Everything a recruiter needs is
-  visible on scroll.
+- **Zero em or en dashes** in visible copy. Ranges use a hyphen.
+- One label per intent across the page: contact is always "Email me".
+- No locale or time strips, version labels, scroll cues, decorative dots, or section
+  numbers.
+- Never invent a number. Every figure comes from the CV or from Rayhan directly.
+- Icons come from Phosphor only (`@phosphor-icons/react/dist/ssr`), 20px in the menu,
+  16px inside buttons.

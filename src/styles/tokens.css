@@ -1,45 +1,50 @@
-/* Rayhan design tokens — direction A "Changelog". DESIGN.md is the spec; change both together.
-   Raw names here; globals.css maps them onto Tailwind's namespaces (paper -> bg-paper, size-hero -> text-hero). */
+/* Rayhan design tokens. DESIGN.md is the spec; change both together.
+   Raw names here; globals.css maps them onto Tailwind (canvas -> bg-canvas, size-hero -> text-hero).
+   Light is the bare :root; dark redefines colors only, for the OS setting and for the manual toggle. */
 
 :root {
   /* Color */
-  --paper: #f5f6f3;
-  --card: #ffffff;
-  --ink: #16191c;
-  --ink-soft: #2e3430;
-  --mute: #5a615c;
-  --rule: #dadfd8;
-  --plus: #0b7a4b;
-  --plus-bg: #e2f0e8;
-  --pend: #8f5b00;
-  --pend-bg: #f6ecd8;
+  --canvas: #fafafa;
+  --ink: #18181b;
+  --mute: #52525b;
+  --line: #e4e4e7;
+  --accent: #047857;
+  --on-accent: #ffffff;
 
-  /* Radius */
-  --round-sm: 4px;
-  --round-md: 8px;
-  --round-lg: 10px;
-  --round-xl: 14px;
+  /* Type scale, fluid from ~375px to ~1280px */
+  --size-hero: clamp(2.5rem, 1rem + 5vw, 5rem);
+  --size-sub: clamp(1rem, 0.95rem + 0.3vw, 1.1875rem);
 
-  /* Type scale, fluid from ~375px to ~1200px */
-  --size-hero: clamp(2.375rem, 1.55rem + 3.9vw, 5.25rem);
-  --size-close: clamp(1.75rem, 1.2rem + 2.4vw, 3rem);
-  --size-h2: clamp(1.5rem, 1.2rem + 1.2vw, 2.125rem);
-  --size-h3: clamp(1.3125rem, 1.15rem + 0.6vw, 1.625rem);
-  --size-metric: clamp(2.25rem, 1.8rem + 1.9vw, 3.25rem);
-  --size-proof: clamp(1.625rem, 1.4rem + 0.9vw, 2.25rem);
-  --size-lede: clamp(1rem, 0.93rem + 0.35vw, 1.1875rem);
-
-  /* Measures and layout */
-  --measure-hero: 15ch;
-  --measure-close: 16ch;
-  --measure-lede: 60ch;
-  --page-max: 1040px;
-  --grid-release: 150px minmax(0, 1fr) 260px;
-  --grid-role: 150px minmax(0, 1fr) minmax(0, 1fr);
+  /* Layout */
+  --page-max: 1200px;
+  --header-h: 4rem;
 
   /* Motion */
-  --ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
-  --dur-fast: 200ms;
-  --dur-base: 700ms;
-  --stagger: 70ms;
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-rise: 800ms;
+  --stagger: 60ms;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --canvas: #09090b;
+    --ink: #f4f4f5;
+    --mute: #a1a1aa;
+    --line: #27272a;
+    --accent: #34d399;
+    --on-accent: #052e1f;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --canvas: #09090b;
+  --ink: #f4f4f5;
+  --mute: #a1a1aa;
+  --line: #27272a;
+  --accent: #34d399;
+  --on-accent: #052e1f;
+  color-scheme: dark;
 }
