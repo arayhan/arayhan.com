@@ -14,6 +14,7 @@ export default function AppleIcon() {
             <circle cx={MARK.bowl.cx} cy={MARK.bowl.cy} r={MARK.bowl.r} />
             <path d={MARK.a} />
             <path d={MARK.r} />
+            <path d={MARK.caret} />
           </g>
         </svg>
       </div>
