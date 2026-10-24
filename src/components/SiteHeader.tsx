@@ -1,36 +1,35 @@
-import { GithubLogoIcon, LinkedinLogoIcon } from "@phosphor-icons/react/dist/ssr";
+import { EnvelopeSimpleIcon } from "@phosphor-icons/react/dist/ssr";
+import type { NavGroup, NavLink, Social } from "@/domain/portfolio";
 import { Logo } from "./Logo";
+import { QuickNav } from "./QuickNav";
+import { SiteMenu } from "./SiteMenu";
 import { ThemeToggle } from "./ThemeToggle";
 
 type Props = {
-  name: string;
+  quickLinks: NavLink[];
+  showcase: NavLink[];
+  groups: NavGroup[];
+  socials: Social[];
   email: string;
-  github: string;
-  linkedin: string;
-  primaryAction: string;
-  primaryActionClass: string;
 };
 
-const iconButton =
-  "inline-grid size-10 place-items-center rounded-full text-mute transition-colors duration-200 hover:bg-line/60 hover:text-ink";
+const iconBase = "size-9 place-items-center rounded-lg text-mute transition-colors duration-200 hover:text-ink";
 
-export function SiteHeader({ name, email, github, linkedin, primaryAction, primaryActionClass }: Props) {
+export function SiteHeader({ quickLinks, showcase, groups, socials, email }: Props) {
   return (
     <header className="site-header sticky top-[env(safe-area-inset-top,0px)] z-40 bg-canvas/85 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-page items-center justify-between gap-3 px-4 sm:px-8 lg:px-14">
-        <Logo name={name} />
-        <nav aria-label="Contact" className="flex items-center gap-1 sm:gap-2">
-          <a href={github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className={iconButton}>
-            <GithubLogoIcon size={20} aria-hidden="true" />
+      <div className="relative mx-auto flex h-18 max-w-page items-center justify-between gap-4 px-4 sm:px-8 lg:px-14">
+        <div className="flex min-w-0 items-center gap-10">
+          <Logo />
+          <QuickNav links={quickLinks} />
+        </div>
+        <div className="flex items-center gap-1">
+          <a href={`mailto:${email}`} aria-label="Email me" className={`${iconBase} hidden lg:inline-grid`}>
+            <EnvelopeSimpleIcon size={18} aria-hidden="true" />
           </a>
-          <a href={linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className={iconButton}>
-            <LinkedinLogoIcon size={20} aria-hidden="true" />
-          </a>
-          <ThemeToggle className={iconButton} />
-          <a href={`mailto:${email}`} className={`ml-1 ${primaryActionClass}`}>
-            {primaryAction}
-          </a>
-        </nav>
+          <ThemeToggle className={`${iconBase} inline-grid`} />
+          <SiteMenu showcase={showcase} groups={groups} socials={socials} email={email} />
+        </div>
       </div>
     </header>
   );

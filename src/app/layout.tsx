@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SiteHeader } from "@/components/SiteHeader";
+import { menuGroups, quickLinks, showcaseLinks } from "@/content/navigation";
+import { profile } from "@/content/profile";
 import { themeInitScript } from "@/utils/theme";
 import "./globals.css";
 
@@ -7,7 +10,7 @@ const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "sw
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Ahmed Rayhan Primadedas, Senior Frontend Engineer",
+  title: { default: "Ahmed Rayhan Primadedas, Senior Frontend Engineer", template: "%s · A Rayhan P" },
   // TODO(content): description, settled with the phase 0 copy
   description: "TODO(content)",
 };
@@ -30,6 +33,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <SiteHeader quickLinks={quickLinks} showcase={showcaseLinks} groups={menuGroups} socials={profile.socials} email={profile.email} />
         {children}
       </body>
     </html>

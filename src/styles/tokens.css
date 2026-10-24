@@ -8,16 +8,19 @@
   --ink: #0f172a;
   --mute: #475569;
   --line: #e2e8f0;
+  --surface: #ffffff;
+  --soft: #eef3ff;
   --accent: #1d4ed8;
   --on-accent: #ffffff;
+  --glow: rgb(29 78 216 / 0.13);
 
   /* Type scale, fluid from ~375px to ~1280px */
-  --size-hero: clamp(2.5rem, 1rem + 5vw, 5rem);
+  --size-hero: clamp(1.625rem, 0.9rem + 3.2vw, 3.25rem);
   --size-sub: clamp(1rem, 0.95rem + 0.3vw, 1.1875rem);
 
   /* Layout */
   --page-max: 1200px;
-  --header-h: 4rem;
+  --header-h: 4.5rem;
 
   /* Motion */
   --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
@@ -33,8 +36,11 @@
     --ink: #f1f5f9;
     --mute: #94a3b8;
     --line: #1e293b;
+    --surface: #0b1224;
+    --soft: #0f1d3a;
     --accent: #60a5fa;
     --on-accent: #0b1b3a;
+    --glow: rgb(96 165 250 / 0.16);
     color-scheme: dark;
   }
 }
@@ -44,7 +50,10 @@
   --ink: #f1f5f9;
   --mute: #94a3b8;
   --line: #1e293b;
+  --surface: #0b1224;
+  --soft: #0f1d3a;
   --accent: #60a5fa;
   --on-accent: #0b1b3a;
+  --glow: rgb(96 165 250 / 0.16);
   color-scheme: dark;
 }

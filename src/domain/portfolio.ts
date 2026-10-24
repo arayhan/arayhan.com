@@ -34,16 +34,38 @@ export type CommunityStat = {
   label: string;
 };
 
+export type SocialKey = "github" | "linkedin" | "email" | "instagram" | "medium" | "youtube" | "threads";
+
+export type Social = {
+  key: SocialKey;
+  label: string;
+  /** null until the owner confirms the account; unconfirmed links are not rendered. */
+  url: string | null;
+};
+
+export type NavLink = { label: string; href: string };
+
+export type NavGroup = { label: string; links: NavLink[]; extra?: NavLink[] };
+
+export type ShowcaseTerm = {
+  term: string;
+  title: string;
+  fact: string;
+  href: string;
+  visual: string;
+};
+
 export type Profile = {
   name: string;
   shortName: string;
   role: string;
   email: string;
-  linkedin: string;
-  github: string;
+  socials: Social[];
   cvPath: string | null;
-  headline: { lead: string; phrases: string[] };
-  subtext: string;
+  status: { label: string; highlight: string; rest: string };
+  intro: { lead: string; aside: string; invite: string };
+  terms: ShowcaseTerm[];
+  bio: string;
 };
 
 export function formatMetric(metric: Metric): string {
