@@ -1,54 +1,53 @@
-import { Fragment, type CSSProperties } from "react";
-import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
+import type { CSSProperties } from "react";
+import Link from "next/link";
+import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
+import { SocialLinks } from "@/components/SocialLinks";
 import type { Profile } from "@/domain/portfolio";
 import { actionClass } from "../home.actions";
-import { RotatingPhrase } from "./RotatingPhrase";
+import { AlbumMarquee } from "./AlbumMarquee";
+import { HeroShowcase } from "./HeroShowcase";
+import { Masthead } from "./Masthead";
 
 const step = (i: number) => ({ "--i": i }) as CSSProperties;
 
-export function Hero({ profile }: { profile: Profile }) {
-  const words = profile.headline.lead.split(" ");
-  const afterHeadline = words.length + 2;
-
+function StatusBadge({ status }: { status: Profile["status"] }) {
   return (
-    <section
-      aria-labelledby="hero-title"
-      className="mx-auto grid min-h-[calc(100dvh-var(--header-h))] max-w-page content-center gap-10 px-4 pt-16 pb-14 sm:px-8 md:gap-14 md:pt-24 md:pb-20 lg:px-14"
-    >
-      <div className="grid gap-5">
-        <p className="fade-rise text-sm font-medium text-mute" style={step(0)}>
-          {profile.role}
-        </p>
-        <h1 id="hero-title" className="text-hero font-semibold tracking-tighter text-ink">
-          <span className="block">
-            {words.map((word, i) => (
-              <Fragment key={`${word}-${i}`}>
-                {i > 0 && " "}
-                <span className="mask-word">
-                  <span style={step(i + 1)}>{word}</span>
-                </span>
-              </Fragment>
-            ))}
-          </span>
-          <RotatingPhrase phrases={profile.headline.phrases} enterIndex={words.length + 1} />
-        </h1>
-      </div>
+    <p className="fade-rise flex w-max max-w-full items-center gap-2.5 rounded-lg border border-line bg-surface py-1.5 pr-3.5 pl-2.5 font-mono text-[12.5px] text-mute" style={step(0)}>
+      <span aria-hidden="true" className="meter flex h-3 flex-none items-end gap-0.5 pl-1">
+        <i />
+        <i />
+        <i />
+      </span>
+      <span className="min-w-0 truncate">
+        {status.label} <b className="font-medium text-ink">{status.highlight}</b> {status.rest}
+      </span>
+    </p>
+  );
+}
 
-      <div className="grid md:grid-cols-[7fr_5fr]">
-        <div className="grid gap-7 md:col-start-2">
-          <p className="fade-rise max-w-[42ch] text-sub text-mute" style={step(afterHeadline)}>
-            {profile.subtext}
-          </p>
-          <div className="fade-rise flex flex-wrap gap-3" style={step(afterHeadline + 1)}>
-            <a href={`mailto:${profile.email}`} className={actionClass("primary")}>
-              Email me
-            </a>
-            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className={actionClass("secondary")}>
-              LinkedIn
-              <ArrowUpRightIcon size={16} aria-hidden="true" />
-            </a>
-          </div>
+export function Hero({ profile }: { profile: Profile }) {
+  return (
+    <section aria-labelledby="hero-title" className="relative grid gap-12 overflow-x-clip pt-8 md:gap-14 md:pt-14">
+      <HeroShowcase intro={profile.intro} terms={profile.terms} badge={<StatusBadge status={profile.status} />}>
+        <p className="fade-rise max-w-[54ch] text-sub text-mute" style={step(2)}>
+          {profile.bio}
+        </p>
+        <div className="fade-rise flex flex-wrap gap-2.5" style={step(3)}>
+          <a href={`mailto:${profile.email}`} className={actionClass("primary")}>
+            Email me
+          </a>
+          <Link href="/work" className={actionClass("secondary")}>
+            See my work
+            <ArrowRightIcon size={16} aria-hidden="true" />
+          </Link>
         </div>
+        <SocialLinks socials={profile.socials} className="fade-rise -ml-2" />
+      </HeroShowcase>
+
+      <AlbumMarquee />
+
+      <div className="mx-auto w-full max-w-page px-4 sm:px-8 lg:px-14">
+        <Masthead text={profile.shortName} />
       </div>
     </section>
   );
