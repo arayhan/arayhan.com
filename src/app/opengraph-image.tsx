@@ -9,11 +9,8 @@ import { ImageResponse } from "next/og";
 //
 // Next picks this file up by convention from the app directory - the metadata in
 // layout.tsx must NOT also declare an images entry, or it will win over this.
-// Edge runtime is REQUIRED, not a preference: next/og renders through satori +
-// resvg wasm, and dropping this makes the Node runtime fail to prerender the
-// route outright ("Error occurred prerendering page /opengraph-image"). The
-// tradeoff is that the card is generated per request rather than at build.
-export const runtime = "edge";
+// Runs on the default Node runtime and prerenders at build (Next 16); the Edge
+// runtime this template once required is deprecated.
 export const alt = "Rayhan";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
