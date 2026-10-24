@@ -1,38 +1,71 @@
 @import "tailwindcss";
 @import "../styles/tokens.css";
 
-/* Expose tokens as Tailwind utilities: bg-paper, text-plus, rounded-lg, font-display, ... */
 @theme inline {
-  --color-paper: var(--color-paper);
-  --color-card: var(--color-card);
-  --color-ink: var(--color-ink);
-  --color-ink-soft: var(--color-ink-soft);
-  --color-mute: var(--color-mute);
-  --color-rule: var(--color-rule);
-  --color-plus: var(--color-plus);
-  --color-plus-bg: var(--color-plus-bg);
-  --color-pend: var(--color-pend);
-  --color-pend-bg: var(--color-pend-bg);
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-mute: var(--mute);
+  --color-rule: var(--rule);
+  --color-plus: var(--plus);
+  --color-plus-bg: var(--plus-bg);
+  --color-pend: var(--pend);
+  --color-pend-bg: var(--pend-bg);
 
-  --radius-sm: var(--radius-sm);
-  --radius-md: var(--radius-md);
-  --radius-lg: var(--radius-lg);
-  --radius-xl: var(--radius-xl);
+  --radius-sm: var(--round-sm);
+  --radius-md: var(--round-md);
+  --radius-lg: var(--round-lg);
+  --radius-xl: var(--round-xl);
 
   --font-display: var(--font-bricolage), "Public Sans", system-ui, sans-serif;
   --font-sans: var(--font-public-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, Consolas, monospace;
 
-  --ease-out: var(--ease-out);
+  --text-hero: var(--size-hero);
+  --text-hero--line-height: 1.02;
+  --text-close: var(--size-close);
+  --text-close--line-height: 1.05;
+  --text-h2: var(--size-h2);
+  --text-h2--line-height: 1.15;
+  --text-h3: var(--size-h3);
+  --text-h3--line-height: 1.2;
+  --text-metric: var(--size-metric);
+  --text-metric--line-height: 1;
+  --text-proof: var(--size-proof);
+  --text-proof--line-height: 1.1;
+  --text-lede: var(--size-lede);
+  --text-lede--line-height: 1.55;
+
+  --container-hero: var(--measure-hero);
+  --container-close: var(--measure-close);
+  --container-lede: var(--measure-lede);
+  --container-page: var(--page-max);
+
+  --ease-soft: var(--ease-soft);
+  --animate-rise: rise var(--dur-base) var(--ease-soft) both;
+}
+
+/* Starts at 0.01, not 0: the hero text is the LCP element and must count as painted on the first frame. */
+@keyframes rise {
+  from {
+    opacity: 0.01;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 html {
   color-scheme: light;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--color-paper);
-  color: var(--color-ink);
+  background: var(--paper);
+  color: var(--ink);
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.55;
@@ -45,13 +78,21 @@ h3 {
   text-wrap: balance;
 }
 
+:focus-visible {
+  outline: 2px solid var(--plus);
+  outline-offset: 2px;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }

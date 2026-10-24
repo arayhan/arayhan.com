@@ -19,7 +19,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${bricolage.variable} ${publicSans.variable} ${jetbrains.variable}`}>
-      <body>{children}</body>
+      <body>
+        <a
+          href="#main"
+          className="sr-only rounded-md bg-ink px-4 py-2 text-sm font-semibold text-paper focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50"
+        >
+          Skip to content
+        </a>
+        {children}
+      </body>
     </html>
   );
 }

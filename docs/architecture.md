@@ -27,6 +27,7 @@ personal-web/
     ├── app/         # routes, layouts, composition
     ├── modules/     # named after SURFACES, never import each other; index.ts is each one's public API
     ├── domain/      # business rules — bottom of the import graph, dependency-light
+    ├── content/     # typed site copy and numbers — the only place facts live; imports only domain/
     ├── components/  # cross-module UI primitives only
     ├── hooks/       # cross-module React hooks, use-<thing>.ts — same one-consumer rule
     ├── lib/         # polish for installed libraries, flat (cn, motion, query-client)
