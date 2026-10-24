@@ -39,7 +39,7 @@ Add rows for whatever else this project grows — a database doc, a design-proce
 
 ## Coding rules
 
-[`docs/rules/`](docs/rules/) holds the rules themselves, one file per concern (`principles`, `code-style`, `testing`, `git-workflow`, `api-conventions`, `sql-and-data`, `ui-styling`, `security`, `accessibility`), and is the only place they are stated. Read the ones your task touches. They are rules, not reasoning: when one looks arbitrary, `docs/architecture.md` says why. Never restate one here — a rule in two places is a rule with two versions.
+[`docs/rules/`](docs/rules/) holds the rules themselves, one file per concern (`principles`, `code-style`, `testing`, `git-workflow`, `ui-styling`, `security`, `accessibility`), and is the only place they are stated. Read the ones your task touches. They are rules, not reasoning: when one looks arbitrary, `docs/architecture.md` says why. Never restate one here — a rule in two places is a rule with two versions.
 
 ## When to update this file
 
@@ -87,14 +87,11 @@ personal-web/
 │   └── rules/       # the coding rules - style, testing, git, security
 ├── .claude/         # agents, skills, hooks, settings
 │   └── commands/    # slash commands: tooling only the agent runs
-├── db/migrations/   # SQL, run manually
 ├── public/          # static assets — stays at the root; Next.js (App Router) requires it there even with a src/ root
 └── src/
     ├── app/         # routes, layouts, composition
     ├── modules/     # named after SURFACES, never import each other; index.ts is each one's public API
     ├── domain/      # business rules — bottom of the import graph, dependency-light
-    ├── server/      # every file opens with import "server-only"
-    ├── services/    # outbound API clients
     ├── components/  # cross-module UI primitives only
     ├── hooks/       # cross-module React hooks, use-<thing>.ts — same one-consumer rule
     ├── lib/         # polish for installed libraries, flat (cn, motion, query-client)
@@ -117,11 +114,10 @@ All three are ESLint `no-restricted-imports` zones. Configure them in the first 
 
 ```bash
 pnpm install
-cp .env.example .env   # fill: <REQUIRED_ENV_VARS>
 pnpm dev                # http://localhost:3000
 ```
 
-Migrations in `db/migrations/` are run **manually** — never assume one is applied. See [`docs/rules/sql-and-data.md`](docs/rules/sql-and-data.md).
+The site is fully static: no database, no server code, no required env vars.
 
 ## DX
 
@@ -133,7 +129,7 @@ Migrations in `db/migrations/` are run **manually** — never assume one is appl
 
 ## Hard rules (violations = rework)
 
-1. **Secrets never reach the client.** Connection strings, API keys, and storage credentials live only in files under `src/server/`, never in a `NEXT_PUBLIC_*` variable and never in a module a client component can import. The browser talks to your route handlers; only they talk to anything else. The mechanics are in [`docs/rules/security.md`](docs/rules/security.md).
+1. **Secrets never reach the client.** The site is static and needs none today. If one is ever added, it lives only in files under `src/server/` (create the folder then), never in a `NEXT_PUBLIC_*` variable and never in a module a client component can import. The browser talks to your route handlers; only they talk to anything else. The mechanics are in [`docs/rules/security.md`](docs/rules/security.md).
 2. **Placeholders are marked and enumerated.** Every stand-in for real content carries a `// TODO(content)` marker, and this file lists the complete set of categories. `rg "TODO\(content\)"` must find all of them and nothing else — an unmarked placeholder is the one that ships.
 3. **Never claim something works without running the check and quoting its output.** What must be tested and what the checks catch is in [`docs/rules/testing.md`](docs/rules/testing.md).
 4. **Follow [docs/rules/project-preferences.md](docs/rules/project-preferences.md).** Comment density, build order and layout priority were chosen for this project; that file overrides docs/rules/code-style.md where they disagree.

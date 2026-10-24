@@ -22,21 +22,18 @@ personal-web/
 │   └── rules/       # the coding rules - style, testing, git, security
 ├── .claude/         # agents, skills, hooks, settings
 │   └── commands/    # slash commands: tooling only the agent runs
-├── db/migrations/   # SQL, run manually
 ├── public/          # static assets — stays at the root; Next.js (App Router) requires it there even with a src/ root
 └── src/
     ├── app/         # routes, layouts, composition
     ├── modules/     # named after SURFACES, never import each other; index.ts is each one's public API
     ├── domain/      # business rules — bottom of the import graph, dependency-light
-    ├── server/      # every file opens with import "server-only"
-    ├── services/    # outbound API clients
     ├── components/  # cross-module UI primitives only
     ├── hooks/       # cross-module React hooks, use-<thing>.ts — same one-consumer rule
     ├── lib/         # polish for installed libraries, flat (cn, motion, query-client)
     └── utils/       # own helpers (error, formatter)
 ```
 
-`db/`, `docs/`, `.claude/`, and `public/` stay at the repo root. All but `public/` are outside the build entirely; `public/` is there because Next.js (App Router) serves it from the project root and does not follow it into `src/`.
+`docs/`, `.claude/`, and `public/` stay at the repo root. All but `public/` are outside the build entirely; `public/` is there because Next.js (App Router) serves it from the project root and does not follow it into `src/`.
 
 A `scripts/` folder is **not** scaffolded. Create one only for tooling the product needs — a migration runner, a deploy step. Tooling only the agent runs belongs in `.claude/commands/` (the prompt) and `.claude/scripts/` (any executable it calls), never in `package.json`, where it becomes a script every human developer scrolls past forever.
 
@@ -206,13 +203,16 @@ Set the ceilings from a measurement of your own framework baseline, taken once t
 
 | Concern | Choice | Version | Notes |
 |---|---|---|---|
-| Frontend framework | Next.js (App Router) | ^14.2.25 | |
-| Language | TypeScript | ^5.5.4 | |
-| Package manager | pnpm | ^9.0.0 | |
-| Styling | <X> | <X> | |
-| Data fetching | <X> | <X> | |
-| Validation | <X> | <X> | |
-| Tests | <X> | <X> | |
+| Frontend framework | Next.js (App Router), static | ^16.4.3 | Every route prerendered; no server code |
+| UI runtime | React | ^19.3.1 | |
+| Language | TypeScript | ~5.9.3 | TS 7 (native port) skipped until Next's type-check supports it |
+| Package manager | pnpm | 11.17.0 | Pinned via `packageManager` |
+| Styling | Tailwind CSS | ^4.3.3 | CSS-first config; tokens in `src/styles/tokens.css` |
+| Motion | GSAP + @gsap/react | ^3.15.0 / ^2.1.2 | Showcase motion; must not delay LCP; off under reduced motion |
+| Icons | lucide-react | ^1.61.0 | |
+| Analytics | @vercel/analytics | ^2.0.1 | |
+| Lint | ESLint (flat config) + eslint-config-next | ^9.39.5 | ESLint 10 skipped until React plugins catch up |
+| Tests | Vitest | ^5.0.5 | |
 
 Pin versions here. Anything outside this table needs approval and must clear whatever budget the project set.
 
