@@ -65,53 +65,66 @@ No cards and no shadows in this scope.
 
 ## Logo and favicon
 
-Geometric lowercase **"ar"** monogram: a single-storey `a` (circle + stem) and an `r`
-(stem + quarter arc), stroked in `on-accent` on an `accent` rounded square. The letters
-are paths, not text, so the mark is identical at 16px and 180px with no font loaded.
+**R2c**, chosen 2026-10-25: the "ar" monogram (single-storey `a` = circle + stem, `r` = stem
++ quarter arc) narrowed to make room for a **cursor bar** that blinks, stroked in
+`on-accent` on an `accent` rounded square, next to the wordmark **arayhan** (Geist 700,
+-0.055em). Letters are paths, not text, so the mark is identical at 16px and 180px.
 
-- `src/components/Logo.tsx` holds the geometry (`MARK`), `LogoMark`, and `Logo`
-  (mark + full name, name hidden under 640px).
-- `src/app/icon.svg` copies the geometry with a `prefers-color-scheme` style, so the
-  browser tab matches the OS theme.
-- `src/app/apple-icon.tsx` renders the 180px PNG from `MARK`.
+- `src/components/Logo.tsx`: geometry (`MARK`), `LogoMark` (the caret path carries the
+  `.caret` blink), `Logo` (mark + wordmark, links home).
+- `src/app/icon.svg` and `src/app/apple-icon.tsx` copy `MARK` (static caret). Change all three together.
 
-Change the geometry in `MARK` and in `icon.svg` together.
+## Navbar and menu
 
-## Menu
+`src/components/SiteHeader.tsx`, mounted once in `src/app/layout.tsx`. Sticky, 72px.
 
-`src/components/SiteHeader.tsx`. Sticky, 64px tall, one line at every width:
-logo left; GitHub, LinkedIn, theme toggle and the **"Email me"** pill right. The
-hairline under it fades in once the page scrolls (CSS scroll-driven animation, no
-scroll listeners). Background is `canvas` at 85% with a backdrop blur.
+- Left: logo, then **Work, Services, Blog, Talks, About** as plain text from `lg`
+  (`QuickNav`, client: the current page gets ink color and a 1px accent underline).
+- Right: email icon (from `lg`), theme toggle, and a text button **Menu** whose two-line
+  glyph turns into a cross. Ctrl/Cmd K toggles it, Escape and click-outside close it.
+- **Menu panel, "Address bar" style** (`SiteMenu`, client): a bordered panel whose top line
+  reads `rayhan.dev/` and types the path of whatever link is pointed at or focused, with
+  the logo's blinking cursor. Three plain-text columns: Showcase (Work, Services & Rates,
+  Talks, Album) in 20px semibold; Blog and Products; About with Uses' six areas as one
+  quiet line. Footer: social icons and the email as selectable text.
+- What it must never become: icon tiles, chips, letter avatars, search slabs, kbd badges.
+
+All destinations live in `src/content/navigation.ts`; every one has a route (placeholder
+pages via `src/components/StubPage.tsx` until content exists).
 
 ## Hero
 
-`src/modules/home/components/Hero.tsx`. Exactly four text elements:
+`src/modules/home/components/Hero.tsx` (server) with three client leaves:
 
-1. Eyebrow: the role.
-2. Headline, two lines on desktop: "I build frontends for" + a rotating phrase in
-   `accent` that cycles real facts (`profile.headline.phrases`).
-3. Subtext, 20 words max.
-4. Actions: "Email me" (primary) and "LinkedIn" (secondary). A resume action appears
-   only once `profile.cvPath` is set.
+1. **Status badge**: mono, a three-bar live meter + "Now shipping **SMILE 5.0** for
+   Indonesia's Ministry of Health" (`profile.status`).
+2. **Interactive sentence** (`HeroShowcase`), the h1: "I'm A Rayhan P. I make complicated
+   products feel simple, from a pre-seed startup to a national health platform. Wander
+   through my **/works**, **/talks** and **/products**." Each term is a button: hover,
+   focus or tap turns it accent, moves the soft glow behind it and swaps the proof card on
+   the right (fact line + link). Idle, it advances every 4s.
+3. Bio, "Email me" + "See my work", social icons.
+4. **Album marquee** (`AlbumMarquee`): two rows in opposite directions; page scroll speed
+   boosts and flips them (scrollY sampled per frame, no listener); hovering a row pauses it,
+   lifts the photo and dims the others.
+5. **Masthead** (`Masthead`): "A Rayhan P." solved to fill the column width exactly.
 
-Content is centered in the first viewport (`min-h` = viewport minus header, `content-center`).
-From 768px the subtext and actions move to an offset right column (`7fr 5fr`).
+Placeholders (portrait, proof visuals, album photos, product pitch, unconfirmed socials)
+are `TODO(content)`; unconfirmed social URLs are `null` and not rendered.
 
 ## Motion
 
 | Motion | Why | How |
 |---|---|---|
-| Headline words rise out of a mask, 60ms stagger | Reading order: the claim lands word by word | CSS keyframes, no JS, so nothing flashes on hydration |
-| Rotating phrase slot-roll every 2.8s | Shows the range of scale in one line | Client leaf; every phrase shares one grid cell so the slot never resizes (no CLS); pauses on hover and in background tabs |
-| Eyebrow, subtext, actions fade up after the headline | Hierarchy: claim first, proof second | CSS keyframes on the same stagger |
+| Badge, h1, bio, actions fade up in sequence | Hierarchy: claim first, proof second | CSS keyframes, no JS |
+| Term swap + glow move | Shows the three kinds of proof in one sentence | Client state; glow moves by `transform` only |
+| Menu path typing + cursor | Ties the menu to the logo and the /slash language | 22ms per character; instant under reduced motion |
+| Marquee drift, speed-up on scroll | Album feels alive without taking over | rAF transform; static, hand-scrollable under reduced motion |
 | Buttons lift 1px, press to 0.98 | Feedback | CSS transitions |
 | Header hairline on scroll | State change: content is under the header | `animation-timeline: scroll()` |
 
-Only `transform` and `opacity` animate. Under `prefers-reduced-motion: reduce`
-everything renders in its final state and the phrase stays on the first value.
-All phrases are in the server HTML; the animated copy is `aria-hidden` and an sr-only
-sentence carries the full claim.
+Only `transform` and `opacity` animate (plus the panel's visibility). Under
+`prefers-reduced-motion: reduce` everything renders in its final state.
 
 ## Do's and don'ts
 
@@ -121,4 +134,4 @@ sentence carries the full claim.
   numbers.
 - Never invent a number. Every figure comes from the CV or from Rayhan directly.
 - Icons come from Phosphor only (`@phosphor-icons/react/dist/ssr`), 20px in the menu,
-  16px inside buttons.
+  16px inside buttons and the menu footer.
