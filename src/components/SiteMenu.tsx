@@ -17,8 +17,9 @@ type Props = {
 const TYPE_MS = 22;
 
 /**
- * The "address bar" menu: pointing at a link types its path after the site's host with the
- * same blinking cursor as the logo. Ctrl/Cmd K toggles it, Escape closes it.
+ * The "address bar" menu: pointing at a link types its path after the site's host with a
+ * blinking cursor. Ctrl/Cmd K toggles it, Escape closes it. The toggle's three lines gather,
+ * then cross into an X, while its label rolls from Menu to Close (styles in globals.css).
  */
 export function SiteMenu({ showcase, groups, socials, email }: Props) {
   const [open, setOpen] = useState(false);
@@ -87,18 +88,25 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
 
   return (
     <>
+      <span aria-hidden="true" className="mx-1.5 h-6 w-px bg-line" />
       <button
         ref={buttonRef}
         type="button"
         aria-expanded={open}
         aria-controls="site-menu"
         onClick={() => setMenu(!openRef.current, false)}
-        className="group ml-1.5 inline-flex h-9 items-center gap-2.5 border-l border-line pr-1 pl-3.5 text-sm font-medium"
+        className="menu-toggle inline-flex h-9 items-center gap-2.5 rounded-full pr-3 pl-3.5 text-sm font-medium transition-[background-color,transform] duration-200 ease-out-soft hover:bg-soft active:scale-[0.96]"
       >
-        Menu
-        <span aria-hidden="true" className="relative h-2.5 w-[18px]">
-          <i className="absolute inset-x-0 top-0 h-[1.5px] rounded-sm bg-current transition-transform duration-300 ease-out-soft group-aria-expanded:translate-y-[4.25px] group-aria-expanded:rotate-45" />
-          <i className="absolute inset-x-0 top-[8.5px] h-[1.5px] rounded-sm bg-current transition-transform duration-300 ease-out-soft group-aria-expanded:-translate-y-[4.25px] group-aria-expanded:-rotate-45" />
+        <span className="menu-label">
+          <span>Menu</span>
+          <span aria-hidden="true">Close</span>
+        </span>
+        <span aria-hidden="true" className="relative h-3 w-[18px]">
+          {["top", "mid", "bot"].map((slot) => (
+            <span key={slot} className={`menu-slot menu-slot-${slot}`}>
+              <i className="menu-line" />
+            </span>
+          ))}
         </span>
       </button>
 
