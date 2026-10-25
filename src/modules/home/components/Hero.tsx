@@ -7,7 +7,6 @@ import { actionClass } from "../home.actions";
 import { AlbumMarquee } from "./AlbumMarquee";
 import { HeroBackdrop } from "./HeroBackdrop";
 import { HeroShowcase } from "./HeroShowcase";
-import { Masthead } from "./Masthead";
 
 const step = (i: number) => ({ "--i": i }) as CSSProperties;
 
@@ -31,7 +30,7 @@ export function Hero({ profile }: { profile: Profile }) {
   return (
     <section aria-labelledby="hero-title" className="relative isolate grid grid-cols-[minmax(0,1fr)] overflow-x-clip">
       <HeroBackdrop />
-      <div className="grid grid-cols-[minmax(0,1fr)] pt-12 pb-8 md:pt-24 md:pb-12">
+      <div className="grid grid-cols-[minmax(0,1fr)] pt-12 pb-20 md:pt-24 md:pb-32">
         <HeroShowcase intro={profile.intro} terms={profile.terms} badge={<StatusBadge status={profile.status} />}>
           <p className="fade-rise max-w-[52ch] text-sub text-mute" style={step(2)}>
             {profile.bio}
@@ -50,10 +49,6 @@ export function Hero({ profile }: { profile: Profile }) {
       </div>
 
       {profile.album.length > 0 && <AlbumMarquee photos={profile.album} />}
-
-      <div className="mx-auto w-full max-w-page px-4 sm:px-8 lg:px-14">
-        <Masthead text={profile.shortName} />
-      </div>
     </section>
   );
 }
