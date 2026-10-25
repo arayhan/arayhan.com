@@ -15,7 +15,7 @@
   --glow: rgb(29 78 216 / 0.13);
 
   /* Type scale, fluid from ~375px to ~1280px */
-  --size-hero: clamp(1.625rem, 0.9rem + 3.2vw, 3.25rem);
+  --size-hero: clamp(1.625rem, 1.05rem + 2.1vw, 2.5rem);
   --size-sub: clamp(1rem, 0.95rem + 0.3vw, 1.1875rem);
 
   /* Layout */

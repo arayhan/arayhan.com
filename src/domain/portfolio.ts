@@ -47,13 +47,19 @@ export type NavLink = { label: string; href: string };
 
 export type NavGroup = { label: string; links: NavLink[]; extra?: NavLink[] };
 
+export type ShowcaseStat = { value: string; label: string };
+
 export type ShowcaseTerm = {
   term: string;
   title: string;
-  fact: string;
   href: string;
-  visual: string;
+  /** The card's big number; its first figure counts up when the card swaps in. */
+  lead: ShowcaseStat & { detail?: string };
+  /** Supporting facts in the row under the big number. */
+  more: ShowcaseStat[];
 };
+
+export type AlbumPhoto = { src: string; alt: string; event: string; year: string };
 
 export type Profile = {
   name: string;
@@ -66,6 +72,8 @@ export type Profile = {
   intro: { lead: string; aside: string; invite: string };
   terms: ShowcaseTerm[];
   bio: string;
+  /** The hero marquee stays hidden until real photos are listed here. */
+  album: AlbumPhoto[];
 };
 
 export function formatMetric(metric: Metric): string {
