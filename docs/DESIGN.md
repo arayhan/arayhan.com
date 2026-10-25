@@ -53,7 +53,7 @@ accent color, never a second face.
 
 | Role | Size | Weight / tracking |
 |---|---|---|
-| Hero headline | `text-hero` 26 -> 40px, line-height 1.16, about 5 lines on desktop | 500, `-0.035em` |
+| Hero headline | `text-hero` 26 -> 40px, line-height 1.16, about 4 lines on desktop | 500, `-0.035em` |
 | Hero subtext | `text-sub` 16 -> 19px, max 42ch | 400, `mute` |
 | Eyebrow / labels | 14px | 500, `mute`, sentence case (no uppercase tracking) |
 | Buttons | 14px | 500 |
@@ -95,24 +95,27 @@ pages via `src/components/StubPage.tsx` until content exists).
 
 ## Hero
 
-`src/modules/home/components/Hero.tsx` (server) with client leaves. The first block fills
-the first viewport (`100svh` minus the header), content vertically centred.
+`src/modules/home/components/Hero.tsx` (server) with client leaves. Tight vertical rhythm:
+the masthead's top edge shows in the first desktop viewport, inviting the scroll.
 
-0. **Backdrop** (`HeroBackdrop`): a canvas dot lattice behind the whole hero. A slow wave
-   breathes through it; dots near the pointer lift away and turn accent; scrolling drifts it
-   at parallax depth while it opens up and fades. Sticky viewport-sized canvas, DPR capped at
-   2, paused offscreen or in a hidden tab, colours read from the tokens on theme change.
+0. **Backdrop** (`HeroBackdrop`): a soft aurora. Three radial light shapes (`--aurora-1..3`:
+   blue, indigo, sky) drift on slow unsynced loops, lean toward the mouse at different depths
+   and rise and trade places as the hero scrolls away, so the colour shifts toward sky. Fine
+   static grain stops banding; the bottom fades into the page. Transform and opacity only, on
+   a sticky viewport-sized stage, paused offscreen; still under reduced motion. (Replaced a
+   dot-lattice canvas the owner did not take to.)
 
-1. **Status badge**: mono, a three-bar live meter + "Now shipping **SMILE 5.0** for
-   Indonesia's Ministry of Health" (`profile.status`).
+1. **Status badge**: mono, a three-bar live meter + a terminal line,
+   "$ whoami → **Solution Fullstack Engineer** @ Badr Interactive" (`profile.status`). Wraps
+   on narrow screens rather than truncating.
 2. **Interactive sentence** (`HeroShowcase`), the h1: "I'm A Rayhan P. I make complicated
-   products feel simple, from a pre-seed startup to a national health platform. Wander
-   through my **/works**, **/talks** and **/products**." Each term is a button: hover,
+   products feel simple. Wander through my **/works**, **/talks** and **/products**." Each term is a button: hover,
    focus or tap draws its accent rule, moves the soft glow behind it and swaps the proof card
    on the right: term and index, one big number that counts up, its label, a hairline row of
    supporting facts, the title line and an "Open /term" link (all from `profile.terms`).
-   Idle, it advances every 5s with a progress line on the card's top edge; it holds while
-   the mouse or focus is inside.
+   Each supporting fact carries a duotone icon in a soft tile, or for products the
+   product's own logo (`public/products/*.svg`, copied from its repo). Idle, it advances
+   every 8s; it holds while the mouse or focus is inside.
 3. Bio, "Email me" + "See my work", social icons.
 4. **Album marquee** (`AlbumMarquee`), rendered only once `profile.album` has photos: two rows in opposite directions; page scroll speed
    boosts and flips them (scrollY sampled per frame, no listener); hovering a row pauses it,
@@ -121,7 +124,7 @@ the first viewport (`100svh` minus the header), content vertically centred.
    letters rise out of the baseline one by one, scrubbed to the scroll as it enters (GSAP
    ScrollTrigger); fully set without JS or under reduced motion.
 
-Placeholders (portrait, album photos, product pitches, unconfirmed socials) are
+Placeholders (portrait, album photos, unconfirmed socials) are
 `TODO(content)`; nothing renders an empty photo frame; unconfirmed social URLs are `null` and not rendered.
 
 ## Motion
@@ -131,7 +134,7 @@ Placeholders (portrait, album photos, product pitches, unconfirmed socials) are
 | Badge, h1, bio, actions fade up in sequence | Hierarchy: claim first, proof second | CSS keyframes, no JS |
 | Term swap + glow move | Shows the three kinds of proof in one sentence | Client state; glow moves by `transform` only |
 | Proof number counts up | The number is the visual until photos exist | rAF on swap only, ~0.9s ease-out; final value for screen readers |
-| Backdrop lattice: wave, pointer lens, scroll parallax | Depth and a response to the visitor, quietly | One canvas, rAF while visible; a still frame under reduced motion |
+| Aurora drift, pointer lean, scroll rise | Depth and a response to the visitor, quietly | rAF transform/opacity while visible; still under reduced motion |
 | Masthead letters rise on scroll | A signature at the end of the hero | GSAP ScrollTrigger scrub, `transform` + `opacity` |
 | Menu path typing + cursor | Ties the menu to the logo and the /slash language | 22ms per character; instant under reduced motion |
 | Marquee drift, speed-up on scroll | Album feels alive without taking over | rAF transform; static, hand-scrollable under reduced motion |
