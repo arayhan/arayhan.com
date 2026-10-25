@@ -9,8 +9,8 @@ export const profile: Profile = {
     { key: "github", label: "GitHub", url: "https://github.com/arayhan" },
     { key: "linkedin", label: "LinkedIn", url: "https://linkedin.com/in/arayhan" },
     { key: "email", label: "Email", url: "mailto:rayhanprima99@gmail.com" },
+    { key: "instagram", label: "Instagram", url: "https://instagram.com/arayhan_" },
     // TODO(content): confirm these accounts; they stay hidden while url is null.
-    { key: "instagram", label: "Instagram", url: null },
     { key: "medium", label: "Medium", url: null },
     { key: "youtube", label: "YouTube", url: null },
     { key: "threads", label: "Threads", url: null },
