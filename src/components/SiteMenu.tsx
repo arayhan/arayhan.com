@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { NavGroup, NavLink, Social } from "@/domain/portfolio";
+import { site } from "@/content/site";
 import { cx } from "@/utils/cx";
 import { SocialLinks } from "./SocialLinks";
 
@@ -16,7 +17,7 @@ type Props = {
 const TYPE_MS = 22;
 
 /**
- * The "address bar" menu: pointing at a link types its path after rayhan.dev with the
+ * The "address bar" menu: pointing at a link types its path after the site's host with the
  * same blinking cursor as the logo. Ctrl/Cmd K toggles it, Escape closes it.
  */
 export function SiteMenu({ showcase, groups, socials, email }: Props) {
@@ -112,7 +113,7 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
         )}
       >
         <p aria-hidden="true" className="flex items-center border-b border-line px-[18px] py-3.5 font-mono text-[13px]">
-          <span className="text-mute">rayhan.dev</span>
+          <span className="text-mute">{site.host}</span>
           <span className="whitespace-pre text-accent">{path}</span>
           <span className="caret ml-px inline-block h-[15px] w-[7px] bg-accent" />
         </p>

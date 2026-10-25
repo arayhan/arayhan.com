@@ -83,7 +83,7 @@ No cards and no shadows in this scope.
 - Right: email icon (from `lg`), theme toggle, and a text button **Menu** whose two-line
   glyph turns into a cross. Ctrl/Cmd K toggles it, Escape and click-outside close it.
 - **Menu panel, "Address bar" style** (`SiteMenu`, client): a bordered panel whose top line
-  reads `rayhan.dev/` and types the path of whatever link is pointed at or focused, with
+  reads `arayhan.com/` (the canonical host, `src/content/site.ts`) and types the path of whatever link is pointed at or focused, with
   the logo's blinking cursor. Three plain-text columns: Showcase (Work, Services & Rates,
   Talks, Album) in 20px semibold; Blog and Products; About with Uses' six areas as one
   quiet line. Footer: social icons and the email as selectable text.

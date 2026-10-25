@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { site } from "@/content/site";
 
 type Props = {
   path: string;
@@ -11,7 +12,10 @@ type Props = {
 export function StubPage({ path, title, intro, children }: Props) {
   return (
     <main id="main" className="mx-auto grid max-w-page gap-6 px-4 pt-16 pb-28 sm:px-8 md:pt-24 lg:px-14">
-      <p className="fade-rise font-mono text-sm text-accent">rayhan.dev{path}</p>
+      <p className="fade-rise font-mono text-sm text-accent">
+        {site.host}
+        {path}
+      </p>
       <h1 className="fade-rise text-hero font-semibold tracking-[-0.04em]" style={{ "--i": 1 } as React.CSSProperties}>
         {title}
       </h1>

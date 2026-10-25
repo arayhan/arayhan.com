@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { SiteHeader } from "@/components/SiteHeader";
 import { menuGroups, quickLinks, showcaseLinks } from "@/content/navigation";
 import { profile } from "@/content/profile";
+import { site } from "@/content/site";
 import { themeInitScript } from "@/utils/theme";
 import "./globals.css";
 
@@ -10,9 +11,16 @@ const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "sw
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" });
 
 export const metadata: Metadata = {
-  title: { default: "Ahmed Rayhan Primadedas, Senior Frontend Engineer", template: "%s · A Rayhan P" },
-  // TODO(content): description, settled with the phase 0 copy
-  description: "TODO(content)",
+  metadataBase: new URL(site.url),
+  title: { default: site.title, template: "%s · A Rayhan P" },
+  description: site.description,
+  keywords: [...site.keywords],
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  alternates: { canonical: "/" },
+  openGraph: { type: "website", siteName: site.name, locale: "en_US", url: "/", title: site.title, description: site.description },
+  twitter: { card: "summary_large_image", title: site.title, description: site.description },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
 };
 
 export default function RootLayout({

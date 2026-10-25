@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { StubPage } from "@/components/StubPage";
 import { blogCategories, sectionIntros } from "@/content/navigation";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = { title: "Blog" };
+export const metadata = pageMetadata({ title: "Blog", path: "/blog", description: sectionIntros["/blog"] });
 
 export default function Page() {
   return (

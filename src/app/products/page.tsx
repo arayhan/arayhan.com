@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { StubPage } from "@/components/StubPage";
 import { products } from "@/content/navigation";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = { title: "Products" };
+export const metadata = pageMetadata({ title: "Products", path: "/products", description: "Products I am building." });
 
 export default function Page() {
   return (

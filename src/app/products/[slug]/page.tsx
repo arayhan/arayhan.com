@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { StubPage } from "@/components/StubPage";
 import { products } from "@/content/navigation";
+import { pageMetadata } from "@/lib/metadata";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -13,7 +14,8 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
-  return { title: products.find((p) => p.slug === slug)?.name ?? "Products" };
+  const product = products.find((p) => p.slug === slug);
+  return product ? pageMetadata({ title: product.name, path: `/products/${product.slug}` }) : { title: "Products" };
 }
 
 export default async function Page({ params }: Params) {

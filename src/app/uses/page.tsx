@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
 import { StubPage } from "@/components/StubPage";
 import { sectionIntros, usesAreas } from "@/content/navigation";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = { title: "Uses" };
+export const metadata = pageMetadata({ title: "Uses", path: "/uses", description: sectionIntros["/uses"] });
 
 export default function Page() {
   return (
