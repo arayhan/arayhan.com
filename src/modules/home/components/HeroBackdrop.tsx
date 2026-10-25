@@ -2,184 +2,115 @@
 
 import { useEffect, useRef } from "react";
 
-const GAP = 26; // px between dots
-const DOT = 1.1; // px dot radius
-const PARALLAX = 0.55; // the lattice scrolls at this fraction of the page
-const LENS = 160; // px pointer reach
-const LIFT = 8; // px a dot is pushed away at the pointer's centre
-const BASE_ALPHA = 0.32;
+type Blob = {
+  /** Resting centre, as a fraction of the stage. */
+  x: number;
+  y: number;
+  /** How far it leans toward the pointer (negative leans away, for depth). */
+  follow: number;
+  /** Drift period in ms; each blob gets its own so they never sync up. */
+  period: number;
+  /** Rise across the hero's scroll, as a fraction of the stage height. */
+  rise: number;
+  /** Opacity at the top of the hero and once it has scrolled away. */
+  from: number;
+  to: number;
+};
 
-type Rgb = [number, number, number];
+const BLOBS: Blob[] = [
+  { x: 0.74, y: 0.32, follow: 0.16, period: 23000, rise: 0.35, from: 1, to: 0.35 },
+  { x: 0.18, y: 0.62, follow: -0.08, period: 31000, rise: 0.15, from: 0.75, to: 0.5 },
+  { x: 0.52, y: 0.95, follow: 0.06, period: 37000, rise: 0.55, from: 0.35, to: 1 },
+];
+const DRIFT = 0.05; // drift radius, as a fraction of the stage's longer side
+const EASE = 0.06; // pointer smoothing per frame
 
-function readToken(name: string, fallback: Rgb): Rgb {
-  const hex = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-  const m = /^#([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i.exec(hex);
-  return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : fallback;
-}
-
-const rgba = ([r, g, b]: Rgb, a: number) => `rgb(${r} ${g} ${b} / ${a})`;
 const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
 
 /**
- * A quiet dot lattice behind the hero. A slow wave breathes through it; dots near the
- * pointer lift away and turn accent; scrolling drifts it at parallax depth while it opens
- * up and fades. One viewport-sized canvas (sticky inside the hero), paused offscreen.
- * Reduced motion: one still frame.
+ * Soft aurora behind the hero: three blurred light shapes in the accent family. They drift
+ * on slow, unsynced loops, lean toward the pointer at different depths, and rise and trade
+ * places as the hero scrolls away, so the colour shifts from blue to sky. Transform and
+ * opacity only, on a viewport-sized stage that sticks inside the hero; paused offscreen.
+ * Reduced motion: the resting composition, still.
  */
 export function HeroBackdrop() {
   const host = useRef<HTMLDivElement>(null);
-  const canvas = useRef<HTMLCanvasElement>(null);
+  const blobRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const box = host.current;
-    const el = canvas.current;
-    const ctx = el?.getContext("2d");
-    if (!box || !el || !ctx) return;
+    if (!box || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let ink: Rgb = [71, 85, 105];
-    let accent: Rgb = [29, 78, 216];
-    const readColors = () => {
-      ink = readToken("--mute", ink);
-      accent = readToken("--accent", accent);
-    };
-    readColors();
-
-    let w = 0;
-    let h = 0;
-    const resize = () => {
-      const dpr = Math.min(2, window.devicePixelRatio || 1);
-      w = el.clientWidth;
-      h = el.clientHeight;
-      el.width = Math.round(w * dpr);
-      el.height = Math.round(h * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-
-    const pointer = { x: -1e4, y: -1e4, tx: -1e4, ty: -1e4, on: 0, target: 0 };
+    const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
     const onMove = (e: PointerEvent) => {
-      pointer.tx = e.clientX;
-      pointer.ty = e.clientY;
-      pointer.target = 1;
-      if (pointer.on === 0) {
-        pointer.x = pointer.tx;
-        pointer.y = pointer.ty;
-      }
-    };
-    const onLeave = () => {
-      pointer.target = 0;
+      if (e.pointerType !== "mouse") return;
+      pointer.tx = e.clientX / window.innerWidth - 0.5;
+      pointer.ty = e.clientY / window.innerHeight - 0.5;
     };
 
-    const draw = (t: number) => {
+    const frame = (t: number) => {
       const area = box.getBoundingClientRect();
-      const view = el.getBoundingClientRect();
+      const w = window.innerWidth;
+      const h = window.innerHeight;
       const progress = clamp01(-area.top / Math.max(1, area.height - h));
+      pointer.x += (pointer.tx - pointer.x) * EASE;
+      pointer.y += (pointer.ty - pointer.y) * EASE;
+      const drift = Math.max(w, h) * DRIFT;
 
-      pointer.x += (pointer.tx - pointer.x) * 0.12;
-      pointer.y += (pointer.ty - pointer.y) * 0.12;
-      pointer.on += (pointer.target - pointer.on) * 0.08;
-      const px = pointer.x - view.left;
-      const py = pointer.y - view.top;
-
-      // The lit region sits by the proof card, then slides down-left as the hero leaves.
-      const fx = w * (0.72 - 0.3 * progress);
-      const fy = h * (0.35 + 0.4 * progress);
-      const reach = Math.max(w, h) * 0.85;
-
-      const gap = GAP * (1 + 0.4 * progress);
-      const offX = (((w / 2) % gap) + gap) % gap;
-      const offY = ((((area.top * PARALLAX - view.top) % gap) + gap) % gap) - gap;
-      const fade = BASE_ALPHA * (1 - 0.75 * progress);
-
-      ctx.clearRect(0, 0, w, h);
-      for (let y = offY; y < h + gap; y += gap) {
-        for (let x = offX - gap; x < w + gap; x += gap) {
-          const dx = x - fx;
-          const dy = y - fy;
-          const lit = clamp01(1 - Math.sqrt(dx * dx + dy * dy) / reach) ** 1.4;
-          const wave = 0.55 + 0.45 * Math.sin(x * 0.011 + y * 0.008 - t * 0.0007);
-          let alpha = fade * (0.18 + 0.82 * lit) * wave;
-          let dotX = x;
-          let dotY = y;
-          let r = DOT;
-          let near = 0;
-
-          if (pointer.on > 0.01) {
-            const ox = x - px;
-            const oy = y - py;
-            const d = Math.sqrt(ox * ox + oy * oy);
-            if (d < LENS) {
-              near = (1 - d / LENS) ** 2 * pointer.on;
-              const push = (LIFT * near) / Math.max(d, 1);
-              dotX += ox * push;
-              dotY += oy * push;
-              r = DOT * (1 + 0.9 * near);
-              alpha = Math.min(1, alpha + 0.65 * near);
-            }
-          }
-
-          if (alpha < 0.01) continue;
-          ctx.fillStyle = rgba(near > 0.05 ? accent : ink, alpha);
-          ctx.fillRect(dotX - r, dotY - r, r * 2, r * 2);
-        }
-      }
+      BLOBS.forEach((b, i) => {
+        const el = blobRefs.current[i];
+        if (!el) return;
+        const phase = (t / b.period) * Math.PI * 2;
+        const x = Math.cos(phase) * drift + pointer.x * w * b.follow;
+        const y = Math.sin(phase * 0.8) * drift + pointer.y * h * b.follow - b.rise * h * progress;
+        const scale = 1 + 0.06 * Math.sin(phase * 0.6);
+        el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) scale(${scale.toFixed(3)})`;
+        el.style.opacity = (b.from + (b.to - b.from) * progress).toFixed(3);
+      });
     };
 
     let raf = 0;
     let visible = false;
     const loop = (t: number) => {
-      draw(t);
+      frame(t);
       raf = requestAnimationFrame(loop);
     };
     const sync = () => {
       cancelAnimationFrame(raf);
-      if (still) draw(0);
-      else if (visible && !document.hidden) raf = requestAnimationFrame(loop);
+      if (visible && !document.hidden) raf = requestAnimationFrame(loop);
     };
-
-    resize();
-    const sizer = new ResizeObserver(() => {
-      resize();
-      if (still) draw(0);
-    });
-    sizer.observe(el);
     const seen = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
       sync();
     });
     seen.observe(box);
-    const theme = new MutationObserver(() => {
-      readColors();
-      if (still) draw(0);
-    });
-    theme.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-    const scheme = matchMedia("(prefers-color-scheme: dark)");
-    const onScheme = () => {
-      readColors();
-      if (still) draw(0);
-    };
-    scheme.addEventListener("change", onScheme);
     document.addEventListener("visibilitychange", sync);
-    if (!still) {
-      window.addEventListener("pointermove", onMove, { passive: true });
-      document.documentElement.addEventListener("pointerleave", onLeave);
-    }
+    window.addEventListener("pointermove", onMove, { passive: true });
 
     return () => {
       cancelAnimationFrame(raf);
-      sizer.disconnect();
       seen.disconnect();
-      theme.disconnect();
-      scheme.removeEventListener("change", onScheme);
       document.removeEventListener("visibilitychange", sync);
       window.removeEventListener("pointermove", onMove);
-      document.documentElement.removeEventListener("pointerleave", onLeave);
     };
   }, []);
 
   return (
-    <div ref={host} aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-clip">
-      <canvas ref={canvas} className="sticky top-0 block h-svh w-full" />
+    <div ref={host} aria-hidden="true" className="aurora-fade pointer-events-none absolute inset-0 -z-10 overflow-clip">
+      <div className="sticky top-0 h-svh w-full overflow-hidden">
+        {BLOBS.map((b, i) => (
+          <div
+            key={i}
+            ref={(node) => {
+              blobRefs.current[i] = node;
+            }}
+            className={`aurora-blob aurora-blob-${i + 1}`}
+            style={{ left: `${b.x * 100}%`, top: `${b.y * 100}%`, opacity: b.from }}
+          />
+        ))}
+        <div className="aurora-grain absolute inset-0" />
+      </div>
     </div>
   );
 }

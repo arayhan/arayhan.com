@@ -148,22 +148,37 @@ h3 {
   }
 }
 
-/* The proof card's auto-advance timer: a line that fills, then the card moves on. */
-@keyframes hero-progress {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
+/* Hero aurora (HeroBackdrop). Blobs are positioned by their centre; JS moves them by transform only. */
+.aurora-blob {
+  position: absolute;
+  width: 62vmax;
+  aspect-ratio: 1;
+  margin: -31vmax 0 0 -31vmax;
+  border-radius: 50%;
+  will-change: transform, opacity;
 }
 
-.hero-progress {
-  display: block;
-  height: 100%;
-  background: var(--accent);
-  transform-origin: left;
-  animation: hero-progress var(--advance) linear both;
+.aurora-blob-1 {
+  background: radial-gradient(closest-side, var(--aurora-1), transparent);
+}
+
+.aurora-blob-2 {
+  background: radial-gradient(closest-side, var(--aurora-2), transparent);
+}
+
+.aurora-blob-3 {
+  background: radial-gradient(closest-side, var(--aurora-3), transparent);
+}
+
+/* Fine grain keeps the gradients from banding. */
+.aurora-grain {
+  opacity: var(--grain);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* The aurora dissolves into the page at the hero's foot instead of ending on a hard edge. */
+.aurora-fade {
+  mask-image: linear-gradient(to bottom, #000 70%, transparent);
 }
 
 .marquee-mask {
