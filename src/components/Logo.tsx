@@ -7,10 +7,9 @@ export const MARK = {
   viewBox: "0 0 32 32",
   radius: 7,
   stroke: 2.8,
-  bowl: { cx: 10.3, cy: 16, r: 3.9 },
-  a: "M14.2 12.1V19.9",
-  r: "M18.2 19.9V15.7a3.6 3.6 0 0 1 3.6 -3.6",
-  caret: "M26 9.5V22.5",
+  bowl: { cx: 11.74, cy: 16, r: 4.37 },
+  a: "M16.11 11.63V20.37",
+  r: "M20.59 20.37V15.66a4.03 4.03 0 0 1 4.03 -4.03",
 } as const;
 
 export function LogoMark({ size = 30, className }: { size?: number; className?: string }) {
@@ -21,7 +20,6 @@ export function LogoMark({ size = 30, className }: { size?: number; className?: 
         <circle cx={MARK.bowl.cx} cy={MARK.bowl.cy} r={MARK.bowl.r} />
         <path d={MARK.a} />
         <path d={MARK.r} />
-        <path d={MARK.caret} className="caret" />
       </g>
     </svg>
   );

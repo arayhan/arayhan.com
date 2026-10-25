@@ -67,13 +67,13 @@ No cards and no shadows in this scope.
 ## Logo and favicon
 
 **R2c**, chosen 2026-10-25: the "ar" monogram (single-storey `a` = circle + stem, `r` = stem
-+ quarter arc) narrowed to make room for a **cursor bar** that blinks, stroked in
-`on-accent` on an `accent` rounded square, next to the wordmark **arayhan** (Geist 700,
--0.055em). Letters are paths, not text, so the mark is identical at 16px and 180px.
++ quarter arc), centred and stroked in `on-accent` on an `accent` rounded square, next to
+the wordmark **arayhan** (Geist 700, -0.055em). Letters are paths, not text, so the mark is
+identical at 16px and 180px. The blinking cursor bar was dropped from the mark on the
+owner's request; the cursor now lives only in the menu's address line.
 
-- `src/components/Logo.tsx`: geometry (`MARK`), `LogoMark` (the caret path carries the
-  `.caret` blink), `Logo` (mark + wordmark, links home).
-- `src/app/icon.svg` and `src/app/apple-icon.tsx` copy `MARK` (static caret). Change all three together.
+- `src/components/Logo.tsx`: geometry (`MARK`), `LogoMark`, `Logo` (mark + wordmark, links home).
+- `src/app/icon.svg`, `src/app/apple-icon.tsx` and `src/app/opengraph-image.tsx` copy `MARK`. Change them together.
 
 ## Navbar and menu
 

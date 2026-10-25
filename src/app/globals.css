@@ -74,7 +74,7 @@ h3 {
   }
 }
 
-/* The blinking cursor shared by the logo mark and the menu's address line. */
+/* The blinking cursor in the menu's address line. */
 .caret {
   animation: caret 1.1s steps(1) infinite;
 }
