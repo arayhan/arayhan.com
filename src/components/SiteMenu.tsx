@@ -15,11 +15,15 @@ type Props = {
 };
 
 const TYPE_MS = 22;
+// Grace period for crossing the gap between trigger and panel without the menu closing.
+const HOVER_CLOSE_MS = 220;
 
 /**
  * The "address bar" menu: pointing at a link types its path after the site's host with a
- * blinking cursor. Ctrl/Cmd K toggles it, Escape closes it. The round toggle's three bars meet
- * in the middle, then the outer two cross into a centred X (styles in globals.css).
+ * blinking cursor. With a mouse it opens on hover over the trigger and stays open while the
+ * pointer is on the trigger or the panel; a click, tap, Enter or Ctrl/Cmd K toggles it, and
+ * Escape or a click outside closes it. The icon's three bars meet in the middle, then the
+ * outer two cross into a centred X (styles in globals.css).
  */
 export function SiteMenu({ showcase, groups, socials, email }: Props) {
   const [open, setOpen] = useState(false);
@@ -29,6 +33,7 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
   const timer = useRef<number | undefined>(undefined);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<number | undefined>(undefined);
 
   const setMenu = useCallback((next: boolean, viaKeyboard: boolean) => {
     openRef.current = next;
@@ -59,6 +64,7 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
       document.removeEventListener("keydown", onKey);
       document.removeEventListener("pointerdown", onPointerDown);
       window.clearInterval(timer.current);
+      window.clearTimeout(closeTimer.current);
     };
   }, [setMenu]);
 
@@ -79,6 +85,27 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
     }, TYPE_MS);
   }
 
+  // Hover intent applies to mouse pointers only; touch and pen keep tap-to-toggle.
+  function onHoverEnter(event: React.PointerEvent) {
+    if (event.pointerType !== "mouse") return;
+    window.clearTimeout(closeTimer.current);
+    if (!openRef.current) setMenu(true, false);
+  }
+
+  function onHoverLeave(event: React.PointerEvent) {
+    if (event.pointerType !== "mouse") return;
+    window.clearTimeout(closeTimer.current);
+    closeTimer.current = window.setTimeout(() => setMenu(false, false), HOVER_CLOSE_MS);
+  }
+
+  function onToggleClick(event: React.MouseEvent) {
+    // A mouse already opened it by hovering and closes it by leaving, so a click there is
+    // the same intent, not a toggle. Touch, pen and keyboard still toggle.
+    if ((event.nativeEvent as PointerEvent).pointerType === "mouse" && openRef.current) return;
+    // detail is 0 for Enter/Space, so keyboard users get focus moved into the panel.
+    setMenu(!openRef.current, event.detail === 0);
+  }
+
   const linkProps = (href: string) => ({
     href,
     onPointerEnter: () => typePath(href),
@@ -92,18 +119,22 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
       <button
         ref={buttonRef}
         type="button"
-        aria-label="Menu"
         aria-expanded={open}
         aria-controls="site-menu"
-        onClick={() => setMenu(!openRef.current, false)}
-        className="menu-toggle grid size-10 place-items-center rounded-full border border-line text-ink transition-[background-color,border-color,transform] duration-200 ease-out-soft hover:border-ink/30 hover:bg-soft active:scale-95"
+        onClick={onToggleClick}
+        onPointerEnter={onHoverEnter}
+        onPointerLeave={onHoverLeave}
+        className="menu-toggle group inline-flex items-center gap-2.5 rounded-full py-1 pr-1 pl-2 text-sm font-medium"
       >
-        <span aria-hidden="true" className="relative size-4">
-          {["top", "mid", "bot"].map((slot) => (
-            <span key={slot} className={`menu-slot menu-slot-${slot}`}>
-              <i className="menu-line" />
-            </span>
-          ))}
+        Menu
+        <span className="grid size-10 place-items-center rounded-full border border-line text-ink transition-[background-color,border-color,transform] duration-200 ease-out-soft group-hover:border-ink/30 group-hover:bg-soft group-active:scale-95 group-aria-expanded:border-ink/30 group-aria-expanded:bg-soft">
+          <span aria-hidden="true" className="relative size-4">
+            {["top", "mid", "bot"].map((slot) => (
+              <span key={slot} className={`menu-slot menu-slot-${slot}`}>
+                <i className="menu-line" />
+              </span>
+            ))}
+          </span>
         </span>
       </button>
 
@@ -111,10 +142,13 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
         ref={panelRef}
         id="site-menu"
         role="dialog"
+        onPointerEnter={onHoverEnter}
+        onPointerLeave={onHoverLeave}
         aria-label="Site menu"
         className={cx(
-          "absolute top-[calc(100%-6px)] right-3 z-50 max-h-[calc(100dvh-5.5rem)] w-[min(660px,calc(100%-24px))] overflow-y-auto rounded-xl border border-line bg-surface shadow-[0_24px_48px_-28px_rgb(15_23_42/0.35)] transition-[opacity,transform,visibility] duration-300 ease-out-soft sm:right-8 lg:right-14",
-          open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1.5 opacity-0",
+          "absolute top-[calc(100%-6px)] right-3 z-50 max-h-[calc(100dvh-5.5rem)] w-[min(660px,calc(100%-24px))] overflow-y-auto rounded-xl border border-line bg-surface shadow-[0_24px_48px_-28px_rgb(15_23_42/0.35)] duration-300 ease-out-soft sm:right-8 lg:right-14",
+          // Visibility only transitions on close: opening, the panel must be focusable on its first frame.
+          open ? "visible translate-y-0 opacity-100 transition-[opacity,transform]" : "invisible -translate-y-1.5 opacity-0 transition-[opacity,transform,visibility]",
         )}
       >
         <p aria-hidden="true" className="flex items-center border-b border-line px-[18px] py-3.5 font-mono text-[13px]">
