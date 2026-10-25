@@ -207,38 +207,9 @@ h3 {
   mask-image: linear-gradient(to bottom, #000 62%, transparent 92%);
 }
 
-/* Menu toggle (SiteMenu). Opening: the lines gather to the middle, then the outer two cross
-   while the middle one shrinks away. Closing runs the same steps backwards, via the delays. */
-.menu-label {
-  display: grid;
-  justify-items: end;
-  height: 1.25rem;
-  overflow-y: clip;
-  line-height: 1.25rem;
-}
-
-.menu-label > span {
-  grid-area: 1 / 1;
-  transition:
-    transform 450ms var(--ease-out-soft),
-    opacity 300ms ease;
-}
-
-.menu-label > span:last-child {
-  opacity: 0;
-  transform: translateY(100%);
-}
-
-.menu-toggle[aria-expanded="true"] .menu-label > span:first-child {
-  opacity: 0;
-  transform: translateY(-100%);
-}
-
-.menu-toggle[aria-expanded="true"] .menu-label > span:last-child {
-  opacity: 1;
-  transform: none;
-}
-
+/* Menu toggle (SiteMenu): two equal 16px lines, mirrored about the icon's centre. Opening,
+   they meet in the middle, then cross into an X; closing runs it backwards via the delays.
+   Hovering while closed eases them apart by the same amount, up and down. */
 .menu-slot {
   position: absolute;
   inset-inline: 0;
@@ -247,15 +218,11 @@ h3 {
 }
 
 .menu-slot-top {
-  top: 0;
-}
-
-.menu-slot-mid {
-  top: 5.25px;
+  top: 4.75px;
 }
 
 .menu-slot-bot {
-  top: 10.5px;
+  top: 9.75px;
 }
 
 .menu-line {
@@ -263,18 +230,19 @@ h3 {
   height: 100%;
   border-radius: 1px;
   background: currentColor;
-  transition:
-    transform 320ms var(--ease-out-soft),
-    opacity 160ms ease 200ms;
+  transition: transform 320ms var(--ease-out-soft);
 }
 
-/* Hover hint while closed: the lines slide apart, like a stack about to open. */
-.menu-toggle:not([aria-expanded="true"]):hover .menu-slot-top .menu-line {
-  transform: translateX(3px);
+.menu-toggle:not([aria-expanded="true"]):hover .menu-slot {
+  transition-delay: 0ms;
 }
 
-.menu-toggle:not([aria-expanded="true"]):hover .menu-slot-bot .menu-line {
-  transform: translateX(-3px);
+.menu-toggle:not([aria-expanded="true"]):hover .menu-slot-top {
+  transform: translateY(-1px);
+}
+
+.menu-toggle:not([aria-expanded="true"]):hover .menu-slot-bot {
+  transform: translateY(1px);
 }
 
 .menu-toggle[aria-expanded="true"] .menu-slot {
@@ -282,15 +250,15 @@ h3 {
 }
 
 .menu-toggle[aria-expanded="true"] .menu-slot-top {
-  transform: translateY(5.25px);
+  transform: translateY(2.5px);
 }
 
 .menu-toggle[aria-expanded="true"] .menu-slot-bot {
-  transform: translateY(-5.25px);
+  transform: translateY(-2.5px);
 }
 
 .menu-toggle[aria-expanded="true"] .menu-line {
-  transition-delay: 160ms, 0ms;
+  transition-delay: 160ms;
 }
 
 .menu-toggle[aria-expanded="true"] .menu-slot-top .menu-line {
@@ -299,11 +267,6 @@ h3 {
 
 .menu-toggle[aria-expanded="true"] .menu-slot-bot .menu-line {
   transform: rotate(-45deg);
-}
-
-.menu-toggle[aria-expanded="true"] .menu-slot-mid .menu-line {
-  opacity: 0;
-  transform: scaleX(0);
 }
 
 /* Header hairline fades in as soon as the page scrolls; always shown where scroll timelines are unsupported. */

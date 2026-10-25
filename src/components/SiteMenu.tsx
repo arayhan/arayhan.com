@@ -18,8 +18,8 @@ const TYPE_MS = 22;
 
 /**
  * The "address bar" menu: pointing at a link types its path after the site's host with a
- * blinking cursor. Ctrl/Cmd K toggles it, Escape closes it. The toggle's three lines gather,
- * then cross into an X, while its label rolls from Menu to Close (styles in globals.css).
+ * blinking cursor. Ctrl/Cmd K toggles it, Escape closes it. The round toggle's two lines meet
+ * in the middle, then cross into a centred X (styles in globals.css).
  */
 export function SiteMenu({ showcase, groups, socials, email }: Props) {
   const [open, setOpen] = useState(false);
@@ -92,17 +92,14 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
       <button
         ref={buttonRef}
         type="button"
+        aria-label="Menu"
         aria-expanded={open}
         aria-controls="site-menu"
         onClick={() => setMenu(!openRef.current, false)}
-        className="menu-toggle inline-flex h-9 items-center gap-2.5 rounded-full pr-3 pl-3.5 text-sm font-medium transition-[background-color,transform] duration-200 ease-out-soft hover:bg-soft active:scale-[0.96]"
+        className="menu-toggle grid size-10 place-items-center rounded-full border border-line text-ink transition-[background-color,border-color,transform] duration-200 ease-out-soft hover:border-ink/30 hover:bg-soft active:scale-95"
       >
-        <span className="menu-label">
-          <span>Menu</span>
-          <span aria-hidden="true">Close</span>
-        </span>
-        <span aria-hidden="true" className="relative h-3 w-[18px]">
-          {["top", "mid", "bot"].map((slot) => (
+        <span aria-hidden="true" className="relative size-4">
+          {["top", "bot"].map((slot) => (
             <span key={slot} className={`menu-slot menu-slot-${slot}`}>
               <i className="menu-line" />
             </span>
