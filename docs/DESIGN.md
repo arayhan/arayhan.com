@@ -81,8 +81,11 @@ owner's request; the cursor now lives only in the menu's address line.
 
 - Left: logo, then **Work, Services, Blog, Talks, About** as plain text from `lg`
   (`QuickNav`, client: the current page gets ink color and a 1px accent underline).
-- Right: email icon (from `lg`), theme toggle, and a text button **Menu** whose two-line
-  glyph turns into a cross. Ctrl/Cmd K toggles it, Escape and click-outside close it.
+- Right: email icon (from `lg`), theme toggle, a hairline divider, and the **Menu** toggle:
+  a pill with three lines that gather to the middle and then cross into an X (the middle
+  line shrinks away), while the label rolls from "Menu" to "Close". Closed and hovered, the
+  lines slide apart as a hint; pressed, it scales to 0.96. Styles live in `globals.css`
+  (`.menu-toggle`). Ctrl/Cmd K toggles it, Escape and click-outside close it.
 - **Menu panel, "Address bar" style** (`SiteMenu`, client): a bordered panel whose top line
   reads `arayhan.com/` (the canonical host, `src/content/site.ts`) and types the path of whatever link is pointed at or focused, with
   the logo's blinking cursor. Three plain-text columns: Showcase (Work, Services & Rates,
@@ -95,8 +98,8 @@ pages via `src/components/StubPage.tsx` until content exists).
 
 ## Hero
 
-`src/modules/home/components/Hero.tsx` (server) with client leaves. Tight vertical rhythm:
-the masthead's top edge shows in the first desktop viewport, inviting the scroll.
+`src/modules/home/components/Hero.tsx` (server) with client leaves. The page ends on the
+hero (the "A Rayhan P." masthead was removed on the owner's request).
 
 0. **Backdrop** (`HeroBackdrop`): a soft aurora. Three radial light shapes (`--aurora-1..3`:
    blue, indigo, sky) drift on slow unsynced loops, lean toward the mouse at different depths
@@ -117,12 +120,12 @@ the masthead's top edge shows in the first desktop viewport, inviting the scroll
    product's own logo (`public/products/*.svg`, copied from its repo). Idle, it advances
    every 8s; it holds while the mouse or focus is inside.
 3. Bio, "Email me" + "See my work", social icons.
+3a. **Portrait** (`profile.portrait`): a cut-out photo (transparent WebP) at the top of the
+   right column, its lower part fading into the page and overlapped by the proof card, with
+   the aurora glowing behind it. Hidden while `portrait` is null.
 4. **Album marquee** (`AlbumMarquee`), rendered only once `profile.album` has photos: two rows in opposite directions; page scroll speed
    boosts and flips them (scrollY sampled per frame, no listener); hovering a row pauses it,
    lifts the photo and dims the others.
-5. **Masthead** (`Masthead`): "A Rayhan P." solved to fill the column width exactly. Its
-   letters rise out of the baseline one by one, scrubbed to the scroll as it enters (GSAP
-   ScrollTrigger); fully set without JS or under reduced motion.
 
 Placeholders (portrait, album photos, unconfirmed socials) are
 `TODO(content)`; nothing renders an empty photo frame; unconfirmed social URLs are `null` and not rendered.
@@ -135,7 +138,7 @@ Placeholders (portrait, album photos, unconfirmed socials) are
 | Term swap + glow move | Shows the three kinds of proof in one sentence | Client state; glow moves by `transform` only |
 | Proof number counts up | The number is the visual until photos exist | rAF on swap only, ~0.9s ease-out; final value for screen readers |
 | Aurora drift, pointer lean, scroll rise | Depth and a response to the visitor, quietly | rAF transform/opacity while visible; still under reduced motion |
-| Masthead letters rise on scroll | A signature at the end of the hero | GSAP ScrollTrigger scrub, `transform` + `opacity` |
+| Menu toggle lines gather, then cross | The button explains its own state change | CSS transitions with staggered delays |
 | Menu path typing + cursor | Ties the menu to the logo and the /slash language | 22ms per character; instant under reduced motion |
 | Marquee drift, speed-up on scroll | Album feels alive without taking over | rAF transform; static, hand-scrollable under reduced motion |
 | Buttons lift 1px, press to 0.98 | Feedback | CSS transitions |
