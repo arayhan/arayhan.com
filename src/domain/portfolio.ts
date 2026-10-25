@@ -47,7 +47,16 @@ export type NavLink = { label: string; href: string };
 
 export type NavGroup = { label: string; links: NavLink[]; extra?: NavLink[] };
 
-export type ShowcaseStat = { value: string; label: string };
+/** Icons a proof fact can carry; the UI maps each to a glyph. */
+export type ShowcaseIcon = "team" | "startup" | "talk" | "award";
+
+export type ShowcaseStat = {
+  value: string;
+  label: string;
+  icon?: ShowcaseIcon;
+  /** A product's own logo (public path), shown instead of an icon. */
+  logo?: string;
+};
 
 export type ShowcaseTerm = {
   term: string;
@@ -68,8 +77,9 @@ export type Profile = {
   email: string;
   socials: Social[];
   cvPath: string | null;
-  status: { label: string; highlight: string; rest: string };
-  intro: { lead: string; aside: string; invite: string };
+  /** The status badge, set as a terminal line: `$ whoami → role @ org`. */
+  status: { prompt: string; role: string; org: string };
+  intro: { lead: string; invite: string };
   terms: ShowcaseTerm[];
   bio: string;
   /** The hero marquee stays hidden until real photos are listed here. */

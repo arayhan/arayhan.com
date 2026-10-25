@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRightIcon, MedalIcon, MicrophoneStageIcon, RocketLaunchIcon, UsersThreeIcon } from "@phosphor-icons/react/dist/ssr";
+import type { Icon } from "@phosphor-icons/react";
 import { Fragment, useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type FocusEvent, type ReactNode } from "react";
-import type { Profile } from "@/domain/portfolio";
+import type { Profile, ShowcaseIcon, ShowcaseStat } from "@/domain/portfolio";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { CountUp } from "./CountUp";
 
@@ -14,15 +15,31 @@ type Props = {
   children: ReactNode;
 };
 
-const ADVANCE_MS = 5000;
+const ADVANCE_MS = 8000;
 const GLOW_SIZE = 560;
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
+const ICONS: Record<ShowcaseIcon, Icon> = { team: UsersThreeIcon, startup: RocketLaunchIcon, talk: MicrophoneStageIcon, award: MedalIcon };
+
+function StatMark({ stat }: { stat: ShowcaseStat }) {
+  if (stat.logo) {
+    // eslint-disable-next-line @next/next/no-img-element -- tiny local SVG logos; the image optimizer adds nothing.
+    return <img src={stat.logo} alt="" width={28} height={28} className="size-7 rounded-lg" />;
+  }
+  if (!stat.icon) return null;
+  const Glyph = ICONS[stat.icon];
+  return (
+    <span className="grid size-7 place-items-center rounded-lg bg-soft text-accent">
+      <Glyph size={16} weight="duotone" aria-hidden="true" />
+    </span>
+  );
+}
+
 /**
  * dwinawan-style sentence: hovering, focusing or tapping a /term moves the glow behind it
  * and swaps the proof card, whose big number counts up. Left alone, the card walks the
- * terms with a progress line; it holds still while the pointer or focus is inside.
+ * terms; it holds still while the pointer or focus is inside.
  */
 export function HeroShowcase({ intro, terms, badge, children }: Props) {
   const [active, setActive] = useState(0);
@@ -88,7 +105,7 @@ export function HeroShowcase({ intro, terms, badge, children }: Props) {
       <div className="relative grid min-w-0 grid-cols-[minmax(0,1fr)] justify-items-start gap-7">
         {badge}
         <h1 id="hero-title" className="fade-rise text-hero font-medium tracking-[-0.035em] text-pretty" style={{ "--i": 1 } as CSSProperties}>
-          {intro.lead} <span className="text-mute">{intro.aside}</span> {intro.invite}{" "}
+          {intro.lead} {intro.invite}{" "}
           {terms.map((t, i) => (
             <Fragment key={t.term}>
               {i > 0 && (i === terms.length - 1 ? " and " : ", ")}
@@ -119,9 +136,6 @@ export function HeroShowcase({ intro, terms, badge, children }: Props) {
         className="fade-rise relative min-w-0 overflow-hidden rounded-2xl border border-line bg-surface/80 shadow-[0_24px_60px_-32px_rgb(15_23_42/0.35)] backdrop-blur-md"
         style={{ "--i": 2 } as CSSProperties}
       >
-        <div aria-hidden="true" className="h-0.5 bg-line/60">
-          {cycling && <span key={active} className="hero-progress" style={{ "--advance": `${ADVANCE_MS}ms` } as CSSProperties} />}
-        </div>
         <div key={current.term} className="fade-rise grid gap-7 p-6 sm:p-7">
           <div className="flex items-center justify-between font-mono text-xs">
             <span className="text-accent">{current.term}</span>
@@ -142,7 +156,10 @@ export function HeroShowcase({ intro, terms, badge, children }: Props) {
             {current.more.map((s, i) => (
               <div key={s.value} className={`flex min-w-0 flex-col-reverse justify-end gap-1 pt-4 ${i > 0 ? "border-l border-line pl-4" : ""} ${i < current.more.length - 1 ? "pr-4" : ""}`}>
                 <dt className="text-[13px] leading-snug text-mute">{s.label}</dt>
-                <dd className="text-lg font-semibold tracking-tight">{s.value}</dd>
+                <dd className="grid justify-items-start gap-2.5 text-lg font-semibold tracking-tight">
+                  <StatMark stat={s} />
+                  {s.value}
+                </dd>
               </div>
             ))}
           </dl>

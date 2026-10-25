@@ -17,11 +17,9 @@ export const profile: Profile = {
   ],
   // TODO(content): add the CV PDF to public/cv once it is confirmed free of phone number and home address.
   cvPath: null,
-  status: { label: "Now shipping", highlight: "SMILE 5.0", rest: "for Indonesia’s Ministry of Health" },
+  status: { prompt: "whoami", role: "Solution Fullstack Engineer", org: "Badr Interactive" },
   intro: {
-    lead: "I’m A Rayhan P. I make complicated products feel simple,",
-    // U+2060 (word joiner) keeps "pre-seed" from breaking at its hyphen.
-    aside: "from a pre-\u2060seed startup to a national health platform.",
+    lead: "I’m A Rayhan P. I make complicated products feel simple.",
     invite: "Wander through my",
   },
   // Same numbers as projects.ts and roles.ts; change them together.
@@ -32,8 +30,8 @@ export const profile: Profile = {
       href: "/work",
       lead: { value: "−71%", label: "Anify’s monthly hosting cost", detail: "$84 → $24 a month" },
       more: [
-        { value: "40+", label: "engineers building on the SMILE 5.0 frontend" },
-        { value: "50+", label: "startup applications through Founderplus" },
+        { value: "40+", label: "engineers building on the SMILE 5.0 frontend", icon: "team" },
+        { value: "50+", label: "startup applications through Founderplus", icon: "startup" },
       ],
     },
     {
@@ -42,8 +40,8 @@ export const profile: Profile = {
       href: "/talks",
       lead: { value: "1,800+", label: "members in GDG Depok, which I organize" },
       more: [
-        { value: "10+", label: "talks on frontend and Firebase" },
-        { value: "1 of 45", label: "GDSC Leads in Indonesia" },
+        { value: "10+", label: "talks on frontend and Firebase", icon: "talk" },
+        { value: "1 of 45", label: "GDSC Leads in Indonesia", icon: "award" },
       ],
     },
     {
@@ -51,11 +49,11 @@ export const profile: Profile = {
       title: "Baiti, Selfwire, SendTrack",
       href: "/products/baiti",
       lead: { value: "3", label: "products of my own" },
-      // TODO(content): one-line pitch for each product.
+      // Pitches condensed from each product's own docs (personal-products); logos copied from their repos.
       more: [
-        { value: "Baiti", label: "[One-line pitch]" },
-        { value: "Selfwire", label: "[One-line pitch]" },
-        { value: "SendTrack", label: "[One-line pitch]" },
+        { value: "Baiti", label: "Family super app for young Muslim couples", logo: "/products/baiti.svg" },
+        { value: "Selfwire", label: "A daily pause for adults with ADHD", logo: "/products/selfwire.svg" },
+        { value: "SendTrack", label: "WhatsApp CRM with Meta ad tracking", logo: "/products/sendtrack.svg" },
       ],
     },
   ],

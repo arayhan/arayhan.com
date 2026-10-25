@@ -13,14 +13,15 @@ const step = (i: number) => ({ "--i": i }) as CSSProperties;
 
 function StatusBadge({ status }: { status: Profile["status"] }) {
   return (
-    <p className="fade-rise flex w-max max-w-full items-center gap-2.5 rounded-lg border border-line bg-surface py-1.5 pr-3.5 pl-2.5 font-mono text-[12.5px] text-mute" style={step(0)}>
-      <span aria-hidden="true" className="meter flex h-3 flex-none items-end gap-0.5 pl-1">
+    <p className="fade-rise flex w-max max-w-full items-start gap-2.5 rounded-lg border border-line bg-surface/80 py-1.5 pr-3.5 pl-2.5 font-mono text-[12.5px] text-mute backdrop-blur-sm" style={step(0)}>
+      <span aria-hidden="true" className="meter flex h-[1.55em] flex-none items-center gap-0.5 pl-1">
         <i />
         <i />
         <i />
       </span>
-      <span className="min-w-0 truncate">
-        {status.label} <b className="font-medium text-ink">{status.highlight}</b> {status.rest}
+      <span className="min-w-0">
+        <span aria-hidden="true">$ </span>
+        {status.prompt} <span className="text-accent">→</span> <b className="font-medium text-ink">{status.role}</b> @ {status.org}
       </span>
     </p>
   );
@@ -30,7 +31,7 @@ export function Hero({ profile }: { profile: Profile }) {
   return (
     <section aria-labelledby="hero-title" className="relative isolate grid grid-cols-[minmax(0,1fr)] overflow-x-clip">
       <HeroBackdrop />
-      <div className="grid min-h-[calc(100svh-var(--header-h))] grid-cols-[minmax(0,1fr)] content-center py-12 md:py-16">
+      <div className="grid grid-cols-[minmax(0,1fr)] pt-12 pb-8 md:pt-24 md:pb-12">
         <HeroShowcase intro={profile.intro} terms={profile.terms} badge={<StatusBadge status={profile.status} />}>
           <p className="fade-rise max-w-[52ch] text-sub text-mute" style={step(2)}>
             {profile.bio}
@@ -50,7 +51,7 @@ export function Hero({ profile }: { profile: Profile }) {
 
       {profile.album.length > 0 && <AlbumMarquee photos={profile.album} />}
 
-      <div className="mx-auto w-full max-w-page px-4 pt-10 sm:px-8 md:pt-16 lg:px-14">
+      <div className="mx-auto w-full max-w-page px-4 sm:px-8 lg:px-14">
         <Masthead text={profile.shortName} />
       </div>
     </section>
