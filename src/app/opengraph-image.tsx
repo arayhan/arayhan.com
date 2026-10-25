@@ -1,57 +1,71 @@
 import { ImageResponse } from "next/og";
+import { MARK } from "@/components/Logo";
+import { profile } from "@/content/profile";
+import { site } from "@/content/site";
 
-// TODO(content): placeholder social card - replace the copy below with the real pitch.
-//
-// Generated at build time rather than served from a public/og.png. That is
-// deliberate: a metadata reference to a binary that nobody remembered to add is
-// invisible until someone shares the link and gets a blank card. Generating it
-// means the card cannot go missing, and editing it is a code change with a diff.
-//
-// Next picks this file up by convention from the app directory - the metadata in
-// layout.tsx must NOT also declare an images entry, or it will win over this.
-// Runs on the default Node runtime and prerenders at build (Next 16); the Edge
-// runtime this template once required is deprecated.
-export const alt = "Rayhan";
+// Generated at build from the same MARK geometry as the logo, so the share card cannot drift
+// from the brand or go missing. Twitter/X falls back to og:image for summary_large_image.
+export const alt = `${profile.name}, ${profile.role}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OpengraphImage() {
+const INK = "#020617";
+const TEXT = "#f1f5f9";
+const MUTE = "#94a3b8";
+const ACCENT = "#60a5fa";
+const ON_ACCENT = "#0b1b3a";
+
+/**
+ * Pulls only the glyphs the card uses, as TTF, from Google Fonts at build time. If the network is
+ * unavailable the card still renders in next/og's built-in font rather than failing the build.
+ */
+async function loadGeist(weight: number, text: string): Promise<ArrayBuffer | null> {
+  try {
+    const css = await (await fetch(`https://fonts.googleapis.com/css2?family=Geist:wght@${weight}&text=${encodeURIComponent(text)}`)).text();
+    const url = css.match(/src: url\((.+?)\) format\('(?:opentype|truetype)'\)/)?.[1];
+    return url ? await (await fetch(url)).arrayBuffer() : null;
+  } catch {
+    return null;
+  }
+}
+
+export default async function OpengraphImage() {
+  const tagline = `${profile.role}. I make complicated products feel simple, from a pre-seed startup to a national health platform.`;
+  const [bold, regular] = await Promise.all([loadGeist(700, `arayhan${profile.shortName}.`), loadGeist(400, `${tagline}${site.host}`)]);
+  const fonts = [
+    ...(bold ? [{ name: "Geist", data: bold, weight: 700 as const, style: "normal" as const }] : []),
+    ...(regular ? [{ name: "Geist", data: regular, weight: 400 as const, style: "normal" as const }] : []),
+  ];
+
   return new ImageResponse(
     (
-      <div
-        style={ {
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          padding: 80,
-          background: "#0b0b0c",
-          color: "#ffffff",
-          fontFamily: "sans-serif",
-        } }
-      >
-        <div
-          style={ {
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: 96,
-            height: 96,
-            borderRadius: 22,
-            background: "#2dbe47",
-            fontSize: 52,
-            fontWeight: 700,
-          } }
-        >
-          {"R"}
+      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72, background: INK, color: TEXT, fontFamily: "Geist" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+          <svg width="72" height="72" viewBox={MARK.viewBox}>
+            <rect width="32" height="32" rx={MARK.radius} fill={ACCENT} />
+            <g fill="none" stroke={ON_ACCENT} strokeWidth={MARK.stroke} strokeLinecap="round">
+              <circle cx={MARK.bowl.cx} cy={MARK.bowl.cy} r={MARK.bowl.r} />
+              <path d={MARK.a} />
+              <path d={MARK.r} />
+              <path d={MARK.caret} />
+            </g>
+          </svg>
+          <div style={{ fontSize: 40, fontWeight: 700, letterSpacing: -2 }}>arayhan</div>
         </div>
-        <div style={ { marginTop: 40, fontSize: 72, fontWeight: 700 }}>{"Rayhan"}</div>
-        <div style={ { marginTop: 16, fontSize: 32, color: "#a1a1aa" }}>
-          {"TODO(content): one-sentence pitch"}
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <div style={{ display: "flex", fontSize: 150, fontWeight: 700, letterSpacing: -9, lineHeight: 0.9 }}>
+            {profile.shortName}
+            <span style={{ color: ACCENT }}>.</span>
+          </div>
+          <div style={{ fontSize: 36, color: MUTE, maxWidth: 940, lineHeight: 1.3 }}>
+            {tagline}
+          </div>
         </div>
+
+        <div style={{ display: "flex", justifyContent: "flex-end", fontSize: 28, color: ACCENT }}>{site.host}</div>
       </div>
     ),
-    size
+    { ...size, fonts },
   );
 }
