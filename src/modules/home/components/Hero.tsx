@@ -5,6 +5,7 @@ import { SocialLinks } from "@/components/SocialLinks";
 import type { Profile } from "@/domain/portfolio";
 import { actionClass } from "../home.actions";
 import { AlbumMarquee } from "./AlbumMarquee";
+import { HeroBackdrop } from "./HeroBackdrop";
 import { HeroShowcase } from "./HeroShowcase";
 import { Masthead } from "./Masthead";
 
@@ -27,26 +28,29 @@ function StatusBadge({ status }: { status: Profile["status"] }) {
 
 export function Hero({ profile }: { profile: Profile }) {
   return (
-    <section aria-labelledby="hero-title" className="relative grid gap-12 overflow-x-clip pt-8 md:gap-14 md:pt-14">
-      <HeroShowcase intro={profile.intro} terms={profile.terms} badge={<StatusBadge status={profile.status} />}>
-        <p className="fade-rise max-w-[54ch] text-sub text-mute" style={step(2)}>
-          {profile.bio}
-        </p>
-        <div className="fade-rise flex flex-wrap gap-2.5" style={step(3)}>
-          <a href={`mailto:${profile.email}`} className={actionClass("primary")}>
-            Email me
-          </a>
-          <Link href="/work" className={actionClass("secondary")}>
-            See my work
-            <ArrowRightIcon size={16} aria-hidden="true" />
-          </Link>
-        </div>
-        <SocialLinks socials={profile.socials} className="fade-rise -ml-2" />
-      </HeroShowcase>
+    <section aria-labelledby="hero-title" className="relative isolate grid grid-cols-[minmax(0,1fr)] overflow-x-clip">
+      <HeroBackdrop />
+      <div className="grid min-h-[calc(100svh-var(--header-h))] grid-cols-[minmax(0,1fr)] content-center py-12 md:py-16">
+        <HeroShowcase intro={profile.intro} terms={profile.terms} badge={<StatusBadge status={profile.status} />}>
+          <p className="fade-rise max-w-[52ch] text-sub text-mute" style={step(2)}>
+            {profile.bio}
+          </p>
+          <div className="fade-rise flex flex-wrap gap-2.5 pt-1" style={step(3)}>
+            <a href={`mailto:${profile.email}`} className={actionClass("primary")}>
+              Email me
+            </a>
+            <Link href="/work" className={actionClass("secondary")}>
+              See my work
+              <ArrowRightIcon size={16} aria-hidden="true" />
+            </Link>
+          </div>
+          <SocialLinks socials={profile.socials} className="fade-rise -ml-2" />
+        </HeroShowcase>
+      </div>
 
-      <AlbumMarquee />
+      {profile.album.length > 0 && <AlbumMarquee photos={profile.album} />}
 
-      <div className="mx-auto w-full max-w-page px-4 sm:px-8 lg:px-14">
+      <div className="mx-auto w-full max-w-page px-4 pt-10 sm:px-8 md:pt-16 lg:px-14">
         <Masthead text={profile.shortName} />
       </div>
     </section>
