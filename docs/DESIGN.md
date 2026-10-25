@@ -82,9 +82,10 @@ owner's request; the cursor now lives only in the menu's address line.
 - Left: logo, then **Work, Services, Blog, Talks, About** as plain text from `lg`
   (`QuickNav`, client: the current page gets ink color and a 1px accent underline).
 - Right: email icon (from `lg`), theme toggle, a hairline divider, and the **Menu** toggle:
-  a 40px round icon button (hairline border, no label; `aria-label="Menu"`). Two equal 16px
-  lines, mirrored about the centre, meet in the middle and then cross into a centred X;
-  closed and hovered, they ease apart by 1px each way; pressed, it scales to 0.95. Strict
+  a 40px round icon button (hairline border, no label; `aria-label="Menu"`). Three equal 16 x 2px
+  bars on a whole-pixel grid (4px apart, so every bar renders identically at any display
+  scaling) meet in the middle and the outer two cross into a centred X; closed and hovered,
+  the outer bars ease apart by 1px each way; pressed, it scales to 0.95. Strict
   symmetry is the rule (owner rejected an asymmetric pill). Styles in `globals.css`
   (`.menu-toggle`). Ctrl/Cmd K toggles it, Escape and click-outside close it.
 - **Menu panel, "Address bar" style** (`SiteMenu`, client): a bordered panel whose top line

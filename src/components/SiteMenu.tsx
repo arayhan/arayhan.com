@@ -18,8 +18,8 @@ const TYPE_MS = 22;
 
 /**
  * The "address bar" menu: pointing at a link types its path after the site's host with a
- * blinking cursor. Ctrl/Cmd K toggles it, Escape closes it. The round toggle's two lines meet
- * in the middle, then cross into a centred X (styles in globals.css).
+ * blinking cursor. Ctrl/Cmd K toggles it, Escape closes it. The round toggle's three bars meet
+ * in the middle, then the outer two cross into a centred X (styles in globals.css).
  */
 export function SiteMenu({ showcase, groups, socials, email }: Props) {
   const [open, setOpen] = useState(false);
@@ -99,7 +99,7 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
         className="menu-toggle grid size-10 place-items-center rounded-full border border-line text-ink transition-[background-color,border-color,transform] duration-200 ease-out-soft hover:border-ink/30 hover:bg-soft active:scale-95"
       >
         <span aria-hidden="true" className="relative size-4">
-          {["top", "bot"].map((slot) => (
+          {["top", "mid", "bot"].map((slot) => (
             <span key={slot} className={`menu-slot menu-slot-${slot}`}>
               <i className="menu-line" />
             </span>
