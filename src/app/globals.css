@@ -47,6 +47,23 @@ h3 {
   outline-offset: 3px;
 }
 
+/* Tailwind's preflight gives buttons the default arrow; anything clickable gets the hand. */
+@layer base {
+  button,
+  [role="button"],
+  summary,
+  label[for],
+  select,
+  input[type="checkbox"],
+  input[type="radio"] {
+    cursor: pointer;
+  }
+
+  :disabled {
+    cursor: not-allowed;
+  }
+}
+
 @keyframes fade-rise {
   from {
     opacity: 0;
