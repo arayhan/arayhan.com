@@ -28,3 +28,6 @@ Thumbs.db
 # typescript incremental cache
 *.tsbuildinfo
 .gstack/
+
+# Raw portrait before background removal; only the cut-out ships.
+public/portrait-source.*
