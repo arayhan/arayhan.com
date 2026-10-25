@@ -60,4 +60,6 @@ export const profile: Profile = {
   bio: "Seven years of React and Next.js. I cut a startup’s hosting bill by 71% and help keep Indonesia’s medicine logistics running. After hours, I run GDG Depok for 1,800+ developers.",
   // TODO(content): album photos with event and year; the marquee appears once this has entries.
   album: [],
+  // TODO(content): cut-out portrait at public/portrait.webp.
+  portrait: null,
 };

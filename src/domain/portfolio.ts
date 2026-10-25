@@ -70,6 +70,9 @@ export type ShowcaseTerm = {
 
 export type AlbumPhoto = { src: string; alt: string; event: string; year: string };
 
+/** A cut-out (transparent background) photo of the owner for the hero. */
+export type Portrait = { src: string; alt: string; width: number; height: number };
+
 export type Profile = {
   name: string;
   shortName: string;
@@ -84,6 +87,8 @@ export type Profile = {
   bio: string;
   /** The hero marquee stays hidden until real photos are listed here. */
   album: AlbumPhoto[];
+  /** null until the cut-out exists; the hero then shows the proof card alone. */
+  portrait: Portrait | null;
 };
 
 export function formatMetric(metric: Metric): string {

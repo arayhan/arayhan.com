@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightIcon, MedalIcon, MicrophoneStageIcon, RocketLaunchIcon, UsersThreeIcon } from "@phosphor-icons/react/dist/ssr";
 import type { Icon } from "@phosphor-icons/react";
@@ -11,6 +12,7 @@ import { CountUp } from "./CountUp";
 type Props = {
   intro: Profile["intro"];
   terms: Profile["terms"];
+  portrait: Profile["portrait"];
   badge: ReactNode;
   children: ReactNode;
 };
@@ -41,7 +43,7 @@ function StatMark({ stat }: { stat: ShowcaseStat }) {
  * and swaps the proof card, whose big number counts up. Left alone, the card walks the
  * terms; it holds still while the pointer or focus is inside.
  */
-export function HeroShowcase({ intro, terms, badge, children }: Props) {
+export function HeroShowcase({ intro, terms, portrait, badge, children }: Props) {
   const [active, setActive] = useState(0);
   const [engaged, setEngaged] = useState(false);
   const [swapped, setSwapped] = useState(false);
@@ -130,49 +132,57 @@ export function HeroShowcase({ intro, terms, badge, children }: Props) {
         {children}
       </div>
 
-      <article
-        id="hero-proof"
-        aria-live="polite"
-        className="fade-rise relative min-w-0 overflow-hidden rounded-2xl border border-line bg-surface/80 shadow-[0_24px_60px_-32px_rgb(15_23_42/0.35)] backdrop-blur-md"
-        style={{ "--i": 2 } as CSSProperties}
-      >
-        <div key={current.term} className="fade-rise grid gap-7 p-6 sm:p-7">
-          <div className="flex items-center justify-between font-mono text-xs">
-            <span className="text-accent">{current.term}</span>
-            <span className="text-mute">
-              {pad(active + 1)} / {pad(terms.length)}
-            </span>
+      <div className="relative grid min-w-0">
+        {portrait && (
+          // The cut-out rises behind the card, which overlaps its lower part; the bottom fades into the page.
+          <div className="portrait-fade fade-rise relative mx-auto -mb-24 w-[min(72%,20rem)] lg:-mb-32 lg:w-[82%]" style={{ "--i": 1 } as CSSProperties}>
+            <Image src={portrait.src} alt={portrait.alt} width={portrait.width} height={portrait.height} priority sizes="(min-width: 1024px) 330px, 72vw" className="h-auto w-full" />
           </div>
+        )}
+        <article
+          id="hero-proof"
+          aria-live="polite"
+          className="fade-rise relative z-10 min-w-0 overflow-hidden rounded-2xl border border-line bg-surface/80 shadow-[0_24px_60px_-32px_rgb(15_23_42/0.35)] backdrop-blur-md"
+          style={{ "--i": 2 } as CSSProperties}
+        >
+          <div key={current.term} className="fade-rise grid gap-7 p-6 sm:p-7">
+            <div className="flex items-center justify-between font-mono text-xs">
+              <span className="text-accent">{current.term}</span>
+              <span className="text-mute">
+                {pad(active + 1)} / {pad(terms.length)}
+              </span>
+            </div>
 
-          <div className="grid gap-2">
-            <p className="text-[clamp(3.25rem,2.4rem+2.6vw,4.75rem)] leading-[0.95] font-semibold tracking-[-0.055em] tabular-nums">
-              <CountUp value={current.lead.value} animate={swapped} />
-            </p>
-            <p className="text-[15px] text-ink">{current.lead.label}</p>
-            {current.lead.detail && <p className="font-mono text-xs text-mute">{current.lead.detail}</p>}
+            <div className="grid gap-2">
+              <p className="text-[clamp(3.25rem,2.4rem+2.6vw,4.75rem)] leading-[0.95] font-semibold tracking-[-0.055em] tabular-nums">
+                <CountUp value={current.lead.value} animate={swapped} />
+              </p>
+              <p className="text-[15px] text-ink">{current.lead.label}</p>
+              {current.lead.detail && <p className="font-mono text-xs text-mute">{current.lead.detail}</p>}
+            </div>
+
+            <dl className="grid auto-cols-fr grid-flow-col border-t border-line">
+              {current.more.map((s, i) => (
+                <div key={s.value} className={`flex min-w-0 flex-col-reverse justify-end gap-1 pt-4 ${i > 0 ? "border-l border-line pl-4" : ""} ${i < current.more.length - 1 ? "pr-4" : ""}`}>
+                  <dt className="text-[13px] leading-snug text-mute">{s.label}</dt>
+                  <dd className="grid justify-items-start gap-2.5 text-lg font-semibold tracking-tight">
+                    <StatMark stat={s} />
+                    {s.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+
+            <div className="flex items-center justify-between gap-4 border-t border-line pt-4">
+              <p className="min-w-0 truncate text-sm text-mute">{current.title}</p>
+              <Link href={current.href} className="group inline-flex flex-none items-center gap-1.5 text-sm font-medium text-accent">
+                Open {current.term}
+                <ArrowRightIcon size={14} aria-hidden="true" className="transition-transform duration-300 ease-out-soft group-hover:translate-x-0.5" />
+              </Link>
+            </div>
           </div>
-
-          <dl className="grid auto-cols-fr grid-flow-col border-t border-line">
-            {current.more.map((s, i) => (
-              <div key={s.value} className={`flex min-w-0 flex-col-reverse justify-end gap-1 pt-4 ${i > 0 ? "border-l border-line pl-4" : ""} ${i < current.more.length - 1 ? "pr-4" : ""}`}>
-                <dt className="text-[13px] leading-snug text-mute">{s.label}</dt>
-                <dd className="grid justify-items-start gap-2.5 text-lg font-semibold tracking-tight">
-                  <StatMark stat={s} />
-                  {s.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
-
-          <div className="flex items-center justify-between gap-4 border-t border-line pt-4">
-            <p className="min-w-0 truncate text-sm text-mute">{current.title}</p>
-            <Link href={current.href} className="group inline-flex flex-none items-center gap-1.5 text-sm font-medium text-accent">
-              Open {current.term}
-              <ArrowRightIcon size={14} aria-hidden="true" className="transition-transform duration-300 ease-out-soft group-hover:translate-x-0.5" />
-            </Link>
-          </div>
-        </div>
-      </article>
+        </article>
+      </div>
     </div>
   );
 }

@@ -202,6 +202,11 @@ h3 {
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 
+/* Hero portrait: the cut-out dissolves into the page before the proof card overlaps it. */
+.portrait-fade {
+  mask-image: linear-gradient(to bottom, #000 62%, transparent 92%);
+}
+
 /* Menu toggle (SiteMenu). Opening: the lines gather to the middle, then the outer two cross
    while the middle one shrinks away. Closing runs the same steps backwards, via the delays. */
 .menu-label {
