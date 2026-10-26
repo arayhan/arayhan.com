@@ -11,12 +11,8 @@ const step = (i: number) => ({ "--i": i }) as CSSProperties;
 
 function StatusBadge({ status }: { status: Profile["status"] }) {
   return (
-    <p className="fade-rise flex w-max max-w-full items-start gap-2.5 rounded-lg border border-line bg-surface/80 py-1.5 pr-3.5 pl-2.5 font-mono text-[12.5px] text-mute backdrop-blur-sm" style={step(0)}>
-      <span aria-hidden="true" className="meter flex h-[1.55em] flex-none items-center gap-0.5 pl-1">
-        <i />
-        <i />
-        <i />
-      </span>
+    <p className="fade-rise flex w-max max-w-full items-start gap-2.5 rounded-control border border-line bg-surface py-1.5 pr-3.5 pl-3 font-mono text-[12.5px] text-mute shadow-card" style={step(0)}>
+      <span aria-hidden="true" className="mt-[0.5em] size-2 flex-none rounded-full bg-hue-green ring-4 ring-hue-green-soft" />
       <span className="min-w-0">
         <span aria-hidden="true">$ </span>
         {status.prompt} <span className="text-accent">→</span> <b className="font-medium text-ink">{status.role}</b> @ {status.org}

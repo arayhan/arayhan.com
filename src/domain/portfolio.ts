@@ -51,23 +51,29 @@ export type NavGroup = { label: string; links: NavLink[]; extra?: NavLink[] };
 export type Hue = "blue" | "violet" | "amber" | "green";
 
 /** Icons a proof fact can carry; the UI maps each to a glyph. */
-export type ShowcaseIcon = "team" | "startup" | "talk" | "award";
+export type ShowcaseIcon = "work" | "product" | "team" | "startup" | "talk" | "award";
 
 export type ShowcaseStat = {
   value: string;
   label: string;
   icon?: ShowcaseIcon;
+  /** Badge hue for this fact; defaults to its term's. */
+  hue?: Hue;
   /** A product's own logo (public path), shown instead of an icon. */
   logo?: string;
 };
 
 export type ShowcaseTerm = {
   term: string;
+  /** Card heading, e.g. "Works". */
+  label: string;
+  icon: ShowcaseIcon;
+  hue: Hue;
   title: string;
   href: string;
   /** The card's big number; its first figure counts up when the card swaps in. */
   lead: ShowcaseStat & { detail?: string };
-  /** Supporting facts in the row under the big number. */
+  /** Supporting facts, one hairline row each under the big number. */
   more: ShowcaseStat[];
 };
 

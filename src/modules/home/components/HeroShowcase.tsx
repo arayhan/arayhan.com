@@ -2,10 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRightIcon, MedalIcon, MicrophoneStageIcon, RocketLaunchIcon, UsersThreeIcon } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRightIcon, BriefcaseIcon, CubeIcon, MedalIcon, MicrophoneStageIcon, RocketLaunchIcon, UsersThreeIcon } from "@phosphor-icons/react/dist/ssr";
 import type { Icon } from "@phosphor-icons/react";
 import { Fragment, useEffect, useRef, useState, type CSSProperties, type FocusEvent, type ReactNode } from "react";
-import type { Portrait as PortraitData, Profile, ShowcaseIcon, ShowcaseStat } from "@/domain/portfolio";
+import { actionClass } from "@/components/ui/action";
+import { Card } from "@/components/ui/Card";
+import { IconBadge } from "@/components/ui/IconBadge";
+import type { Hue, Portrait as PortraitData, Profile, ShowcaseIcon, ShowcaseStat } from "@/domain/portfolio";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { CountUp } from "./CountUp";
 
@@ -21,20 +24,30 @@ const ADVANCE_MS = 8000;
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-const ICONS: Record<ShowcaseIcon, Icon> = { team: UsersThreeIcon, startup: RocketLaunchIcon, talk: MicrophoneStageIcon, award: MedalIcon };
+const ICONS: Record<ShowcaseIcon, Icon> = {
+  work: BriefcaseIcon,
+  product: CubeIcon,
+  team: UsersThreeIcon,
+  startup: RocketLaunchIcon,
+  talk: MicrophoneStageIcon,
+  award: MedalIcon,
+};
 
-function StatMark({ stat }: { stat: ShowcaseStat }) {
+// The active /term takes its category's text shade (contrast-safe on the page).
+const TERM_HUE: Record<Hue, string> = {
+  blue: "var(--hue-blue-text)",
+  violet: "var(--hue-violet-text)",
+  amber: "var(--hue-amber-text)",
+  green: "var(--hue-green-text)",
+};
+
+function StatMark({ stat, hue }: { stat: ShowcaseStat; hue: Hue }) {
   if (stat.logo) {
     // eslint-disable-next-line @next/next/no-img-element -- tiny local SVG logos; the image optimizer adds nothing.
-    return <img src={stat.logo} alt="" width={28} height={28} className="size-7 rounded-lg" />;
+    return <img src={stat.logo} alt="" width={28} height={28} className="size-7 flex-none rounded-full" />;
   }
-  if (!stat.icon) return null;
-  const Glyph = ICONS[stat.icon];
-  return (
-    <span className="grid size-7 place-items-center rounded-lg bg-soft text-accent">
-      <Glyph size={16} weight="duotone" aria-hidden="true" />
-    </span>
-  );
+  if (!stat.icon) return <span className="size-7 flex-none" />;
+  return <IconBadge icon={ICONS[stat.icon]} hue={stat.hue ?? hue} size="sm" />;
 }
 
 function Portrait({ portrait }: { portrait: PortraitData }) {
@@ -48,7 +61,7 @@ function Portrait({ portrait }: { portrait: PortraitData }) {
 
 /**
  * Name first, then a muted dwinawan-style sentence: hovering, focusing or tapping a /term
- * lights it in the accent and swaps the proof card, whose big number counts up. Left alone,
+ * lights it in its hue and swaps the proof card, whose big number counts up. Left alone,
  * the card walks the terms; it holds still while the pointer or focus is inside.
  */
 export function HeroShowcase({ intro, terms, portrait, badge, children }: Props) {
@@ -106,6 +119,7 @@ export function HeroShowcase({ intro, terms, portrait, badge, children }: Props)
                 onFocus={() => pick(i)}
                 onClick={() => pick(i)}
                 className="hero-term"
+                style={{ "--term-hue": TERM_HUE[t.hue] } as CSSProperties}
               >
                 {t.term}
               </button>
@@ -118,49 +132,54 @@ export function HeroShowcase({ intro, terms, portrait, badge, children }: Props)
 
       <div className="relative grid min-w-0 lg:block lg:min-h-[34rem]">
         {portrait && <Portrait portrait={portrait} />}
-        <article
+        <Card
+          as="article"
+          dotted
           id="hero-proof"
           aria-live="polite"
-          className="fade-rise relative z-10 min-w-0 overflow-hidden rounded-2xl border border-line bg-surface/90 shadow-[0_24px_60px_-32px_rgb(15_23_42/0.35)] backdrop-blur-md lg:absolute lg:bottom-[8%] lg:-left-24 lg:w-[20rem]"
+          className="fade-rise z-10 min-w-0 overflow-hidden lg:absolute lg:bottom-[8%] lg:-left-24 lg:w-[21rem]"
           style={{ "--i": 2 } as CSSProperties}
         >
-          <div key={current.term} className="fade-rise grid gap-4 p-5">
-            <div className="flex items-center justify-between font-mono text-xs">
-              <span className="text-accent">{current.term}</span>
-              <span className="text-mute">
+          <div key={current.term} className="fade-rise">
+            <div className="flex items-center gap-3 px-5 pt-5">
+              <IconBadge icon={ICONS[current.icon]} hue={current.hue} />
+              <div className="min-w-0 flex-1">
+                <p className="font-semibold tracking-tight">{current.label}</p>
+                <p className="truncate text-xs text-mute">{current.title}</p>
+              </div>
+              <span className="self-start font-mono text-xs text-mute">
                 {pad(active + 1)} / {pad(terms.length)}
               </span>
             </div>
 
-            <div className="grid gap-1.5">
-              <p className="text-[clamp(2.5rem,2.1rem+1.2vw,3.25rem)] leading-[0.95] font-semibold tracking-[-0.055em] tabular-nums">
+            <div className="grid gap-1 px-5 pt-4 pb-4">
+              <p className="text-[clamp(2.25rem,1.95rem+1vw,2.875rem)] leading-none font-semibold tracking-[-0.05em] tabular-nums">
                 <CountUp value={current.lead.value} animate={swapped} />
               </p>
-              <p className="text-[15px] text-ink">{current.lead.label}</p>
+              <p className="text-sm text-ink">{current.lead.label}</p>
               {current.lead.detail && <p className="font-mono text-xs text-mute">{current.lead.detail}</p>}
             </div>
 
-            <dl className="grid auto-cols-fr grid-flow-col border-t border-line">
-              {current.more.map((s, i) => (
-                <div key={s.value} className={`flex min-w-0 flex-col-reverse justify-end gap-1 pt-3.5 ${i > 0 ? "border-l border-line pl-3" : ""} ${i < current.more.length - 1 ? "pr-3" : ""}`}>
-                  <dt className="text-xs leading-snug text-mute">{s.label}</dt>
-                  <dd className="grid justify-items-start gap-2 text-base font-semibold tracking-tight">
-                    <StatMark stat={s} />
-                    {s.value}
-                  </dd>
+            <dl>
+              {current.more.map((s) => (
+                <div key={s.value} className="flex items-center gap-3 border-t border-line px-5 py-2.5">
+                  <StatMark stat={s} hue={current.hue} />
+                  <div className="flex min-w-0 flex-col-reverse">
+                    <dt className="truncate text-xs text-mute">{s.label}</dt>
+                    <dd className="text-sm font-semibold tracking-tight">{s.value}</dd>
+                  </div>
                 </div>
               ))}
             </dl>
 
-            <div className="flex items-center justify-between gap-4 border-t border-line pt-3.5">
-              <p className="min-w-0 truncate text-sm text-mute">{current.title}</p>
-              <Link href={current.href} className="group inline-flex flex-none items-center gap-1.5 text-sm font-medium text-accent">
+            <div className="border-t border-line p-4">
+              <Link href={current.href} className={`${actionClass("secondary", "sm")} group w-full`}>
                 Open {current.term}
                 <ArrowRightIcon size={14} aria-hidden="true" className="transition-transform duration-300 ease-out-soft group-hover:translate-x-0.5" />
               </Link>
             </div>
           </div>
-        </article>
+        </Card>
       </div>
     </div>
   );

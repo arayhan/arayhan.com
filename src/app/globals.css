@@ -118,39 +118,6 @@ h3 {
   animation: caret 1.1s steps(1) infinite;
 }
 
-/* Status badge: three bars bounce like a live meter. */
-@keyframes meter {
-  0%,
-  100% {
-    transform: scaleY(0.5);
-  }
-  50% {
-    transform: scaleY(1);
-  }
-}
-
-.meter > i {
-  width: 3px;
-  border-radius: 1px;
-  background: var(--accent);
-  transform-origin: bottom;
-  animation: meter 1s ease-in-out infinite;
-}
-
-.meter > i:nth-child(1) {
-  height: 6px;
-}
-
-.meter > i:nth-child(2) {
-  height: 12px;
-  animation-delay: 0.2s;
-}
-
-.meter > i:nth-child(3) {
-  height: 8px;
-  animation-delay: 0.4s;
-}
-
 /* In the components layer so utilities (border-0, rounded-*, aspect-*) can override it. */
 @layer components {
   /* Placeholder for a photo or screenshot that has not been supplied yet (TODO(content)). */
@@ -166,7 +133,7 @@ h3 {
     text-align: center;
   }
 
-  /* A /term in the hero sentence: muted like the sentence, ink on hover, accent when it drives the card. */
+  /* A /term in the hero sentence: muted like the sentence, ink on hover, its hue when it drives the card. */
   .hero-term {
     cursor: pointer;
     color: inherit;
@@ -178,8 +145,9 @@ h3 {
     color: var(--ink);
   }
 
+  /* --term-hue is set per term (its category's text shade). */
   .hero-term[aria-pressed="true"] {
-    color: var(--accent);
+    color: var(--term-hue, var(--accent));
   }
 }
 
