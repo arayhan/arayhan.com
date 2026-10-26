@@ -22,6 +22,5 @@ export default async function Page({ params }: Params) {
   const { slug } = await params;
   const product = products.find((p) => p.slug === slug);
   if (!product) notFound();
-  // TODO(content): one-line pitch per product.
-  return <StubPage path={`/products/${product.slug}`} title={product.name} intro="[One-line pitch]" />;
+  return <StubPage path={`/products/${product.slug}`} title={product.name} intro={product.pitch} />;
 }

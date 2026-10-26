@@ -47,6 +47,10 @@ export type NavLink = { label: string; href: string };
 
 export type NavGroup = { label: string; links: NavLink[]; extra?: NavLink[] };
 
+export type Talk = { title: string; event: string; year: string; topic: string };
+
+export type Product = { slug: string; name: string; pitch: string; logo: string };
+
 /** Category hues. Each kind of proof owns one; the UI uses it for badge fills and notices only. */
 export type Hue = "blue" | "violet" | "amber" | "green";
 

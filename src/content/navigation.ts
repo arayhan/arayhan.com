@@ -1,4 +1,5 @@
 import type { NavGroup, NavLink } from "@/domain/portfolio";
+import { products } from "./products";
 
 /** Always visible in the navbar; everything else lives in the Menu panel. */
 export const quickLinks: NavLink[] = [
@@ -22,11 +23,8 @@ export const blogCategories = [
   { slug: "journal", label: "Journal" },
 ] as const;
 
-export const products = [
-  { slug: "baiti", name: "Baiti" },
-  { slug: "selfwire", name: "Selfwire" },
-  { slug: "sendtrack", name: "SendTrack" },
-] as const;
+// The list lives with its pitches in products.ts; re-exported here for the menu and routes.
+export { products };
 
 export const usesAreas = [
   { id: "devices", label: "Devices & workstation" },
