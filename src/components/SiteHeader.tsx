@@ -24,7 +24,14 @@ export function SiteHeader({ quickLinks, showcase, groups, socials, email }: Pro
           <QuickNav links={quickLinks} />
         </div>
         <div className="flex items-center gap-1">
-          <a href={`mailto:${email}`} aria-label="Email me" className={`${iconBase} hidden lg:inline-grid`}>
+          {/* The address itself from xl; between lg and xl the nav is too tight, so an icon stands in. */}
+          <a
+            href={`mailto:${email}`}
+            className="mr-1.5 hidden items-center rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm font-medium text-ink transition-colors duration-200 hover:border-ink hover:bg-ink hover:text-canvas xl:inline-flex"
+          >
+            {email}
+          </a>
+          <a href={`mailto:${email}`} aria-label="Email me" className={`${iconBase} hidden lg:inline-grid xl:hidden`}>
             <EnvelopeSimpleIcon size={18} aria-hidden="true" />
           </a>
           <ThemeToggle className={`${iconBase} inline-grid`} />
