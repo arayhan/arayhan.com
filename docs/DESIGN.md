@@ -133,14 +133,19 @@ pages via `src/components/StubPage.tsx` until content exists).
 
 ## Hero
 
-`src/modules/home/components/Hero.tsx` (server) with client leaves. The page ends on the
-hero (the "A Rayhan P." masthead was removed on the owner's request). The hero fills the
-first screen: at least `100svh` minus `--header-h`; it grows rather than clips when the
-content is taller (phones, short laptops). References the owner chose: the type of
-theodorusclarence.com and dwinawan.com.
+`src/modules/home/components/Hero.tsx` (server) with client leaves, followed by the term
+shelf (below). The hero fits its content (no full-screen height, the owner wanted it
+shorter), so the shelf heading shows above the fold at 1440x900. References the owner
+chose: the type of theodorusclarence.com and dwinawan.com.
+
+One active /term drives the whole page (`ActiveTerm` context, wrapping hero and shelf in
+`HomePage`): the sentence, proof card, orbit and shelf always agree. Left alone it walks the
+terms every 8s, but holds while the pointer or focus is in the hero, while the shelf is on
+screen (so a list never changes under a reader) and under reduced motion.
 
 0. **Backdrop** (`backdrops/CommitField`, picked from five variants): a full-bleed canvas of
-   small rounded cells, a contribution graph seen from far away. Cells "commit" at random
+   soft rounded cells (17px on a 24px pitch, base grid at 60% of `--line`, commits peak at
+   45%, ripple at 30%: texture, never louder than the copy), a contribution graph seen from far away. Cells "commit" at random
    in the category hues and fade back; the cursor sends a soft ripple through nearby cells.
    Thinned behind the copy (alpha baked into the drawing). The static grid is cached
    offscreen; only live cells redraw; paused offscreen; still under reduced motion.
@@ -163,31 +168,32 @@ theodorusclarence.com and dwinawan.com.
    the big number that counts up, its label and detail; one hairline row per supporting fact
    (a small badge, or the product's own logo from `public/products/*.svg`, then value over
    label); a full-width secondary "Open /term" button. All from `profile.terms` (`label`,
-   `icon`, `hue` per term; a fact can override `hue`). Idle, it advances every 8s; it holds
-   while the mouse or focus is inside.
+   `icon`, `hue` per term; a fact can override `hue`).
 3. "Email me" + "See my work", social icons. (The bio paragraph left the hero.)
-3a. **Motion shape** (`shapes/HeroShape`, client, `lg` up, **in review**): the proof card
-   sits centred in the right column with an animated shape behind and around it that reacts
-   to the active /term. Four variants are live via `?shape=1..4` and a switcher pill
-   (`TODO(owner-pick)`: keep one, delete the rest and the switcher):
-   1. **Glyph**: one tactile shape on a darker lip morphs (GSAP MorphSVG) into the term's
-      symbol: braces for /works, a speech bubble for /talks, a cube for /products.
-   2. **Orbit**: three tilted rings with glossy hue spheres that pass behind the card and in
-      front of it (a second layer above the card holds the near spheres; rings stay behind
-      so no line crosses the text). The active ring lights in its hue.
-   3. **Bauhaus**: six flat primitives in the hues rearrange into a composition per term
-      with a springy stagger; circle and triangle turn slowly.
-   4. **Ribbon**: a thick glossy figure eight flows behind the card, its gradient led by the
-      active hue, pulled toward the pointer; kept inside the right column so it never
-      paints over the headline.
-   All lean with the pointer, run only while on screen, and render the active term's state
-   still under reduced motion. Phones get the proof card alone. (Replaced the floating card
-   board, which the owner turned down. Hue fills here are the one place category hues leave
-   badges and notices: the shape is the hero's visual.) The cut-out photo
-   (`profile.portrait`) is kept for the About page.
+3a. **Orbit** (`shapes/OrbitSystem`, client, `lg` up; picked from four shape variants): the
+   proof card sits centred in the right column inside three tilted rings, each carrying a
+   glossy sphere in its term's hue. Spheres pass behind the card on the far half and in
+   front on the near half (a second layer above the card holds the near spheres; rings stay
+   behind so no line crosses the text). The active term's ring lights in its hue; the system
+   tilts toward the pointer. Still under reduced motion; phones get the proof card alone.
+   This is the one place category hues leave badges and notices: it is the hero's visual.
+   (Turned down: the floating card board, and the Glyph, Bauhaus and Ribbon shapes.) The
+   cut-out photo (`profile.portrait`) is kept for the About page.
 4. **Album marquee** (`AlbumMarquee`), rendered only once `profile.album` has photos: two rows in opposite directions; page scroll speed
    boosts and flips them (scrollY sampled per frame, no listener); hovering a row pauses it,
    lifts the photo and dims the others.
+
+**Term shelf** (`TermShelf`, client, right under the hero): everything behind the active
+/term. A heading in the term's hue text with the count ("/works · 5 projects"), the three
+terms as small tabs (they set the same active term) and an "All work / talks / products"
+link, then a card grid (1 / 2 / 3 columns):
+- **Works** (`content/projects.ts`): badge, name, client, the metric (or "Impact being
+  measured" when `impactPending`, never an invented figure), role · years, stack chips.
+- **Talks** (`content/talks.ts`, carried over from the old site and `TODO(content)`
+  unconfirmed): badge, topic chip, title, event · year.
+- **Products** (`content/products.ts`, the single product list the menu and routes also
+  use): logo, name, pitch, "Open" link.
+Cards rise in with a stagger when the term changes (CSS `fade-rise`).
 
 Placeholders (album photos, unconfirmed socials) are
 `TODO(content)`; nothing renders an empty photo frame; unconfirmed social URLs are `null` and not rendered.
@@ -197,10 +203,11 @@ Placeholders (album photos, unconfirmed socials) are
 | Motion | Why | How |
 |---|---|---|
 | Badge, name, sentence, actions fade up in sequence | Hierarchy: claim first, proof second | CSS keyframes, no JS |
-| Term swap | Shows the three kinds of proof in one sentence | Client state; the active term changes colour |
+| Term swap | Shows the three kinds of proof in one sentence | `ActiveTerm` context; sentence, card, orbit and shelf change together |
+| Shelf cards rise in | The list visibly answers the term | CSS `fade-rise`, 60ms stagger, capped at 8 |
 | Proof number counts up | The number is the visual | rAF on swap only, ~0.9s ease-out; final value for screen readers |
 | Commit field cells and ripple | The ground feels alive, quietly | One canvas, cached grid, live cells only; paused offscreen |
-| Motion shape reacts to the term | The hero's visual answers the sentence | GSAP (MorphSVG for the glyph), SVG attributes and transforms; static under reduced motion |
+| Orbit spheres, ring light, tilt | The hero's visual answers the sentence | rAF on SVG attributes, one layer behind the card and one in front; static under reduced motion |
 | Theme circle reveal | The switch reads as one gesture from the button | View Transitions API, clip-path on the new snapshot, 520ms |
 | Menu toggle lines meet, then cross | The button explains its own state change | CSS transitions with staggered delays |
 | Menu path typing + cursor | Ties the menu to the logo and the /slash language | 22ms per character; instant under reduced motion |
