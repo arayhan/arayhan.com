@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRightIcon, MedalIcon, MicrophoneStageIcon, RocketLaunchIcon, UsersThreeIcon } from "@phosphor-icons/react/dist/ssr";
 import type { Icon } from "@phosphor-icons/react";
 import { Fragment, useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type FocusEvent, type ReactNode } from "react";
-import type { Profile, ShowcaseIcon, ShowcaseStat } from "@/domain/portfolio";
+import type { Portrait as PortraitData, Profile, ShowcaseIcon, ShowcaseStat } from "@/domain/portfolio";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { CountUp } from "./CountUp";
 
@@ -19,6 +19,7 @@ type Props = {
 
 const ADVANCE_MS = 8000;
 const GLOW_SIZE = 560;
+const DEPTH = { x: -12, y: -8, sink: 0.08, ease: 0.08 }; // px of pointer lean (against the aurora), scroll sink ratio, smoothing
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -35,6 +36,61 @@ function StatMark({ stat }: { stat: ShowcaseStat }) {
     <span className="grid size-7 place-items-center rounded-lg bg-soft text-accent">
       <Glyph size={16} weight="duotone" aria-hidden="true" />
     </span>
+  );
+}
+
+/**
+ * Cut-out photo with depth: it leans a few px against the pointer (the aurora leans toward
+ * it) and sinks slightly as the page scrolls. Frames run only while it is settling.
+ * Reduced motion: still.
+ */
+function Portrait({ portrait }: { portrait: PortraitData }) {
+  const layer = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = layer.current;
+    if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const pos = { x: 0, y: 0, tx: 0, ty: 0 };
+    let raf = 0;
+    const frame = () => {
+      pos.x += (pos.tx - pos.x) * DEPTH.ease;
+      pos.y += (pos.ty - pos.y) * DEPTH.ease;
+      el.style.transform = `translate3d(${pos.x.toFixed(2)}px, ${pos.y.toFixed(2)}px, 0)`;
+      const settled = Math.abs(pos.tx - pos.x) < 0.05 && Math.abs(pos.ty - pos.y) < 0.05;
+      raf = settled ? 0 : requestAnimationFrame(frame);
+    };
+    const target = (px: number, py: number) => {
+      pos.tx = px * DEPTH.x;
+      pos.ty = py * DEPTH.y + Math.min(window.scrollY, window.innerHeight) * DEPTH.sink;
+      if (!raf) raf = requestAnimationFrame(frame);
+    };
+    const pointer = { x: 0, y: 0 };
+    const onMove = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return;
+      pointer.x = e.clientX / window.innerWidth - 0.5;
+      pointer.y = e.clientY / window.innerHeight - 0.5;
+      target(pointer.x, pointer.y);
+    };
+    const onScroll = () => target(pointer.x, pointer.y);
+
+    window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  return (
+    // The cut-out rises behind the card, which overlaps its lower part; the bottom fades into the page.
+    // The rim sits outside the fade mask, which would otherwise clip the glow to a box.
+    <div className="portrait-rim fade-rise relative mx-auto -mb-28 w-[min(80%,22rem)] lg:-mb-44 lg:w-auto" style={{ "--i": 1 } as CSSProperties}>
+      <div ref={layer} className="portrait-fade will-change-transform">
+        <Image src={portrait.src} alt={portrait.alt} width={portrait.width} height={portrait.height} priority sizes="(min-width: 1024px) 330px, min(80vw, 352px)" className="h-auto w-full lg:h-[min(52svh,34rem)] lg:w-auto" />
+      </div>
+    </div>
   );
 }
 
@@ -133,12 +189,7 @@ export function HeroShowcase({ intro, terms, portrait, badge, children }: Props)
       </div>
 
       <div className="relative grid min-w-0">
-        {portrait && (
-          // The cut-out rises behind the card, which overlaps its lower part; the bottom fades into the page.
-          <div className="portrait-fade fade-rise relative mx-auto -mb-28 w-[min(80%,22rem)] lg:-mb-44 lg:w-auto" style={{ "--i": 1 } as CSSProperties}>
-            <Image src={portrait.src} alt={portrait.alt} width={portrait.width} height={portrait.height} priority sizes="(min-width: 1024px) 330px, min(80vw, 352px)" className="h-auto w-full lg:h-[min(52svh,34rem)] lg:w-auto" />
-          </div>
-        )}
+        {portrait && <Portrait portrait={portrait} />}
         <article
           id="hero-proof"
           aria-live="polite"

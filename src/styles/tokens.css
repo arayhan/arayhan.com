@@ -17,6 +17,7 @@
   --aurora-1: rgb(59 130 246 / 0.28);
   --aurora-2: rgb(99 102 241 / 0.2);
   --aurora-3: rgb(14 165 233 / 0.22);
+  --portrait-rim: rgb(59 130 246 / 0.3);
   --grain: 0.035;
 
   /* Type scale, fluid from ~375px to ~1280px */
@@ -49,6 +50,7 @@
     --aurora-1: rgb(37 99 235 / 0.34);
     --aurora-2: rgb(79 70 229 / 0.26);
     --aurora-3: rgb(14 165 233 / 0.2);
+  --portrait-rim: rgb(96 165 250 / 0.42);
     --grain: 0.06;
     color-scheme: dark;
   }
@@ -67,6 +69,7 @@
   --aurora-1: rgb(37 99 235 / 0.34);
   --aurora-2: rgb(79 70 229 / 0.26);
   --aurora-3: rgb(14 165 233 / 0.2);
+  --portrait-rim: rgb(96 165 250 / 0.42);
   --grain: 0.06;
   color-scheme: dark;
 }
