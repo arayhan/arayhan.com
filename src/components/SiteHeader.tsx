@@ -1,5 +1,6 @@
 import { EnvelopeSimpleIcon } from "@phosphor-icons/react/dist/ssr";
 import type { NavGroup, NavLink, Social } from "@/domain/portfolio";
+import { actionClass } from "./ui/action";
 import { Logo } from "./Logo";
 import { QuickNav } from "./QuickNav";
 import { SiteMenu } from "./SiteMenu";
@@ -13,7 +14,7 @@ type Props = {
   email: string;
 };
 
-const iconBase = "size-9 place-items-center rounded-lg text-mute transition-colors duration-200 hover:text-ink";
+const iconBase = "size-9 place-items-center rounded-control text-mute transition-colors duration-200 hover:bg-soft hover:text-ink";
 
 export function SiteHeader({ quickLinks, showcase, groups, socials, email }: Props) {
   return (
@@ -25,12 +26,11 @@ export function SiteHeader({ quickLinks, showcase, groups, socials, email }: Pro
         </div>
         <div className="flex items-center gap-1">
           {/* The address itself from xl; between lg and xl the nav is too tight, so an icon stands in. */}
-          <a
-            href={`mailto:${email}`}
-            className="mr-1.5 hidden items-center rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm font-medium text-ink transition-colors duration-200 hover:border-ink hover:bg-ink hover:text-canvas xl:inline-flex"
-          >
-            {email}
-          </a>
+          <span className="mr-1.5 hidden xl:block">
+            <a href={`mailto:${email}`} className={actionClass("secondary", "sm")}>
+              {email}
+            </a>
+          </span>
           <a href={`mailto:${email}`} aria-label="Email me" className={`${iconBase} hidden lg:inline-grid xl:hidden`}>
             <EnvelopeSimpleIcon size={18} aria-hidden="true" />
           </a>

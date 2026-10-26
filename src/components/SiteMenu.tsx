@@ -146,12 +146,12 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
         onPointerLeave={onHoverLeave}
         aria-label="Site menu"
         className={cx(
-          "absolute top-[calc(100%-6px)] right-3 z-50 max-h-[calc(100dvh-5.5rem)] w-[min(660px,calc(100%-24px))] overflow-y-auto rounded-xl border border-line bg-surface shadow-[0_24px_48px_-28px_rgb(15_23_42/0.35)] duration-300 ease-out-soft sm:right-8 lg:right-14",
+          "absolute top-[calc(100%-6px)] right-3 z-50 max-h-[calc(100dvh-5.5rem)] w-[min(660px,calc(100%-24px))] overflow-y-auto rounded-card border border-line bg-surface shadow-card card-dots duration-300 ease-out-soft sm:right-8 lg:right-14",
           // Visibility only transitions on close: opening, the panel must be focusable on its first frame.
           open ? "visible translate-y-0 opacity-100 transition-[opacity,transform]" : "invisible -translate-y-1.5 opacity-0 transition-[opacity,transform,visibility]",
         )}
       >
-        <p aria-hidden="true" className="flex items-center border-b border-line px-[18px] py-3.5 font-mono text-[13px]">
+        <p aria-hidden="true" className="flex items-center border-b border-line bg-soft px-[18px] py-3.5 font-mono text-[13px]">
           <span className="text-mute">{site.host}</span>
           <span className="whitespace-pre text-accent">{path}</span>
           <span className="caret ml-px inline-block h-[15px] w-[7px] bg-accent" />
@@ -196,7 +196,7 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
 
         <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line py-2.5 pr-3.5 pl-2.5">
           <SocialLinks socials={socials} size={16} itemClassName="size-8" />
-          <span className="font-mono text-[12.5px] text-mute select-all">{email}</span>
+          <span className="rounded-control bg-soft px-2.5 py-1 font-mono text-[12.5px] text-mute select-all">{email}</span>
         </div>
       </div>
     </>

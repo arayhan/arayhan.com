@@ -40,7 +40,7 @@ export function SocialLinks({ socials, size = 18, className, itemClassName }: Pr
             key={key}
             href={url}
             aria-label={label}
-            className={cx("inline-grid size-9 place-items-center rounded-lg text-mute transition-colors duration-200 hover:text-ink", itemClassName)}
+            className={cx("inline-grid size-9 place-items-center rounded-control text-mute transition-colors duration-200 hover:bg-soft hover:text-ink", itemClassName)}
             {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
           >
             <Glyph size={size} aria-hidden="true" />
