@@ -3,11 +3,15 @@
 import { useEffect, useRef } from "react";
 import { cssVar, prefersReducedMotion, useFrameLoop, usePointer, watchTheme } from "./loop";
 
-const PITCH = 16;
-const CELL = 11;
-const RADIUS = 3;
-const LIFE_MS = 2600;
-const RIPPLE_R = 150;
+const PITCH = 24;
+const CELL = 17;
+const RADIUS = 5;
+const LIFE_MS = 3200;
+const RIPPLE_R = 170;
+// Kept soft: the field is texture under the copy, never louder than it.
+const BASE_ALPHA = 0.6;
+const COMMIT_ALPHA = 0.45;
+const RIPPLE_ALPHA = 0.3;
 // Blue commits most often, like the brand; the other hues are accents.
 const HUE_WEIGHTS = [0, 0, 0, 1, 2, 3];
 
@@ -27,7 +31,7 @@ function cell(ctx: CanvasRenderingContext2D, x: number, y: number, size: number)
 }
 
 /**
- * Variant 3, "Commit field": the hero sits on a field of small rounded squares, a
+ * "Commit field": the hero sits on a soft field of rounded squares, a
  * contribution graph seen from far away. Cells "commit" at random, popping into a hue and
  * fading back, and the cursor sends a soft ripple through the cells around it. Texture only:
  * no labels, no data. One canvas, the static grid cached offscreen, only live cells redrawn.
@@ -85,7 +89,7 @@ export function CommitField() {
         b.fillStyle = cssVar("--line");
         for (let r = 0; r < s.rows; r++) {
           for (let q = 0; q < s.cols; q++) {
-            b.globalAlpha = fade(q * PITCH, r * PITCH, rect.width, rect.height);
+            b.globalAlpha = BASE_ALPHA * fade(q * PITCH, r * PITCH, rect.width, rect.height);
             cell(b, q * PITCH, r * PITCH, CELL);
           }
         }
@@ -104,7 +108,7 @@ export function CommitField() {
       for (let i = 0; i < total; i += 37) {
         const x = (i % s.cols) * PITCH;
         const y = Math.floor(i / s.cols) * PITCH;
-        ctx.globalAlpha = 0.7 * fade(x, y, rect.width, rect.height);
+        ctx.globalAlpha = COMMIT_ALPHA * fade(x, y, rect.width, rect.height);
         ctx.fillStyle = s.hues[HUE_WEIGHTS[i % HUE_WEIGHTS.length]];
         cell(ctx, x, y, CELL);
       }
@@ -114,17 +118,17 @@ export function CommitField() {
 
     if (t > s.next && total) {
       s.commits.push({ i: Math.floor(Math.random() * total), hue: HUE_WEIGHTS[Math.floor(Math.random() * HUE_WEIGHTS.length)], start: t });
-      s.next = t + 160 + Math.random() * 360;
+      s.next = t + 260 + Math.random() * 360;
     }
     s.commits = s.commits.filter((m) => t - m.start < LIFE_MS);
     for (const m of s.commits) {
       const q = (t - m.start) / LIFE_MS;
       const pop = q < 0.12 ? q / 0.12 : 1;
-      const size = CELL * (1 + 0.35 * (1 - pop));
+      const size = CELL * (1 + 0.2 * (1 - pop));
       const off = (CELL - size) / 2;
       const x = (m.i % s.cols) * PITCH;
       const y = Math.floor(m.i / s.cols) * PITCH;
-      ctx.globalAlpha = (q < 0.12 ? pop : 1 - (q - 0.12) / 0.88) * 0.85 * fade(x, y, rect.width, rect.height);
+      ctx.globalAlpha = (q < 0.12 ? pop : 1 - (q - 0.12) / 0.88) * COMMIT_ALPHA * fade(x, y, rect.width, rect.height);
       ctx.fillStyle = s.hues[m.hue];
       cell(ctx, x + off, y + off, size);
     }
@@ -145,7 +149,7 @@ export function CommitField() {
           const d = Math.hypot(cx - px, cy - py);
           if (d > RIPPLE_R) continue;
           const wave = 0.5 + 0.5 * Math.sin(d * 0.07 - t * 0.006);
-          ctx.globalAlpha = (1 - d / RIPPLE_R) ** 2 * (0.12 + 0.38 * wave) * fade(q * PITCH, r * PITCH, rect.width, rect.height);
+          ctx.globalAlpha = (1 - d / RIPPLE_R) ** 2 * RIPPLE_ALPHA * (0.35 + 0.65 * wave) * fade(q * PITCH, r * PITCH, rect.width, rect.height);
           cell(ctx, q * PITCH, r * PITCH, CELL);
         }
       }
