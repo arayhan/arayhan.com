@@ -82,6 +82,9 @@ export type AlbumPhoto = { src: string; alt: string; event: string; year: string
 /** A cut-out (transparent background) photo of the owner for the hero. */
 export type Portrait = { src: string; alt: string; width: number; height: number };
 
+/** A small square face crop, shown round. */
+export type Avatar = { src: string; alt: string };
+
 export type Profile = {
   name: string;
   shortName: string;
@@ -98,6 +101,7 @@ export type Profile = {
   album: AlbumPhoto[];
   /** null until the cut-out exists; the hero then shows the proof card alone. */
   portrait: Portrait | null;
+  avatar: Avatar | null;
 };
 
 export function formatMetric(metric: Metric): string {

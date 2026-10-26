@@ -71,4 +71,6 @@ export const profile: Profile = {
   // TODO(content): album photos with event and year; the marquee appears once this has entries.
   album: [],
   portrait: { src: "/portrait.webp", alt: "A Rayhan P at a laptop on stage, wearing a Firebase T-shirt", width: 891, height: 1489 },
+  // Head crop of the same cut-out.
+  avatar: { src: "/avatar.webp", alt: "A Rayhan P" },
 };
