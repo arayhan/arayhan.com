@@ -30,7 +30,7 @@ export function Hero({ profile }: { profile: Profile }) {
   return (
     <section aria-labelledby="hero-title" className="relative isolate grid grid-cols-[minmax(0,1fr)] overflow-x-clip">
       <HeroBackdrop />
-      <div className="grid grid-cols-[minmax(0,1fr)] pt-12 pb-20 md:pt-24 md:pb-32">
+      <div className="grid min-h-[calc(100svh-var(--header-h))] grid-cols-[minmax(0,1fr)] content-center py-8 md:py-10">
         <HeroShowcase intro={profile.intro} terms={profile.terms} portrait={profile.portrait} badge={<StatusBadge status={profile.status} />}>
           <p className="fade-rise max-w-[52ch] text-sub text-mute" style={step(2)}>
             {profile.bio}
