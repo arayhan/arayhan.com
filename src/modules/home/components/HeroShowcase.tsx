@@ -135,8 +135,8 @@ export function HeroShowcase({ intro, terms, portrait, badge, children }: Props)
       <div className="relative grid min-w-0">
         {portrait && (
           // The cut-out rises behind the card, which overlaps its lower part; the bottom fades into the page.
-          <div className="portrait-fade fade-rise relative mx-auto -mb-24 w-[min(72%,20rem)] lg:-mb-32 lg:w-[82%]" style={{ "--i": 1 } as CSSProperties}>
-            <Image src={portrait.src} alt={portrait.alt} width={portrait.width} height={portrait.height} priority sizes="(min-width: 1024px) 330px, 72vw" className="h-auto w-full" />
+          <div className="portrait-fade fade-rise relative mx-auto -mb-28 w-[min(80%,22rem)] lg:-mb-44 lg:w-auto" style={{ "--i": 1 } as CSSProperties}>
+            <Image src={portrait.src} alt={portrait.alt} width={portrait.width} height={portrait.height} priority sizes="(min-width: 1024px) 330px, min(80vw, 352px)" className="h-auto w-full lg:h-[min(52svh,34rem)] lg:w-auto" />
           </div>
         )}
         <article

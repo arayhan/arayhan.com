@@ -204,7 +204,7 @@ h3 {
 
 /* Hero portrait: the cut-out dissolves into the page before the proof card overlaps it. */
 .portrait-fade {
-  mask-image: linear-gradient(to bottom, #000 62%, transparent 92%);
+  mask-image: linear-gradient(to bottom, #000 48%, transparent 78%);
 }
 
 /* Menu toggle (SiteMenu): three equal 16 x 2px bars on a whole-pixel grid (centres at 4, 8
