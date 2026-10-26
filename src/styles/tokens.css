@@ -30,6 +30,10 @@
   --hue-amber-text: #b45309;
   --hue-green-text: #047857;
   --dot: rgb(15 23 42 / 0.09);
+  /* Hero backdrops: design-tool guide magenta, soft hue shapes, faint grid lines */
+  --guide: #d946ef;
+  --blob-opacity: 0.22;
+  --grid-faint: rgb(15 23 42 / 0.045);
 
   /* Shape and elevation */
   --card-radius: 16px;
@@ -79,6 +83,9 @@
     --hue-amber-text: #fbbf24;
     --hue-green-text: #34d399;
     --dot: rgb(255 255 255 / 0.07);
+    --guide: #e879f9;
+    --blob-opacity: 0.3;
+    --grid-faint: rgb(255 255 255 / 0.04);
     --card-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 12px 32px -16px rgb(0 0 0 / 0.7);
     color-scheme: dark;
   }
@@ -108,6 +115,9 @@
   --hue-amber-text: #fbbf24;
   --hue-green-text: #34d399;
   --dot: rgb(255 255 255 / 0.07);
+  --guide: #e879f9;
+  --blob-opacity: 0.3;
+  --grid-faint: rgb(255 255 255 / 0.04);
   --card-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 12px 32px -16px rgb(0 0 0 / 0.7);
   color-scheme: dark;
 }

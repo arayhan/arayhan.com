@@ -22,6 +22,7 @@
   --color-hue-violet-text: var(--hue-violet-text);
   --color-hue-amber-text: var(--hue-amber-text);
   --color-hue-green-text: var(--hue-green-text);
+  --color-guide: var(--guide);
 
   --radius-card: var(--card-radius);
   --radius-control: var(--control-radius);
@@ -172,6 +173,172 @@ h3 {
 
 .marquee-mask {
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* Hero backdrops (src/modules/home/components/backdrops). TODO(owner-pick): drop the unused ones. */
+
+/* 1 Flow canvas */
+.bd-dots {
+  background-image: radial-gradient(var(--dot) 1.2px, transparent 1.6px);
+  background-size: 22px 22px;
+  background-position: center;
+  mask-image: radial-gradient(ellipse 85% 75% at 60% 45%, #000 30%, transparent 85%);
+}
+
+/* A gradient, not a blur filter: same softness, no per-frame filter cost while it moves. */
+.bd-blob {
+  background: radial-gradient(closest-side, var(--blob), transparent);
+  opacity: var(--blob-opacity);
+  will-change: transform;
+}
+
+/* 2 Blueprint */
+.bd-blueprint-grid {
+  background-image:
+    linear-gradient(var(--grid-faint) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-faint) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse 80% 70% at 65% 50%, #000 20%, transparent 80%);
+}
+
+.bd-ruler-x {
+  background-image:
+    repeating-linear-gradient(to right, var(--mute) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(to right, var(--line) 0 1px, transparent 1px 8px);
+  background-size:
+    100% 8px,
+    100% 4px;
+  background-position: bottom left;
+  background-repeat: no-repeat;
+}
+
+.bd-ruler-y {
+  background-image:
+    repeating-linear-gradient(to bottom, var(--mute) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(to bottom, var(--line) 0 1px, transparent 1px 8px);
+  background-size:
+    8px 100%,
+    4px 100%;
+  background-position: top right;
+  background-repeat: no-repeat;
+}
+
+@keyframes bd-draw-x {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes bd-draw-y {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+.bd-draw-x {
+  transform-origin: left;
+  animation: bd-draw-x 900ms var(--ease-out-soft) 700ms both;
+}
+
+.bd-draw-y {
+  transform-origin: top;
+  animation: bd-draw-y 900ms var(--ease-out-soft) 900ms both;
+}
+
+/* 4 Kinetic type */
+@keyframes bd-marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.bd-marquee {
+  animation: bd-marquee var(--marquee-s, 80s) linear infinite;
+  will-change: transform;
+}
+
+.bd-marquee-reverse {
+  animation-direction: reverse;
+}
+
+.bd-outline-word {
+  padding-right: 0.35em;
+  font-size: clamp(5rem, 2.5rem + 10vw, 11rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--line);
+  transition:
+    color 500ms ease,
+    -webkit-text-stroke-color 500ms ease;
+}
+
+.bd-outline-word-lit {
+  color: color-mix(in srgb, var(--word-hue) 10%, transparent);
+  -webkit-text-stroke-color: color-mix(in srgb, var(--word-hue) 55%, transparent);
+}
+
+/* 5 Tactile keycaps: the button lip, pressed by the loop, the cursor or Ctrl/Cmd K. */
+@keyframes bd-bob {
+  50% {
+    transform: translate3d(0, -6px, 0);
+  }
+}
+
+.bd-bob {
+  animation: bd-bob var(--bob-s, 5s) ease-in-out var(--bob-delay, 0s) infinite;
+}
+
+.bd-key {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--mute);
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow:
+    0 4px 0 var(--slab-lip),
+    var(--card-shadow);
+  transform: rotate(var(--r, 0deg));
+  transition:
+    transform 90ms ease-out,
+    box-shadow 90ms ease-out,
+    color 90ms ease-out;
+}
+
+.bd-key[data-pressed] {
+  color: var(--ink);
+  box-shadow:
+    0 0 0 var(--slab-lip),
+    var(--card-shadow);
+  transform: rotate(var(--r, 0deg)) translateY(4px);
+}
+
+.bd-key-wide {
+  width: 4.75rem;
+}
+
+.bd-key-accent {
+  border-color: transparent;
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow:
+    0 4px 0 var(--accent-lip),
+    var(--card-shadow);
+}
+
+.bd-key-accent[data-pressed] {
+  color: var(--on-accent);
+  box-shadow:
+    0 0 0 var(--accent-lip),
+    var(--card-shadow);
 }
 
 /* Menu toggle (SiteMenu): three equal 16 x 2px bars on a whole-pixel grid (centres at 4, 8
