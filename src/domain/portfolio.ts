@@ -47,6 +47,9 @@ export type NavLink = { label: string; href: string };
 
 export type NavGroup = { label: string; links: NavLink[]; extra?: NavLink[] };
 
+/** Category hues. Each kind of proof owns one; the UI uses it for badge fills and notices only. */
+export type Hue = "blue" | "violet" | "amber" | "green";
+
 /** Icons a proof fact can carry; the UI maps each to a glyph. */
 export type ShowcaseIcon = "team" | "startup" | "talk" | "award";
 
