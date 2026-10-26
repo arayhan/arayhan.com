@@ -82,18 +82,6 @@ export type AlbumPhoto = { src: string; alt: string; event: string; year: string
 /** A cut-out (transparent background) photo of the owner for the hero. */
 export type Portrait = { src: string; alt: string; width: number; height: number };
 
-/** Tech marks the UI can draw (Simple Icons paths). */
-export type Brand = "react" | "nextjs" | "typescript" | "firebase";
-
-/** Decorative cards floating around the hero's proof card. Every figure must also exist elsewhere in content. */
-export type HeroBoard = {
-  terminal: { command: string; result: string };
-  stack: Brand[];
-  community: { value: string; label: string };
-  /** Years with the main stack; drawn as one ring segment per year. */
-  years: { value: number; caption: string };
-};
-
 /** A small square face crop, shown round. */
 export type Avatar = { src: string; alt: string };
 
@@ -114,7 +102,6 @@ export type Profile = {
   /** null until the cut-out exists; the hero then shows the proof card alone. */
   portrait: Portrait | null;
   avatar: Avatar | null;
-  board: HeroBoard;
 };
 
 export function formatMetric(metric: Metric): string {
