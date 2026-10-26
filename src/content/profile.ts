@@ -73,4 +73,11 @@ export const profile: Profile = {
   portrait: { src: "/portrait.webp", alt: "A Rayhan P at a laptop on stage, wearing a Firebase T-shirt", width: 891, height: 1489 },
   // Head crop of the same cut-out.
   avatar: { src: "/avatar.webp", alt: "A Rayhan P" },
+  // Hero card board. The terminal lines are Next.js's own build output; the figures repeat the terms and bio above.
+  board: {
+    terminal: { command: "pnpm build", result: "Compiled successfully" },
+    stack: ["react", "nextjs", "typescript", "firebase"],
+    community: { value: "1,800+", label: "GDG Depok members" },
+    years: { value: 7, caption: "with React and Next.js" },
+  },
 };

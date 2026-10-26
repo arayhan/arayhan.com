@@ -10,10 +10,12 @@ import { IconBadge } from "@/components/ui/IconBadge";
 import type { Hue, Profile, ShowcaseIcon, ShowcaseStat } from "@/domain/portfolio";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { CountUp } from "./CountUp";
+import { HeroBoard } from "./HeroBoard";
 
 type Props = {
   intro: Profile["intro"];
   terms: Profile["terms"];
+  board: Profile["board"];
   badge: ReactNode;
   children: ReactNode;
 };
@@ -53,7 +55,7 @@ function StatMark({ stat, hue }: { stat: ShowcaseStat; hue: Hue }) {
  * lights it in its hue and swaps the proof card, whose big number counts up. Left alone,
  * the card walks the terms; it holds still while the pointer or focus is inside.
  */
-export function HeroShowcase({ intro, terms, badge, children }: Props) {
+export function HeroShowcase({ intro, terms, board, badge, children }: Props) {
   const [active, setActive] = useState(0);
   const [engaged, setEngaged] = useState(false);
   const [swapped, setSwapped] = useState(false);
@@ -120,6 +122,7 @@ export function HeroShowcase({ intro, terms, badge, children }: Props) {
       </div>
 
       <div className="relative grid min-w-0 lg:block lg:min-h-[34rem]">
+        <HeroBoard board={board} />
         <Card
           as="article"
           dotted
