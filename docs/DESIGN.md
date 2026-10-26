@@ -55,7 +55,9 @@ text, so the page still reads as one brand. Neutrals are slate (a slight blue bi
 
 Theme: light and dark, following the OS by default. The menu toggle saves an explicit
 choice to `localStorage` (`theme`); an inline script in `<head>` applies it before
-first paint. Never flip one section to the other theme.
+first paint. Never flip one section to the other theme. Switching with the toggle grows the
+new theme as a circle out of the button over 520ms (View Transitions API, `ThemeToggle`;
+the default cross-fade is disabled in `globals.css`). No support or reduced motion: instant.
 
 ## Typography
 
@@ -137,13 +139,12 @@ first screen: at least `100svh` minus `--header-h`; it grows rather than clips w
 content is taller (phones, short laptops). References the owner chose: the type of
 theodorusclarence.com and dwinawan.com.
 
-0. **Backdrop**: static CSS. One soft blue light from the top centre (`.hero-spot`,
-   `--spot`) over a faint 56px line grid (`.hero-grid`, `--grid-line`) masked to fade out
-   away from the top. (Replaced a drifting aurora, and before it a dot-lattice canvas; the
-   owner took to neither.)
+0. **Ground**: the plain `canvas` grey, nothing behind it. (The owner turned down a
+   dot-lattice canvas, a drifting aurora, and a spotlight with a line grid.)
 
-1. **Status chip**: a small `surface` chip (control radius, border, card shadow) with a
-   green live dot and a mono terminal line,
+1. **Status chip**: a small `surface` chip (control radius, border, card shadow) opening with
+   a 26px round avatar of the owner (`profile.avatar`, `public/avatar.webp`, a head crop of
+   the cut-out) with a green live dot on its edge, then a mono terminal line,
    "$ whoami → **Solution Fullstack Engineer** @ Badr Interactive" (`profile.status`). Wraps
    on narrow screens rather than truncating.
 2. **Name and sentence** (`HeroShowcase`): the h1 is just "I'm Rayhan" (Clarence-style),
@@ -158,16 +159,19 @@ theodorusclarence.com and dwinawan.com.
    `icon`, `hue` per term; a fact can override `hue`). Idle, it advances every 8s; it holds
    while the mouse or focus is inside.
 3. "Email me" + "See my work", social icons. (The bio paragraph left the hero.)
-3a. **Portrait** (`profile.portrait`, `public/portrait.webp`): a waist-up cut-out of the
-   owner on stage in a Firebase tee, with no effects (the owner removed a rim glow, a colour
-   grade and pointer motion). Desktop: it stands on the hero's bottom edge, `min(84svh,
-   46rem)` tall, right-aligned, with only the last 16% faded to soften the arm line. The
-   proof card (21rem) sits beside it at elbow height, poking 6rem into the gap, so
-   the face and chest stay clear. Phones: the photo sits above the card, which overlaps its
-   faded lower part.
-   Made from a stage photo: pre-crop above the table, `rembg` with `birefnet-portrait`
-   (cleaner hair than `u2net_human_seg`), trim to alpha, WebP q85. The source photo is not
-   committed.
+3a. **Card board** (`HeroBoard`, client, `lg` up): the proof card sits centred in the
+   right column, and four small decorative cards float around it (`aria-hidden`, content in
+   `profile.board`): a terminal card (`pnpm build` / `Compiled successfully`, Next.js's own
+   output), a stack chip (React, Next.js, TypeScript, Firebase marks from Simple Icons, CC0,
+   in `src/components/ui/brands.tsx`), a GDG chip and a years ring (one segment per year,
+   all filled: a picture of the number, not a progress bar). Every figure repeats one in the
+   content. Motion (GSAP): each card drifts on its own sine loop (4.5-7s), leans with the
+   pointer at its own depth (7-18px) with a slight 3D tilt, and spreads 14px outward and to
+   1.03 scale while the pointer is over the column. Three layers per card so the GSAP lean,
+   the CSS entrance and the GSAP drift never fight. Paused offscreen; static under reduced
+   motion. Phones and tablets get the proof card alone, under the text.
+   The owner's cut-out photo (`profile.portrait`) left the hero on their request and is kept
+   for the About page.
 4. **Album marquee** (`AlbumMarquee`), rendered only once `profile.album` has photos: two rows in opposite directions; page scroll speed
    boosts and flips them (scrollY sampled per frame, no listener); hovering a row pauses it,
    lifts the photo and dims the others.
@@ -181,7 +185,9 @@ Placeholders (album photos, unconfirmed socials) are
 |---|---|---|
 | Badge, name, sentence, actions fade up in sequence | Hierarchy: claim first, proof second | CSS keyframes, no JS |
 | Term swap | Shows the three kinds of proof in one sentence | Client state; the active term changes colour |
-| Proof number counts up | The number is the visual until photos exist | rAF on swap only, ~0.9s ease-out; final value for screen readers |
+| Proof number counts up | The number is the visual | rAF on swap only, ~0.9s ease-out; final value for screen readers |
+| Card board drift, lean, spread | The hero's visual: a calm, living collage | GSAP transforms; paused offscreen; static under reduced motion |
+| Theme circle reveal | The switch reads as one gesture from the button | View Transitions API, clip-path on the new snapshot, 520ms |
 | Menu toggle lines meet, then cross | The button explains its own state change | CSS transitions with staggered delays |
 | Menu path typing + cursor | Ties the menu to the logo and the /slash language | 22ms per character; instant under reduced motion |
 | Marquee drift, speed-up on scroll | Album feels alive without taking over | rAF transform; static, hand-scrollable under reduced motion |
