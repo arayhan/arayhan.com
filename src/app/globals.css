@@ -152,6 +152,18 @@ h3 {
   }
 }
 
+/* Reveal (home/motion): slides in once in view. Only hidden when JS is there to show it. */
+.reveal {
+  transition:
+    opacity var(--reveal-dur, 0.7s) cubic-bezier(0.25, 0.1, 0.25, 1) var(--reveal-delay, 0s),
+    transform var(--reveal-dur, 0.7s) cubic-bezier(0.25, 0.1, 0.25, 1) var(--reveal-delay, 0s);
+}
+
+.js .reveal:not([data-shown]) {
+  opacity: 0;
+  transform: translate3d(var(--reveal-x, 0), var(--reveal-y, 30px), 0);
+}
+
 /* Giant display headings: Kanit 900 in a cool vertical gradient (darker shades on light). */
 .text-display-gradient {
   background: linear-gradient(180deg, var(--display-from) 0%, var(--display-to) 100%);

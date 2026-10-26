@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { cssVar, prefersReducedMotion, useFrameLoop, usePointer, watchTheme } from "./loop";
+import { cssVar, prefersReducedMotion, useFrameLoop, usePointer, watchTheme } from "../motion/loop";
 
 const PITCH = 24;
 const CELL = 17;

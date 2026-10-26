@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useRef } from "react";
-import { boxIn, prefersReducedMotion, useFrameLoop, usePointer } from "../backdrops/loop";
+import { boxIn, prefersReducedMotion, useFrameLoop, usePointer } from "../motion/loop";
 import { hueVar, lipVar, type ShapeProps } from "./common";
 
 // One ring per /term: tilt, size past the card's half-width, flatness, sphere radius, speed.
