@@ -139,24 +139,15 @@ first screen: at least `100svh` minus `--header-h`; it grows rather than clips w
 content is taller (phones, short laptops). References the owner chose: the type of
 theodorusclarence.com and dwinawan.com.
 
-0. **Backdrop** (`backdrops/HeroBackdrop`, **in review**): the owner found the plain grey
-   too empty, so five variants are live for comparison via `?hero=1..5` and a floating
-   switcher pill (`TODO(owner-pick)`: keep one, delete the rest and the switcher):
-   1. **Flow canvas**: dot grid, three soft hue gradients that lean away from the pointer,
-      dashed connectors from each floating card into the proof card with a pulse every few
-      seconds.
-   2. **Blueprint**: rulers that track the cursor, a selection box with the card's live
-      size, measured gaps (`--guide` magenta), crosshair readout, snap guides on card edges.
-   3. **Commit field**: a canvas of contribution-graph cells that commit in the category
-      hues and ripple around the cursor; thinned behind the copy.
-   4. **Kinetic type**: three rows of giant outlined words (the /terms, then the owner's
-      vocabulary) sliding at different speeds; the active /term lights in its hue.
-   5. **Tactile keycaps**: slab-and-lip keys at the edges that type `SHIP ⏎` on a loop,
-      press under the cursor and on Ctrl/Cmd K. Desktop only.
-   All run only while on screen and render still under reduced motion. Performance rule
-   learned here: no blur filters or CSS masks over moving layers (they cost 10-45fps);
-   use gradients, alpha baked into canvas drawing, or overlay fades. (Turned down before:
-   a dot-lattice canvas, a drifting aurora, a spotlight with a line grid.)
+0. **Backdrop** (`backdrops/CommitField`, picked from five variants): a full-bleed canvas of
+   small rounded cells, a contribution graph seen from far away. Cells "commit" at random
+   in the category hues and fade back; the cursor sends a soft ripple through nearby cells.
+   Thinned behind the copy (alpha baked into the drawing). The static grid is cached
+   offscreen; only live cells redraw; paused offscreen; still under reduced motion.
+   Performance rule learned choosing it: no blur filters or CSS masks over moving layers
+   (they cost 10-45fps); use gradients, alpha baked into canvas drawing, or overlay fades.
+   (Turned down: a dot-lattice canvas, a drifting aurora, a spotlight with a line grid, and
+   the Flow, Blueprint, Kinetic type and Keycaps backdrops.)
 
 1. **Status chip**: a small `surface` chip (control radius, border, card shadow) opening with
    a 26px round avatar of the owner (`profile.avatar`, `public/avatar.webp`, a head crop of
@@ -175,19 +166,25 @@ theodorusclarence.com and dwinawan.com.
    `icon`, `hue` per term; a fact can override `hue`). Idle, it advances every 8s; it holds
    while the mouse or focus is inside.
 3. "Email me" + "See my work", social icons. (The bio paragraph left the hero.)
-3a. **Card board** (`HeroBoard`, client, `lg` up): the proof card sits centred in the
-   right column, and four small decorative cards float around it (`aria-hidden`, content in
-   `profile.board`): a terminal card (`pnpm build` / `Compiled successfully`, Next.js's own
-   output), a stack chip (React, Next.js, TypeScript, Firebase marks from Simple Icons, CC0,
-   in `src/components/ui/brands.tsx`), a GDG chip and a years ring (one segment per year,
-   all filled: a picture of the number, not a progress bar). Every figure repeats one in the
-   content. Motion (GSAP): each card drifts on its own sine loop (4.5-7s), leans with the
-   pointer at its own depth (7-18px) with a slight 3D tilt, and spreads 14px outward and to
-   1.03 scale while the pointer is over the column. Three layers per card so the GSAP lean,
-   the CSS entrance and the GSAP drift never fight. Paused offscreen; static under reduced
-   motion. Phones and tablets get the proof card alone, under the text.
-   The owner's cut-out photo (`profile.portrait`) left the hero on their request and is kept
-   for the About page.
+3a. **Motion shape** (`shapes/HeroShape`, client, `lg` up, **in review**): the proof card
+   sits centred in the right column with an animated shape behind and around it that reacts
+   to the active /term. Four variants are live via `?shape=1..4` and a switcher pill
+   (`TODO(owner-pick)`: keep one, delete the rest and the switcher):
+   1. **Glyph**: one tactile shape on a darker lip morphs (GSAP MorphSVG) into the term's
+      symbol: braces for /works, a speech bubble for /talks, a cube for /products.
+   2. **Orbit**: three tilted rings with glossy hue spheres that pass behind the card and in
+      front of it (a second layer above the card holds the near spheres; rings stay behind
+      so no line crosses the text). The active ring lights in its hue.
+   3. **Bauhaus**: six flat primitives in the hues rearrange into a composition per term
+      with a springy stagger; circle and triangle turn slowly.
+   4. **Ribbon**: a thick glossy figure eight flows behind the card, its gradient led by the
+      active hue, pulled toward the pointer; kept inside the right column so it never
+      paints over the headline.
+   All lean with the pointer, run only while on screen, and render the active term's state
+   still under reduced motion. Phones get the proof card alone. (Replaced the floating card
+   board, which the owner turned down. Hue fills here are the one place category hues leave
+   badges and notices: the shape is the hero's visual.) The cut-out photo
+   (`profile.portrait`) is kept for the About page.
 4. **Album marquee** (`AlbumMarquee`), rendered only once `profile.album` has photos: two rows in opposite directions; page scroll speed
    boosts and flips them (scrollY sampled per frame, no listener); hovering a row pauses it,
    lifts the photo and dims the others.
@@ -202,7 +199,8 @@ Placeholders (album photos, unconfirmed socials) are
 | Badge, name, sentence, actions fade up in sequence | Hierarchy: claim first, proof second | CSS keyframes, no JS |
 | Term swap | Shows the three kinds of proof in one sentence | Client state; the active term changes colour |
 | Proof number counts up | The number is the visual | rAF on swap only, ~0.9s ease-out; final value for screen readers |
-| Card board drift, lean, spread | The hero's visual: a calm, living collage | GSAP transforms; paused offscreen; static under reduced motion |
+| Commit field cells and ripple | The ground feels alive, quietly | One canvas, cached grid, live cells only; paused offscreen |
+| Motion shape reacts to the term | The hero's visual answers the sentence | GSAP (MorphSVG for the glyph), SVG attributes and transforms; static under reduced motion |
 | Theme circle reveal | The switch reads as one gesture from the button | View Transitions API, clip-path on the new snapshot, 520ms |
 | Menu toggle lines meet, then cross | The button explains its own state change | CSS transitions with staggered delays |
 | Menu path typing + cursor | Ties the menu to the logo and the /slash language | 22ms per character; instant under reduced motion |
