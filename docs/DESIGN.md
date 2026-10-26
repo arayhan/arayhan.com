@@ -53,8 +53,10 @@ accent color, never a second face.
 
 | Role | Size | Weight / tracking |
 |---|---|---|
-| Hero headline | `text-hero` 26 -> 40px, line-height 1.16, about 4 lines on desktop | 500, `-0.035em` |
-| Hero subtext | `text-sub` 16 -> 19px, max 42ch | 400, `mute` |
+| Hero name (h1) | `text-display` 48 -> 76px, line-height 1, one line | 600, `-0.045em` |
+| Hero sentence | `text-lede` 20 -> 28px, line-height 1.35, max 30ch | 300, `-0.02em`, `mute` |
+| Page headline (stubs) | `text-hero` 26 -> 40px, line-height 1.16 | 600, `-0.04em` |
+| Page subtext | `text-sub` 16 -> 19px | 400, `mute` |
 | Eyebrow / labels | 14px | 500, `mute`, sentence case (no uppercase tracking) |
 | Buttons | 14px | 500 |
 
@@ -81,7 +83,9 @@ owner's request; the cursor now lives only in the menu's address line.
 
 - Left: logo, then **Work, Services, Blog, Talks, About** as plain text from `lg`
   (`QuickNav`, client: the current page gets ink color and a 1px accent underline).
-- Right: email icon (from `lg`), theme toggle, a hairline divider, and the **Menu** toggle:
+- Right: the email address as a hairline pill (from `xl`, inverts to ink on hover, as on
+  dwinawan.com; an envelope icon stands in from `lg` to `xl`, where the nav is too tight),
+  theme toggle, a hairline divider, and the **Menu** toggle:
   the word "Menu" beside a 40px round icon (hairline border). **Hover opens it** (mouse
   only): it stays open while the pointer is on the trigger or the panel and closes 220ms
   after leaving both; a mouse click never closes it. Tap, Enter/Space and Ctrl/Cmd K
@@ -105,40 +109,38 @@ pages via `src/components/StubPage.tsx` until content exists).
 
 `src/modules/home/components/Hero.tsx` (server) with client leaves. The page ends on the
 hero (the "A Rayhan P." masthead was removed on the owner's request). The hero fills the
-first screen: at least `100svh` minus `--header-h`, content centred; it grows rather than
-clips when the content is taller (phones, short laptops).
+first screen: at least `100svh` minus `--header-h`; it grows rather than clips when the
+content is taller (phones, short laptops). References the owner chose: the type of
+theodorusclarence.com and dwinawan.com.
 
-0. **Backdrop** (`HeroBackdrop`): a soft aurora. Three radial light shapes (`--aurora-1..3`:
-   blue, indigo, sky) drift on slow unsynced loops, lean toward the mouse at different depths
-   and rise and trade places as the hero scrolls away, so the colour shifts toward sky. Fine
-   static grain stops banding; the bottom fades into the page. Transform and opacity only, on
-   a sticky viewport-sized stage, paused offscreen; still under reduced motion. (Replaced a
-   dot-lattice canvas the owner did not take to.)
+0. **Backdrop**: static CSS. One soft blue light from the top centre (`.hero-spot`,
+   `--spot`) over a faint 56px line grid (`.hero-grid`, `--grid-line`) masked to fade out
+   away from the top. (Replaced a drifting aurora, and before it a dot-lattice canvas; the
+   owner took to neither.)
 
 1. **Status badge**: mono, a three-bar live meter + a terminal line,
    "$ whoami → **Solution Fullstack Engineer** @ Badr Interactive" (`profile.status`). Wraps
    on narrow screens rather than truncating.
-2. **Interactive sentence** (`HeroShowcase`), the h1: "I'm A Rayhan P. I make complicated
-   products feel simple. Wander through my **/works**, **/talks** and **/products**." Each term is a button: hover,
-   focus or tap draws its accent rule, moves the soft glow behind it and swaps the proof card
-   on the right: term and index, one big number that counts up, its label, a hairline row of
+2. **Name and sentence** (`HeroShowcase`): the h1 is just "I'm Rayhan" (Clarence-style),
+   then one light, muted sentence (Dwinawan-style): "Fullstack engineer who makes complicated
+   products feel simple. Wander through my **/works**, **/talks** and **/products**." Each
+   term is a button in the sentence's own grey: hover turns it ink, and the active one is
+   accent. Hover, focus or tap swaps the proof card: term and index, one big number that counts up, its label, a hairline row of
    supporting facts, the title line and an "Open /term" link (all from `profile.terms`).
    Each supporting fact carries a duotone icon in a soft tile, or for products the
    product's own logo (`public/products/*.svg`, copied from its repo). Idle, it advances
    every 8s; it holds while the mouse or focus is inside.
-3. Bio, "Email me" + "See my work", social icons.
+3. "Email me" + "See my work", social icons. (The bio paragraph left the hero.)
 3a. **Portrait** (`profile.portrait`, `public/portrait.webp`): a waist-up cut-out of the
-   owner on stage in a Firebase tee, at the top of the right column. On desktop it is sized
-   by height (`min(52svh, 34rem)`) so it scales with the screen; the proof card overlaps its
-   lower part, and the tee fades out (mask 48% to 78%) before the card edge so nothing
-   ghosts through the card's blur. A blue rim (`--portrait-rim`, two drop-shadows) follows
-   the silhouette and sits outside the fade mask, which would clip it to a box. Depth: it
-   leans up to ~6px against the pointer (the aurora leans toward it) and sinks slightly on
-   scroll; frames run only while settling; still under reduced motion.
+   owner on stage in a Firebase tee, with no effects (the owner removed a rim glow, a colour
+   grade and pointer motion). Desktop: it stands on the hero's bottom edge, `min(84svh,
+   46rem)` tall, right-aligned, with only the last 16% faded to soften the arm line. The
+   proof card (20rem, compact) sits beside it at elbow height, poking 6rem into the gap, so
+   the face and chest stay clear. Phones: the photo sits above the card, which overlaps its
+   faded lower part.
    Made from a stage photo: pre-crop above the table, `rembg` with `birefnet-portrait`
-   (cleaner hair than `u2net_human_seg`), trim to alpha, a cool grade (red x0.93, blue
-   x1.07, saturation 0.9) so the warm stage light matches the page, WebP q85. The source
-   photo is not committed.
+   (cleaner hair than `u2net_human_seg`), trim to alpha, WebP q85. The source photo is not
+   committed.
 4. **Album marquee** (`AlbumMarquee`), rendered only once `profile.album` has photos: two rows in opposite directions; page scroll speed
    boosts and flips them (scrollY sampled per frame, no listener); hovering a row pauses it,
    lifts the photo and dims the others.
@@ -150,10 +152,9 @@ Placeholders (album photos, unconfirmed socials) are
 
 | Motion | Why | How |
 |---|---|---|
-| Badge, h1, bio, actions fade up in sequence | Hierarchy: claim first, proof second | CSS keyframes, no JS |
-| Term swap + glow move | Shows the three kinds of proof in one sentence | Client state; glow moves by `transform` only |
+| Badge, name, sentence, actions fade up in sequence | Hierarchy: claim first, proof second | CSS keyframes, no JS |
+| Term swap | Shows the three kinds of proof in one sentence | Client state; the active term changes colour |
 | Proof number counts up | The number is the visual until photos exist | rAF on swap only, ~0.9s ease-out; final value for screen readers |
-| Aurora drift, pointer lean, scroll rise | Depth and a response to the visitor, quietly | rAF transform/opacity while visible; still under reduced motion |
 | Menu toggle lines meet, then cross | The button explains its own state change | CSS transitions with staggered delays |
 | Menu path typing + cursor | Ties the menu to the logo and the /slash language | 22ms per character; instant under reduced motion |
 | Marquee drift, speed-up on scroll | Album feels alive without taking over | rAF transform; static, hand-scrollable under reduced motion |
