@@ -39,9 +39,9 @@ function StatMark({ stat }: { stat: ShowcaseStat }) {
 
 function Portrait({ portrait }: { portrait: PortraitData }) {
   return (
-    // The cut-out rises behind the card, which overlaps its lower part; the bottom fades into the page.
-    <div className="portrait-fade fade-rise relative mx-auto -mb-28 w-[min(80%,22rem)] lg:-mb-36 lg:w-auto" style={{ "--i": 1 } as CSSProperties}>
-      <Image src={portrait.src} alt={portrait.alt} width={portrait.width} height={portrait.height} priority sizes="(min-width: 1024px) 330px, min(80vw, 352px)" className="h-auto w-full lg:h-[min(52svh,34rem)] lg:w-auto" />
+    // Phones: above the card, which overlaps its lower part. Desktop: standing on the hero's bottom edge.
+    <div className="portrait-fade fade-rise relative mx-auto -mb-28 w-[min(80%,22rem)] lg:absolute lg:right-0 lg:bottom-0 lg:m-0 lg:w-auto" style={{ "--i": 1 } as CSSProperties}>
+      <Image src={portrait.src} alt={portrait.alt} width={portrait.width} height={portrait.height} priority sizes="(min-width: 1024px) 460px, min(80vw, 352px)" className="h-auto w-full lg:h-[min(84svh,46rem)] lg:w-auto lg:max-w-none" />
     </div>
   );
 }
@@ -86,9 +86,9 @@ export function HeroShowcase({ intro, terms, portrait, badge, children }: Props)
       onPointerLeave={(e) => e.pointerType === "mouse" && setEngaged(false)}
       onFocus={() => setEngaged(true)}
       onBlur={onBlur}
-      className="relative mx-auto grid w-full max-w-page gap-10 px-4 sm:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,25rem)] lg:items-center lg:gap-16 lg:px-14"
+      className="relative mx-auto grid w-full max-w-page gap-10 px-4 sm:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,28rem)] lg:gap-16 lg:px-14"
     >
-      <div className="relative grid min-w-0 grid-cols-[minmax(0,1fr)] justify-items-start gap-7">
+      <div className="relative grid min-w-0 grid-cols-[minmax(0,1fr)] justify-items-start gap-7 lg:self-center lg:py-16">
         {badge}
         <h1 id="hero-title" className="fade-rise text-display font-semibold tracking-[-0.045em]" style={{ "--i": 1 } as CSSProperties}>
           {intro.name}
@@ -116,15 +116,15 @@ export function HeroShowcase({ intro, terms, portrait, badge, children }: Props)
         {children}
       </div>
 
-      <div className="relative grid min-w-0">
+      <div className="relative grid min-w-0 lg:block lg:min-h-[34rem]">
         {portrait && <Portrait portrait={portrait} />}
         <article
           id="hero-proof"
           aria-live="polite"
-          className="fade-rise relative z-10 min-w-0 overflow-hidden rounded-2xl border border-line bg-surface/80 shadow-[0_24px_60px_-32px_rgb(15_23_42/0.35)] backdrop-blur-md"
+          className="fade-rise relative z-10 min-w-0 overflow-hidden rounded-2xl border border-line bg-surface/90 shadow-[0_24px_60px_-32px_rgb(15_23_42/0.35)] backdrop-blur-md lg:absolute lg:bottom-[8%] lg:-left-24 lg:w-[20rem]"
           style={{ "--i": 2 } as CSSProperties}
         >
-          <div key={current.term} className="fade-rise grid gap-5 p-5 sm:p-6">
+          <div key={current.term} className="fade-rise grid gap-4 p-5">
             <div className="flex items-center justify-between font-mono text-xs">
               <span className="text-accent">{current.term}</span>
               <span className="text-mute">
@@ -133,7 +133,7 @@ export function HeroShowcase({ intro, terms, portrait, badge, children }: Props)
             </div>
 
             <div className="grid gap-1.5">
-              <p className="text-[clamp(2.75rem,2.15rem+1.9vw,3.75rem)] leading-[0.95] font-semibold tracking-[-0.055em] tabular-nums">
+              <p className="text-[clamp(2.5rem,2.1rem+1.2vw,3.25rem)] leading-[0.95] font-semibold tracking-[-0.055em] tabular-nums">
                 <CountUp value={current.lead.value} animate={swapped} />
               </p>
               <p className="text-[15px] text-ink">{current.lead.label}</p>
@@ -142,9 +142,9 @@ export function HeroShowcase({ intro, terms, portrait, badge, children }: Props)
 
             <dl className="grid auto-cols-fr grid-flow-col border-t border-line">
               {current.more.map((s, i) => (
-                <div key={s.value} className={`flex min-w-0 flex-col-reverse justify-end gap-1 pt-3.5 ${i > 0 ? "border-l border-line pl-4" : ""} ${i < current.more.length - 1 ? "pr-4" : ""}`}>
-                  <dt className="text-[13px] leading-snug text-mute">{s.label}</dt>
-                  <dd className="grid justify-items-start gap-2 text-lg font-semibold tracking-tight">
+                <div key={s.value} className={`flex min-w-0 flex-col-reverse justify-end gap-1 pt-3.5 ${i > 0 ? "border-l border-line pl-3" : ""} ${i < current.more.length - 1 ? "pr-3" : ""}`}>
+                  <dt className="text-xs leading-snug text-mute">{s.label}</dt>
+                  <dd className="grid justify-items-start gap-2 text-base font-semibold tracking-tight">
                     <StatMark stat={s} />
                     {s.value}
                   </dd>

@@ -207,6 +207,13 @@ h3 {
   mask-image: linear-gradient(to bottom, #000 48%, transparent 78%);
 }
 
+/* Standing on the hero's edge, only the ragged arm line needs softening. */
+@media (width >= 64rem) {
+  .portrait-fade {
+    mask-image: linear-gradient(to bottom, #000 84%, transparent);
+  }
+}
+
 /* Menu toggle (SiteMenu): three equal 16 x 2px bars on a whole-pixel grid (centres at 4, 8
    and 12px). Thickness and spacing are whole pixels so, at any display scaling, every bar
    lands on the same subpixel and renders identically. Opening, the outer bars meet the
