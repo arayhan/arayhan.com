@@ -6,10 +6,9 @@ import { THEME_STORAGE_KEY } from "@/utils/theme";
 
 const REVEAL_MS = 520;
 
+// Dark-first: without a saved choice the site is dark, whatever the OS prefers.
 function currentTheme(): "light" | "dark" {
-  const explicit = document.documentElement.dataset.theme;
-  if (explicit === "light" || explicit === "dark") return explicit;
-  return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  return document.documentElement.dataset.theme === "light" ? "light" : "dark";
 }
 
 // Which icon shows is decided in CSS (globals.css .theme-sun/.theme-moon), so the

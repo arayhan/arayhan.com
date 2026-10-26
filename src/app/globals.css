@@ -31,6 +31,7 @@
 
   --font-sans: var(--font-geist), system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, Consolas, monospace;
+  --font-display: var(--font-kanit), var(--font-geist), system-ui, sans-serif;
 
   --text-hero: var(--size-hero);
   --text-hero--line-height: 1.16;
@@ -149,6 +150,15 @@ h3 {
   .hero-term[aria-pressed="true"] {
     color: var(--term-hue, var(--accent));
   }
+}
+
+/* Giant display headings: Kanit 900 in a cool vertical gradient (darker shades on light). */
+.text-display-gradient {
+  background: linear-gradient(180deg, var(--display-from) 0%, var(--display-to) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Card corner texture: a faint dot field behind the content, fading out from the top-right. */
@@ -283,27 +293,17 @@ h3 {
   mix-blend-mode: normal;
 }
 
-/* Theme toggle shows the icon of the theme it switches to. */
-.theme-sun {
+/* Theme toggle shows the icon of the theme it switches to: the sun on the dark default. */
+.theme-moon {
   display: none;
 }
 
-:root[data-theme="dark"] .theme-sun {
+:root[data-theme="light"] .theme-sun {
+  display: none;
+}
+
+:root[data-theme="light"] .theme-moon {
   display: block;
-}
-
-:root[data-theme="dark"] .theme-moon {
-  display: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-sun {
-    display: block;
-  }
-
-  :root:not([data-theme="light"]) .theme-moon {
-    display: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
