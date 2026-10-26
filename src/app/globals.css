@@ -164,6 +164,11 @@ h3 {
   transform: translate3d(var(--reveal-x, 0), var(--reveal-y, 30px), 0);
 }
 
+/* The hero cut-out: only the ragged arm line at the bottom dissolves. */
+.portrait-fade {
+  mask-image: linear-gradient(to bottom, #000 82%, transparent);
+}
+
 /* Giant display headings: Kanit 900 in a cool vertical gradient (darker shades on light). */
 .text-display-gradient {
   background: linear-gradient(180deg, var(--display-from) 0%, var(--display-to) 100%);
