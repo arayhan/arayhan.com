@@ -302,6 +302,13 @@ h3 {
   }
 }
 
+/* Theme switch: ThemeToggle grows the new snapshot as a circle; the default cross-fade would fight it. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
 /* Theme toggle shows the icon of the theme it switches to. */
 .theme-sun {
   display: none;
