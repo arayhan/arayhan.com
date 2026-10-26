@@ -104,7 +104,9 @@ pages via `src/components/StubPage.tsx` until content exists).
 ## Hero
 
 `src/modules/home/components/Hero.tsx` (server) with client leaves. The page ends on the
-hero (the "A Rayhan P." masthead was removed on the owner's request).
+hero (the "A Rayhan P." masthead was removed on the owner's request). The hero fills the
+first screen: at least `100svh` minus `--header-h`, content centred; it grows rather than
+clips when the content is taller (phones, short laptops).
 
 0. **Backdrop** (`HeroBackdrop`): a soft aurora. Three radial light shapes (`--aurora-1..3`:
    blue, indigo, sky) drift on slow unsynced loops, lean toward the mouse at different depths
@@ -125,14 +127,19 @@ hero (the "A Rayhan P." masthead was removed on the owner's request).
    product's own logo (`public/products/*.svg`, copied from its repo). Idle, it advances
    every 8s; it holds while the mouse or focus is inside.
 3. Bio, "Email me" + "See my work", social icons.
-3a. **Portrait** (`profile.portrait`): a cut-out photo (transparent WebP) at the top of the
-   right column, its lower part fading into the page and overlapped by the proof card, with
-   the aurora glowing behind it. Hidden while `portrait` is null.
+3a. **Portrait** (`profile.portrait`, `public/portrait.webp`): a waist-up cut-out of the
+   owner on stage in a Firebase tee, at the top of the right column. On desktop it is sized
+   by height (`min(52svh, 34rem)`) so it scales with the screen; the proof card overlaps its
+   lower third, and the tee fades out (mask 48% to 78%) before the card edge so nothing
+   ghosts through the card's blur. The aurora glows behind it.
+   Made from a stage photo: pre-crop above the table, `rembg` with `birefnet-portrait`
+   (cleaner hair than `u2net_human_seg`), trim to alpha, WebP q85. The source photo is not
+   committed.
 4. **Album marquee** (`AlbumMarquee`), rendered only once `profile.album` has photos: two rows in opposite directions; page scroll speed
    boosts and flips them (scrollY sampled per frame, no listener); hovering a row pauses it,
    lifts the photo and dims the others.
 
-Placeholders (portrait, album photos, unconfirmed socials) are
+Placeholders (album photos, unconfirmed socials) are
 `TODO(content)`; nothing renders an empty photo frame; unconfirmed social URLs are `null` and not rendered.
 
 ## Motion
