@@ -151,20 +151,6 @@ h3 {
   }
 }
 
-/* Hero backdrop: one soft light from the top centre over a faint line grid that fades out. Static. */
-.hero-spot {
-  background: radial-gradient(60% 55% at 50% -10%, var(--spot), transparent 70%);
-}
-
-.hero-grid {
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 56px 56px;
-  background-position: center top;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000, transparent);
-}
-
 /* Card corner texture: a faint dot field behind the content, fading out from the top-right. */
 .card-dots {
   isolation: isolate;
@@ -186,18 +172,6 @@ h3 {
 
 .marquee-mask {
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-}
-
-/* Hero portrait: the cut-out dissolves into the page before the proof card overlaps it. */
-.portrait-fade {
-  mask-image: linear-gradient(to bottom, #000 48%, transparent 78%);
-}
-
-/* Standing on the hero's edge, only the ragged arm line needs softening. */
-@media (width >= 64rem) {
-  .portrait-fade {
-    mask-image: linear-gradient(to bottom, #000 84%, transparent);
-  }
 }
 
 /* Menu toggle (SiteMenu): three equal 16 x 2px bars on a whole-pixel grid (centres at 4, 8

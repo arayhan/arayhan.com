@@ -24,12 +24,8 @@ function StatusBadge({ status }: { status: Profile["status"] }) {
 export function Hero({ profile }: { profile: Profile }) {
   return (
     <section aria-labelledby="hero-title" className="relative isolate grid grid-cols-[minmax(0,1fr)] overflow-x-clip">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <div className="hero-spot absolute inset-0" />
-        <div className="hero-grid absolute inset-0" />
-      </div>
       <div className="grid min-h-[calc(100svh-var(--header-h))] grid-cols-[minmax(0,1fr)] content-center py-8 md:py-10 lg:content-stretch lg:py-0">
-        <HeroShowcase intro={profile.intro} terms={profile.terms} portrait={profile.portrait} badge={<StatusBadge status={profile.status} />}>
+        <HeroShowcase intro={profile.intro} terms={profile.terms} badge={<StatusBadge status={profile.status} />}>
           <div className="fade-rise flex flex-wrap gap-2.5 pt-1" style={step(3)}>
             <a href={`mailto:${profile.email}`} className={actionClass("primary")}>
               Email me

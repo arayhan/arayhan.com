@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightIcon, BriefcaseIcon, CubeIcon, MedalIcon, MicrophoneStageIcon, RocketLaunchIcon, UsersThreeIcon } from "@phosphor-icons/react/dist/ssr";
 import type { Icon } from "@phosphor-icons/react";
@@ -8,14 +7,13 @@ import { Fragment, useEffect, useRef, useState, type CSSProperties, type FocusEv
 import { actionClass } from "@/components/ui/action";
 import { Card } from "@/components/ui/Card";
 import { IconBadge } from "@/components/ui/IconBadge";
-import type { Hue, Portrait as PortraitData, Profile, ShowcaseIcon, ShowcaseStat } from "@/domain/portfolio";
+import type { Hue, Profile, ShowcaseIcon, ShowcaseStat } from "@/domain/portfolio";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { CountUp } from "./CountUp";
 
 type Props = {
   intro: Profile["intro"];
   terms: Profile["terms"];
-  portrait: Profile["portrait"];
   badge: ReactNode;
   children: ReactNode;
 };
@@ -50,21 +48,12 @@ function StatMark({ stat, hue }: { stat: ShowcaseStat; hue: Hue }) {
   return <IconBadge icon={ICONS[stat.icon]} hue={stat.hue ?? hue} size="sm" />;
 }
 
-function Portrait({ portrait }: { portrait: PortraitData }) {
-  return (
-    // Phones: above the card, which overlaps its lower part. Desktop: standing on the hero's bottom edge.
-    <div className="portrait-fade fade-rise relative mx-auto -mb-28 w-[min(80%,22rem)] lg:absolute lg:right-0 lg:bottom-0 lg:m-0 lg:w-auto" style={{ "--i": 1 } as CSSProperties}>
-      <Image src={portrait.src} alt={portrait.alt} width={portrait.width} height={portrait.height} priority sizes="(min-width: 1024px) 460px, min(80vw, 352px)" className="h-auto w-full lg:h-[min(84svh,46rem)] lg:w-auto lg:max-w-none" />
-    </div>
-  );
-}
-
 /**
  * Name first, then a muted dwinawan-style sentence: hovering, focusing or tapping a /term
  * lights it in its hue and swaps the proof card, whose big number counts up. Left alone,
  * the card walks the terms; it holds still while the pointer or focus is inside.
  */
-export function HeroShowcase({ intro, terms, portrait, badge, children }: Props) {
+export function HeroShowcase({ intro, terms, badge, children }: Props) {
   const [active, setActive] = useState(0);
   const [engaged, setEngaged] = useState(false);
   const [swapped, setSwapped] = useState(false);
@@ -131,13 +120,12 @@ export function HeroShowcase({ intro, terms, portrait, badge, children }: Props)
       </div>
 
       <div className="relative grid min-w-0 lg:block lg:min-h-[34rem]">
-        {portrait && <Portrait portrait={portrait} />}
         <Card
           as="article"
           dotted
           id="hero-proof"
           aria-live="polite"
-          className="fade-rise z-10 min-w-0 overflow-hidden lg:absolute lg:bottom-[8%] lg:-left-24 lg:w-[21rem]"
+          className="fade-rise z-10 min-w-0 overflow-hidden lg:absolute lg:top-1/2 lg:left-1/2 lg:w-[21rem] lg:-translate-x-1/2 lg:-translate-y-[42%]"
           style={{ "--i": 2 } as CSSProperties}
         >
           <div key={current.term} className="fade-rise">
