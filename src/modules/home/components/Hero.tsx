@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { SocialLinks } from "@/components/SocialLinks";
 import type { Profile } from "@/domain/portfolio";
-import { actionClass } from "../home.actions";
+import { actionClass } from "@/components/ui/action";
 import { AlbumMarquee } from "./AlbumMarquee";
 import { HeroShowcase } from "./HeroShowcase";
 
