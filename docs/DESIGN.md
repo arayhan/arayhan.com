@@ -139,8 +139,24 @@ first screen: at least `100svh` minus `--header-h`; it grows rather than clips w
 content is taller (phones, short laptops). References the owner chose: the type of
 theodorusclarence.com and dwinawan.com.
 
-0. **Ground**: the plain `canvas` grey, nothing behind it. (The owner turned down a
-   dot-lattice canvas, a drifting aurora, and a spotlight with a line grid.)
+0. **Backdrop** (`backdrops/HeroBackdrop`, **in review**): the owner found the plain grey
+   too empty, so five variants are live for comparison via `?hero=1..5` and a floating
+   switcher pill (`TODO(owner-pick)`: keep one, delete the rest and the switcher):
+   1. **Flow canvas**: dot grid, three soft hue gradients that lean away from the pointer,
+      dashed connectors from each floating card into the proof card with a pulse every few
+      seconds.
+   2. **Blueprint**: rulers that track the cursor, a selection box with the card's live
+      size, measured gaps (`--guide` magenta), crosshair readout, snap guides on card edges.
+   3. **Commit field**: a canvas of contribution-graph cells that commit in the category
+      hues and ripple around the cursor; thinned behind the copy.
+   4. **Kinetic type**: three rows of giant outlined words (the /terms, then the owner's
+      vocabulary) sliding at different speeds; the active /term lights in its hue.
+   5. **Tactile keycaps**: slab-and-lip keys at the edges that type `SHIP ⏎` on a loop,
+      press under the cursor and on Ctrl/Cmd K. Desktop only.
+   All run only while on screen and render still under reduced motion. Performance rule
+   learned here: no blur filters or CSS masks over moving layers (they cost 10-45fps);
+   use gradients, alpha baked into canvas drawing, or overlay fades. (Turned down before:
+   a dot-lattice canvas, a drifting aurora, a spotlight with a line grid.)
 
 1. **Status chip**: a small `surface` chip (control radius, border, card shadow) opening with
    a 26px round avatar of the owner (`profile.avatar`, `public/avatar.webp`, a head crop of
