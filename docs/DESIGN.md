@@ -130,11 +130,15 @@ clips when the content is taller (phones, short laptops).
 3a. **Portrait** (`profile.portrait`, `public/portrait.webp`): a waist-up cut-out of the
    owner on stage in a Firebase tee, at the top of the right column. On desktop it is sized
    by height (`min(52svh, 34rem)`) so it scales with the screen; the proof card overlaps its
-   lower third, and the tee fades out (mask 48% to 78%) before the card edge so nothing
-   ghosts through the card's blur. The aurora glows behind it.
+   lower part, and the tee fades out (mask 48% to 78%) before the card edge so nothing
+   ghosts through the card's blur. A blue rim (`--portrait-rim`, two drop-shadows) follows
+   the silhouette and sits outside the fade mask, which would clip it to a box. Depth: it
+   leans up to ~6px against the pointer (the aurora leans toward it) and sinks slightly on
+   scroll; frames run only while settling; still under reduced motion.
    Made from a stage photo: pre-crop above the table, `rembg` with `birefnet-portrait`
-   (cleaner hair than `u2net_human_seg`), trim to alpha, WebP q85. The source photo is not
-   committed.
+   (cleaner hair than `u2net_human_seg`), trim to alpha, a cool grade (red x0.93, blue
+   x1.07, saturation 0.9) so the warm stage light matches the page, WebP q85. The source
+   photo is not committed.
 4. **Album marquee** (`AlbumMarquee`), rendered only once `profile.album` has photos: two rows in opposite directions; page scroll speed
    boosts and flips them (scrollY sampled per frame, no listener); hovering a row pauses it,
    lifts the photo and dims the others.
