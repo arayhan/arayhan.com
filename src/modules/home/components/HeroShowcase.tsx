@@ -86,7 +86,7 @@ function Portrait({ portrait }: { portrait: PortraitData }) {
   return (
     // The cut-out rises behind the card, which overlaps its lower part; the bottom fades into the page.
     // The rim sits outside the fade mask, which would otherwise clip the glow to a box.
-    <div className="portrait-rim fade-rise relative mx-auto -mb-28 w-[min(80%,22rem)] lg:-mb-44 lg:w-auto" style={{ "--i": 1 } as CSSProperties}>
+    <div className="portrait-rim fade-rise relative mx-auto -mb-28 w-[min(80%,22rem)] lg:-mb-36 lg:w-auto" style={{ "--i": 1 } as CSSProperties}>
       <div ref={layer} className="portrait-fade will-change-transform">
         <Image src={portrait.src} alt={portrait.alt} width={portrait.width} height={portrait.height} priority sizes="(min-width: 1024px) 330px, min(80vw, 352px)" className="h-auto w-full lg:h-[min(52svh,34rem)] lg:w-auto" />
       </div>
@@ -196,7 +196,7 @@ export function HeroShowcase({ intro, terms, portrait, badge, children }: Props)
           className="fade-rise relative z-10 min-w-0 overflow-hidden rounded-2xl border border-line bg-surface/80 shadow-[0_24px_60px_-32px_rgb(15_23_42/0.35)] backdrop-blur-md"
           style={{ "--i": 2 } as CSSProperties}
         >
-          <div key={current.term} className="fade-rise grid gap-7 p-6 sm:p-7">
+          <div key={current.term} className="fade-rise grid gap-5 p-5 sm:p-6">
             <div className="flex items-center justify-between font-mono text-xs">
               <span className="text-accent">{current.term}</span>
               <span className="text-mute">
@@ -204,8 +204,8 @@ export function HeroShowcase({ intro, terms, portrait, badge, children }: Props)
               </span>
             </div>
 
-            <div className="grid gap-2">
-              <p className="text-[clamp(3.25rem,2.4rem+2.6vw,4.75rem)] leading-[0.95] font-semibold tracking-[-0.055em] tabular-nums">
+            <div className="grid gap-1.5">
+              <p className="text-[clamp(2.75rem,2.15rem+1.9vw,3.75rem)] leading-[0.95] font-semibold tracking-[-0.055em] tabular-nums">
                 <CountUp value={current.lead.value} animate={swapped} />
               </p>
               <p className="text-[15px] text-ink">{current.lead.label}</p>
@@ -214,9 +214,9 @@ export function HeroShowcase({ intro, terms, portrait, badge, children }: Props)
 
             <dl className="grid auto-cols-fr grid-flow-col border-t border-line">
               {current.more.map((s, i) => (
-                <div key={s.value} className={`flex min-w-0 flex-col-reverse justify-end gap-1 pt-4 ${i > 0 ? "border-l border-line pl-4" : ""} ${i < current.more.length - 1 ? "pr-4" : ""}`}>
+                <div key={s.value} className={`flex min-w-0 flex-col-reverse justify-end gap-1 pt-3.5 ${i > 0 ? "border-l border-line pl-4" : ""} ${i < current.more.length - 1 ? "pr-4" : ""}`}>
                   <dt className="text-[13px] leading-snug text-mute">{s.label}</dt>
-                  <dd className="grid justify-items-start gap-2.5 text-lg font-semibold tracking-tight">
+                  <dd className="grid justify-items-start gap-2 text-lg font-semibold tracking-tight">
                     <StatMark stat={s} />
                     {s.value}
                   </dd>
@@ -224,7 +224,7 @@ export function HeroShowcase({ intro, terms, portrait, badge, children }: Props)
               ))}
             </dl>
 
-            <div className="flex items-center justify-between gap-4 border-t border-line pt-4">
+            <div className="flex items-center justify-between gap-4 border-t border-line pt-3.5">
               <p className="min-w-0 truncate text-sm text-mute">{current.title}</p>
               <Link href={current.href} className="group inline-flex flex-none items-center gap-1.5 text-sm font-medium text-accent">
                 Open {current.term}
