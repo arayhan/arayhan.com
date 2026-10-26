@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { ArrowRightIcon, BriefcaseIcon, CubeIcon, MedalIcon, MicrophoneStageIcon, RocketLaunchIcon, UsersThreeIcon } from "@phosphor-icons/react/dist/ssr";
 import type { Icon } from "@phosphor-icons/react";
-import { Fragment, useEffect, useRef, useState, type CSSProperties, type FocusEvent, type ReactNode } from "react";
+import { Fragment, useRef, type CSSProperties, type FocusEvent, type ReactNode } from "react";
 import { actionClass } from "@/components/ui/action";
 import { Card } from "@/components/ui/Card";
 import { IconBadge } from "@/components/ui/IconBadge";
 import type { Hue, Profile, ShowcaseIcon, ShowcaseStat } from "@/domain/portfolio";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useActiveTerm } from "./ActiveTerm";
 import { CountUp } from "./CountUp";
 import { HeroShape } from "./shapes/HeroShape";
 
@@ -18,8 +18,6 @@ type Props = {
   badge: ReactNode;
   children: ReactNode;
 };
-
-const ADVANCE_MS = 8000;
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -51,33 +49,15 @@ function StatMark({ stat, hue }: { stat: ShowcaseStat; hue: Hue }) {
 
 /**
  * Name first, then a muted dwinawan-style sentence: hovering, focusing or tapping a /term
- * lights it in its hue and swaps the proof card, whose big number counts up. Left alone,
- * the card walks the terms; it holds still while the pointer or focus is inside.
+ * lights it in its hue and swaps the proof card, whose big number counts up. The active term
+ * is shared with the shelf below (ActiveTerm); pointer or focus inside here holds it still.
  */
 export function HeroShowcase({ intro, terms, badge, children }: Props) {
-  const [active, setActive] = useState(0);
-  const [engaged, setEngaged] = useState(false);
-  const [swapped, setSwapped] = useState(false);
-  const reduced = useReducedMotion();
+  const { active, swapped, pick, holdHero } = useActiveTerm();
   const root = useRef<HTMLDivElement>(null);
-  const cycling = !reduced && !engaged;
-
-  const pick = (i: number) => {
-    setSwapped(true);
-    setActive(i);
-  };
-
-  useEffect(() => {
-    if (!cycling) return;
-    const id = window.setTimeout(() => {
-      setSwapped(true);
-      setActive((i) => (i + 1) % terms.length);
-    }, ADVANCE_MS);
-    return () => window.clearTimeout(id);
-  }, [active, cycling, terms.length]);
 
   const onBlur = (e: FocusEvent) => {
-    if (!root.current?.contains(e.relatedTarget as Node | null)) setEngaged(false);
+    if (!root.current?.contains(e.relatedTarget as Node | null)) holdHero(false);
   };
 
   const current = terms[active];
@@ -85,9 +65,9 @@ export function HeroShowcase({ intro, terms, badge, children }: Props) {
   return (
     <div
       ref={root}
-      onPointerEnter={(e) => e.pointerType === "mouse" && setEngaged(true)}
-      onPointerLeave={(e) => e.pointerType === "mouse" && setEngaged(false)}
-      onFocus={() => setEngaged(true)}
+      onPointerEnter={(e) => e.pointerType === "mouse" && holdHero(true)}
+      onPointerLeave={(e) => e.pointerType === "mouse" && holdHero(false)}
+      onFocus={() => holdHero(true)}
       onBlur={onBlur}
       className="relative mx-auto grid w-full max-w-page gap-10 px-4 sm:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,28rem)] lg:gap-16 lg:px-14"
     >
