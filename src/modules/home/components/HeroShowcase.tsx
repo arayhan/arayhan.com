@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightIcon, MedalIcon, MicrophoneStageIcon, RocketLaunchIcon, UsersThreeIcon } from "@phosphor-icons/react/dist/ssr";
 import type { Icon } from "@phosphor-icons/react";
-import { Fragment, useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type FocusEvent, type ReactNode } from "react";
+import { Fragment, useEffect, useRef, useState, type CSSProperties, type FocusEvent, type ReactNode } from "react";
 import type { Portrait as PortraitData, Profile, ShowcaseIcon, ShowcaseStat } from "@/domain/portfolio";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { CountUp } from "./CountUp";
@@ -18,7 +18,6 @@ type Props = {
 };
 
 const ADVANCE_MS = 8000;
-const GLOW_SIZE = 560;
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -48,9 +47,9 @@ function Portrait({ portrait }: { portrait: PortraitData }) {
 }
 
 /**
- * dwinawan-style sentence: hovering, focusing or tapping a /term moves the glow behind it
- * and swaps the proof card, whose big number counts up. Left alone, the card walks the
- * terms; it holds still while the pointer or focus is inside.
+ * Name first, then a muted dwinawan-style sentence: hovering, focusing or tapping a /term
+ * lights it in the accent and swaps the proof card, whose big number counts up. Left alone,
+ * the card walks the terms; it holds still while the pointer or focus is inside.
  */
 export function HeroShowcase({ intro, terms, portrait, badge, children }: Props) {
   const [active, setActive] = useState(0);
@@ -58,8 +57,6 @@ export function HeroShowcase({ intro, terms, portrait, badge, children }: Props)
   const [swapped, setSwapped] = useState(false);
   const reduced = useReducedMotion();
   const root = useRef<HTMLDivElement>(null);
-  const glow = useRef<HTMLDivElement>(null);
-  const termRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const cycling = !reduced && !engaged;
 
   const pick = (i: number) => {
@@ -76,22 +73,6 @@ export function HeroShowcase({ intro, terms, portrait, badge, children }: Props)
     return () => window.clearTimeout(id);
   }, [active, cycling, terms.length]);
 
-  const placeGlow = useCallback(() => {
-    const box = root.current?.getBoundingClientRect();
-    const term = termRefs.current[active]?.getBoundingClientRect();
-    if (!box || !term || !glow.current) return;
-    const x = term.left - box.left + term.width / 2 - GLOW_SIZE / 2;
-    const y = term.top - box.top + term.height / 2 - GLOW_SIZE / 2;
-    glow.current.style.transform = `translate(${x}px, ${y}px)`;
-  }, [active]);
-
-  useLayoutEffect(() => {
-    placeGlow();
-    const observer = new ResizeObserver(placeGlow);
-    if (root.current) observer.observe(root.current);
-    return () => observer.disconnect();
-  }, [placeGlow]);
-
   const onBlur = (e: FocusEvent) => {
     if (!root.current?.contains(e.relatedTarget as Node | null)) setEngaged(false);
   };
@@ -107,23 +88,17 @@ export function HeroShowcase({ intro, terms, portrait, badge, children }: Props)
       onBlur={onBlur}
       className="relative mx-auto grid w-full max-w-page gap-10 px-4 sm:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,25rem)] lg:items-center lg:gap-16 lg:px-14"
     >
-      <div
-        ref={glow}
-        aria-hidden="true"
-        className="pointer-events-none absolute top-0 left-0 size-[560px] rounded-full bg-[radial-gradient(closest-side,var(--glow),transparent)] transition-transform duration-1000 ease-out-soft"
-      />
-
       <div className="relative grid min-w-0 grid-cols-[minmax(0,1fr)] justify-items-start gap-7">
         {badge}
-        <h1 id="hero-title" className="fade-rise text-hero font-medium tracking-[-0.035em] text-pretty" style={{ "--i": 1 } as CSSProperties}>
+        <h1 id="hero-title" className="fade-rise text-display font-semibold tracking-[-0.045em]" style={{ "--i": 1 } as CSSProperties}>
+          {intro.name}
+        </h1>
+        <p className="fade-rise -mt-2 max-w-[30ch] text-lede font-light tracking-[-0.02em] text-pretty text-mute" style={{ "--i": 2 } as CSSProperties}>
           {intro.lead} {intro.invite}{" "}
           {terms.map((t, i) => (
             <Fragment key={t.term}>
               {i > 0 && (i === terms.length - 1 ? " and " : ", ")}
               <button
-                ref={(node) => {
-                  termRefs.current[i] = node;
-                }}
                 type="button"
                 aria-pressed={i === active}
                 aria-controls="hero-proof"
@@ -137,7 +112,7 @@ export function HeroShowcase({ intro, terms, portrait, badge, children }: Props)
             </Fragment>
           ))}
           .
-        </h1>
+        </p>
         {children}
       </div>
 

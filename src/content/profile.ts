@@ -19,7 +19,8 @@ export const profile: Profile = {
   cvPath: null,
   status: { prompt: "whoami", role: "Solution Fullstack Engineer", org: "Badr Interactive" },
   intro: {
-    lead: "I’m A Rayhan P. I make complicated products feel simple.",
+    name: "I’m Rayhan",
+    lead: "Fullstack engineer who makes complicated products feel simple.",
     invite: "Wander through my",
   },
   // Same numbers as projects.ts and roles.ts; change them together.

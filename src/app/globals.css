@@ -16,6 +16,10 @@
 
   --text-hero: var(--size-hero);
   --text-hero--line-height: 1.16;
+  --text-display: var(--size-display);
+  --text-display--line-height: 1;
+  --text-lede: var(--size-lede);
+  --text-lede--line-height: 1.35;
   --text-sub: var(--size-sub);
   --text-sub--line-height: 1.55;
 
@@ -144,24 +148,20 @@ h3 {
     text-align: center;
   }
 
-  /* A /term in the hero sentence: a faint rule always, a solid one drawn in on hover or when active. */
+  /* A /term in the hero sentence: muted like the sentence, ink on hover, accent when it drives the card. */
   .hero-term {
     cursor: pointer;
-    color: color-mix(in srgb, var(--accent) 72%, var(--mute));
-    background:
-      linear-gradient(var(--accent), var(--accent)) 0 100% / 0% 2px no-repeat,
-      linear-gradient(color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent) 22%, transparent)) 0 100% / 100% 2px no-repeat;
-    transition:
-      background-size 600ms var(--ease-out-soft),
-      color 300ms ease;
+    color: inherit;
+    border-radius: 0.25rem;
+    transition: color 300ms ease;
   }
 
-  .hero-term:hover,
+  .hero-term:hover {
+    color: var(--ink);
+  }
+
   .hero-term[aria-pressed="true"] {
     color: var(--accent);
-    background-size:
-      100% 2px,
-      100% 2px;
   }
 }
 

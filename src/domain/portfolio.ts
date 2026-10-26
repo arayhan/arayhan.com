@@ -82,7 +82,7 @@ export type Profile = {
   cvPath: string | null;
   /** The status badge, set as a terminal line: `$ whoami → role @ org`. */
   status: { prompt: string; role: string; org: string };
-  intro: { lead: string; invite: string };
+  intro: { name: string; lead: string; invite: string };
   terms: ShowcaseTerm[];
   bio: string;
   /** The hero marquee stays hidden until real photos are listed here. */

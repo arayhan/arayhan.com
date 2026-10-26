@@ -32,9 +32,6 @@ export function Hero({ profile }: { profile: Profile }) {
       <HeroBackdrop />
       <div className="grid min-h-[calc(100svh-var(--header-h))] grid-cols-[minmax(0,1fr)] content-center py-8 md:py-10">
         <HeroShowcase intro={profile.intro} terms={profile.terms} portrait={profile.portrait} badge={<StatusBadge status={profile.status} />}>
-          <p className="fade-rise max-w-[52ch] text-sub text-mute" style={step(2)}>
-            {profile.bio}
-          </p>
           <div className="fade-rise flex flex-wrap gap-2.5 pt-1" style={step(3)}>
             <a href={`mailto:${profile.email}`} className={actionClass("primary")}>
               Email me
