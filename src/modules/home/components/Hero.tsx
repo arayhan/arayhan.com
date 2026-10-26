@@ -5,7 +5,6 @@ import { SocialLinks } from "@/components/SocialLinks";
 import type { Profile } from "@/domain/portfolio";
 import { actionClass } from "../home.actions";
 import { AlbumMarquee } from "./AlbumMarquee";
-import { HeroBackdrop } from "./HeroBackdrop";
 import { HeroShowcase } from "./HeroShowcase";
 
 const step = (i: number) => ({ "--i": i }) as CSSProperties;
@@ -29,7 +28,10 @@ function StatusBadge({ status }: { status: Profile["status"] }) {
 export function Hero({ profile }: { profile: Profile }) {
   return (
     <section aria-labelledby="hero-title" className="relative isolate grid grid-cols-[minmax(0,1fr)] overflow-x-clip">
-      <HeroBackdrop />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+        <div className="hero-spot absolute inset-0" />
+        <div className="hero-grid absolute inset-0" />
+      </div>
       <div className="grid min-h-[calc(100svh-var(--header-h))] grid-cols-[minmax(0,1fr)] content-center py-8 md:py-10 lg:content-stretch lg:py-0">
         <HeroShowcase intro={profile.intro} terms={profile.terms} portrait={profile.portrait} badge={<StatusBadge status={profile.status} />}>
           <div className="fade-rise flex flex-wrap gap-2.5 pt-1" style={step(3)}>

@@ -12,11 +12,9 @@
   --soft: #eef3ff;
   --accent: #1d4ed8;
   --on-accent: #ffffff;
-  /* Hero aurora: blue, indigo, sky */
-  --aurora-1: rgb(59 130 246 / 0.28);
-  --aurora-2: rgb(99 102 241 / 0.2);
-  --aurora-3: rgb(14 165 233 / 0.22);
-  --grain: 0.035;
+  /* Hero backdrop: top spotlight and grid lines */
+  --spot: rgb(59 130 246 / 0.16);
+  --grid-line: rgb(15 23 42 / 0.05);
 
   /* Type scale, fluid from ~375px to ~1280px */
   --size-hero: clamp(1.625rem, 1.05rem + 2.1vw, 2.5rem);
@@ -46,10 +44,8 @@
     --soft: #0f1d3a;
     --accent: #60a5fa;
     --on-accent: #0b1b3a;
-    --aurora-1: rgb(37 99 235 / 0.34);
-    --aurora-2: rgb(79 70 229 / 0.26);
-    --aurora-3: rgb(14 165 233 / 0.2);
-    --grain: 0.06;
+    --spot: rgb(59 130 246 / 0.22);
+    --grid-line: rgb(255 255 255 / 0.05);
     color-scheme: dark;
   }
 }
@@ -63,9 +59,7 @@
   --soft: #0f1d3a;
   --accent: #60a5fa;
   --on-accent: #0b1b3a;
-  --aurora-1: rgb(37 99 235 / 0.34);
-  --aurora-2: rgb(79 70 229 / 0.26);
-  --aurora-3: rgb(14 165 233 / 0.2);
-  --grain: 0.06;
+  --spot: rgb(59 130 246 / 0.22);
+  --grid-line: rgb(255 255 255 / 0.05);
   color-scheme: dark;
 }
