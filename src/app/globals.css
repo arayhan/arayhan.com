@@ -31,7 +31,6 @@
 
   --font-sans: var(--font-geist), system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, Consolas, monospace;
-  --font-display: var(--font-kanit), var(--font-geist), system-ui, sans-serif;
 
   --text-hero: var(--size-hero);
   --text-hero--line-height: 1.16;
@@ -150,32 +149,6 @@ h3 {
   .hero-term[aria-pressed="true"] {
     color: var(--term-hue, var(--accent));
   }
-}
-
-/* Reveal (home/motion): slides in once in view. Only hidden when JS is there to show it. */
-.reveal {
-  transition:
-    opacity var(--reveal-dur, 0.7s) cubic-bezier(0.25, 0.1, 0.25, 1) var(--reveal-delay, 0s),
-    transform var(--reveal-dur, 0.7s) cubic-bezier(0.25, 0.1, 0.25, 1) var(--reveal-delay, 0s);
-}
-
-.js .reveal:not([data-shown]) {
-  opacity: 0;
-  transform: translate3d(var(--reveal-x, 0), var(--reveal-y, 30px), 0);
-}
-
-/* The hero cut-out: only the ragged arm line at the bottom dissolves. */
-.portrait-fade {
-  mask-image: linear-gradient(to bottom, #000 82%, transparent);
-}
-
-/* Giant display headings: Kanit 900 in a cool vertical gradient (darker shades on light). */
-.text-display-gradient {
-  background: linear-gradient(180deg, var(--display-from) 0%, var(--display-to) 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
 }
 
 /* Card corner texture: a faint dot field behind the content, fading out from the top-right. */
@@ -310,17 +283,27 @@ h3 {
   mix-blend-mode: normal;
 }
 
-/* Theme toggle shows the icon of the theme it switches to: the sun on the dark default. */
-.theme-moon {
+/* Theme toggle shows the icon of the theme it switches to. */
+.theme-sun {
   display: none;
 }
 
-:root[data-theme="light"] .theme-sun {
-  display: none;
-}
-
-:root[data-theme="light"] .theme-moon {
+:root[data-theme="dark"] .theme-sun {
   display: block;
+}
+
+:root[data-theme="dark"] .theme-moon {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-sun {
+    display: block;
+  }
+
+  :root:not([data-theme="light"]) .theme-moon {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

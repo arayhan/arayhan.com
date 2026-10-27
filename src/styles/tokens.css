@@ -1,44 +1,40 @@
 /* Rayhan design tokens. DESIGN.md is the spec; change both together.
    Raw names here; globals.css maps them onto Tailwind (canvas -> bg-canvas, size-hero -> text-hero,
    card-radius -> rounded-card, card-shadow -> shadow-card).
-   Dark is the bare :root (dark-first, whatever the OS says); light redefines colors only, for
-   the manual toggle. */
+   Light is the bare :root; dark redefines colors only, for the OS setting and for the manual toggle. */
 
 :root {
-  /* Color: near-black canvas, cool light ink */
-  --canvas: #0c0c0c;
-  --ink: #e6edf2;
-  --mute: #8b95a0;
-  --line: #26282c;
-  --surface: #141517;
-  --soft: #1b1c1f;
-  --accent: #60a5fa;
-  --on-accent: #0b1b3a;
+  /* Color: a cool grey page under white cards */
+  --canvas: #eef1f5;
+  --ink: #0f172a;
+  --mute: #475569;
+  --line: #e2e7ef;
+  --surface: #ffffff;
+  --soft: #f4f6fa;
+  --accent: #1d4ed8;
+  --on-accent: #ffffff;
   /* Tactile edges: the darker bottom lip of a pressable control */
-  --accent-lip: #1d4ed8;
-  --slab-lip: #050505;
+  --accent-lip: #1e3a8a;
+  --slab-lip: #d5dce6;
   /* Category hues: icon badge fills, their notice tints, and text that must stay 4.5:1 on surface */
-  --hue-blue: #3b82f6;
-  --hue-violet: #8b5cf6;
-  --hue-amber: #f59e0b;
-  --hue-green: #10b981;
-  --hue-blue-soft: rgb(59 130 246 / 0.14);
-  --hue-violet-soft: rgb(139 92 246 / 0.14);
-  --hue-amber-soft: rgb(245 158 11 / 0.12);
-  --hue-green-soft: rgb(16 185 129 / 0.12);
-  --hue-blue-text: #60a5fa;
-  --hue-violet-text: #a78bfa;
-  --hue-amber-text: #fbbf24;
-  --hue-green-text: #34d399;
-  --dot: rgb(255 255 255 / 0.07);
-  /* Display headings: a cool grey-to-steel vertical gradient */
-  --display-from: #646973;
-  --display-to: #bbccd7;
+  --hue-blue: #2563eb;
+  --hue-violet: #7c3aed;
+  --hue-amber: #d97706;
+  --hue-green: #059669;
+  --hue-blue-soft: #eff4ff;
+  --hue-violet-soft: #f4f0ff;
+  --hue-amber-soft: #fff6e6;
+  --hue-green-soft: #eafbf3;
+  --hue-blue-text: #1d4ed8;
+  --hue-violet-text: #6d28d9;
+  --hue-amber-text: #b45309;
+  --hue-green-text: #047857;
+  --dot: rgb(15 23 42 / 0.09);
 
   /* Shape and elevation */
   --card-radius: 16px;
   --control-radius: 12px;
-  --card-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 12px 32px -16px rgb(0 0 0 / 0.7);
+  --card-shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 10px 28px -14px rgb(15 23 42 / 0.14);
 
   /* Type scale, fluid from ~375px to ~1280px */
   --size-hero: clamp(1.625rem, 1.05rem + 2.1vw, 2.5rem);
@@ -55,35 +51,63 @@
   --dur-rise: 800ms;
   --stagger: 60ms;
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
-:root[data-theme="light"] {
-  --canvas: #eef1f5;
-  --ink: #0f172a;
-  --mute: #475569;
-  --line: #e2e7ef;
-  --surface: #ffffff;
-  --soft: #f4f6fa;
-  --accent: #1d4ed8;
-  --on-accent: #ffffff;
-  --accent-lip: #1e3a8a;
-  --slab-lip: #d5dce6;
-  --hue-blue: #2563eb;
-  --hue-violet: #7c3aed;
-  --hue-amber: #d97706;
-  --hue-green: #059669;
-  --hue-blue-soft: #eff4ff;
-  --hue-violet-soft: #f4f0ff;
-  --hue-amber-soft: #fff6e6;
-  --hue-green-soft: #eafbf3;
-  --hue-blue-text: #1d4ed8;
-  --hue-violet-text: #6d28d9;
-  --hue-amber-text: #b45309;
-  --hue-green-text: #047857;
-  --dot: rgb(15 23 42 / 0.09);
-  --display-from: #0f172a;
-  --display-to: #64748b;
-  --card-shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 10px 28px -14px rgb(15 23 42 / 0.14);
-  color-scheme: light;
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --canvas: #0a0f1c;
+    --ink: #f1f5f9;
+    --mute: #94a3b8;
+    --line: #232d42;
+    --surface: #121a2b;
+    --soft: #1a2338;
+    --accent: #60a5fa;
+    --on-accent: #0b1b3a;
+    --accent-lip: #1d4ed8;
+    --slab-lip: #070b15;
+    --hue-blue: #3b82f6;
+    --hue-violet: #8b5cf6;
+    --hue-amber: #f59e0b;
+    --hue-green: #10b981;
+    --hue-blue-soft: rgb(59 130 246 / 0.14);
+    --hue-violet-soft: rgb(139 92 246 / 0.14);
+    --hue-amber-soft: rgb(245 158 11 / 0.12);
+    --hue-green-soft: rgb(16 185 129 / 0.12);
+    --hue-blue-text: #60a5fa;
+    --hue-violet-text: #a78bfa;
+    --hue-amber-text: #fbbf24;
+    --hue-green-text: #34d399;
+    --dot: rgb(255 255 255 / 0.07);
+    --card-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 12px 32px -16px rgb(0 0 0 / 0.7);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --canvas: #0a0f1c;
+  --ink: #f1f5f9;
+  --mute: #94a3b8;
+  --line: #232d42;
+  --surface: #121a2b;
+  --soft: #1a2338;
+  --accent: #60a5fa;
+  --on-accent: #0b1b3a;
+  --accent-lip: #1d4ed8;
+  --slab-lip: #070b15;
+  --hue-blue: #3b82f6;
+  --hue-violet: #8b5cf6;
+  --hue-amber: #f59e0b;
+  --hue-green: #10b981;
+  --hue-blue-soft: rgb(59 130 246 / 0.14);
+  --hue-violet-soft: rgb(139 92 246 / 0.14);
+  --hue-amber-soft: rgb(245 158 11 / 0.12);
+  --hue-green-soft: rgb(16 185 129 / 0.12);
+  --hue-blue-text: #60a5fa;
+  --hue-violet-text: #a78bfa;
+  --hue-amber-text: #fbbf24;
+  --hue-green-text: #34d399;
+  --dot: rgb(255 255 255 / 0.07);
+  --card-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 12px 32px -16px rgb(0 0 0 / 0.7);
+  color-scheme: dark;
 }

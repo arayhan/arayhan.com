@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Kanit } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { SiteHeader } from "@/components/SiteHeader";
 import { menuGroups, quickLinks, showcaseLinks } from "@/content/navigation";
 import { profile } from "@/content/profile";
@@ -9,8 +9,6 @@ import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" });
-// Display headings only; body copy stays Geist.
-const kanit = Kanit({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700", "800", "900"], variable: "--font-kanit", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -32,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     // data-theme is set before paint by themeInitScript, so the server markup cannot match it.
-    <html lang="en" className={`${geist.variable} ${geistMono.variable} ${kanit.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${geist.variable} ${geistMono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
