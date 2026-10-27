@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { ArrowRightIcon, BriefcaseIcon, CubeIcon, MedalIcon, MicrophoneStageIcon, RocketLaunchIcon, UsersThreeIcon } from "@phosphor-icons/react/dist/ssr";
+import { ArrowDownIcon, BriefcaseIcon, CubeIcon, MedalIcon, MicrophoneStageIcon, RocketLaunchIcon, UsersThreeIcon } from "@phosphor-icons/react/dist/ssr";
 import type { Icon } from "@phosphor-icons/react";
 import { Fragment, useRef, type CSSProperties, type FocusEvent, type ReactNode } from "react";
 import { actionClass } from "@/components/ui/action";
@@ -15,6 +14,8 @@ import { HeroShape } from "./shapes/HeroShape";
 type Props = {
   intro: Profile["intro"];
   terms: Profile["terms"];
+  /** How many items the shelf holds for each term, in the same order. */
+  counts: number[];
   badge: ReactNode;
   children: ReactNode;
 };
@@ -52,7 +53,7 @@ function StatMark({ stat, hue }: { stat: ShowcaseStat; hue: Hue }) {
  * lights it in its hue and swaps the proof card, whose big number counts up. The active term
  * is shared with the shelf below (ActiveTerm); pointer or focus inside here holds it still.
  */
-export function HeroShowcase({ intro, terms, badge, children }: Props) {
+export function HeroShowcase({ intro, terms, counts, badge, children }: Props) {
   const { active, swapped, pick, holdHero } = useActiveTerm();
   const root = useRef<HTMLDivElement>(null);
 
@@ -143,10 +144,11 @@ export function HeroShowcase({ intro, terms, badge, children }: Props) {
             </dl>
 
             <div className="border-t border-line p-4">
-              <Link href={current.href} className={`${actionClass("secondary", "sm")} group w-full`}>
-                Open {current.term}
-                <ArrowRightIcon size={14} aria-hidden="true" className="transition-transform duration-300 ease-out-soft group-hover:translate-x-0.5" />
-              </Link>
+              {/* Scrolls to the shelf, which already shows this term's full list. */}
+              <a href="#shelf" className={`${actionClass("secondary", "sm")} group w-full`}>
+                See all {counts[active]}
+                <ArrowDownIcon size={14} aria-hidden="true" className="transition-transform duration-300 ease-out-soft group-hover:translate-y-0.5" />
+              </a>
             </div>
           </div>
         </Card>
