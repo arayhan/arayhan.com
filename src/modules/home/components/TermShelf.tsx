@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRightIcon, BriefcaseIcon, CubeIcon, MicrophoneStageIcon } from "@phosphor-icons/react/dist/ssr";
 import { useEffect, useRef, type CSSProperties } from "react";
 import { actionClass } from "@/components/ui/action";
 import { Card } from "@/components/ui/Card";
-import { HUE_TEXT } from "@/components/ui/hue";
+import { Cover } from "@/components/ui/Cover";
+import { HUE_TEXT, hueAt } from "@/components/ui/hue";
 import type { Product, Profile, Project, Talk } from "@/domain/portfolio";
 import { cx } from "@/utils/cx";
 import { useActiveTerm } from "./ActiveTerm";
@@ -41,17 +42,20 @@ function Metric({ project, featured }: { project: Project; featured: boolean }) 
 }
 
 // Works: a bento with the first project featured across two columns on the navy slab, so five
-// projects fill exactly two rows (lg: 2 + 1, then 3; sm: 2, then 2 + 2).
+// projects fill exactly two rows (lg: 2 + 1, then 3; sm: 2, then 2 + 2). The featured cell
+// sets its cover beside the copy from md; the others put it on top.
 function WorkCard({ project, i }: { project: Project; i: number }) {
   const featured = i === 0;
   const t = tone(featured);
+  const cover = <Cover seed={project.id} hue={hueAt(i)} icon={BriefcaseIcon} src={project.cover} className={featured ? "aspect-video md:aspect-auto md:h-full" : "aspect-video"} />;
   return (
-    <Card feature={featured} className={cx("fade-rise grid content-between gap-5 p-5", featured && "sm:col-span-2 sm:p-7")} style={step(i)}>
-      <div className="min-w-0">
-        <h3 className={cx("font-semibold tracking-tight", featured && "text-xl")}>{project.name}</h3>
-        <p className={cx("truncate text-xs", t.mute)}>{project.client}</p>
-      </div>
-      <div className={cx("grid gap-5", featured && "md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] md:items-end")}>
+    <Card feature={featured} className={cx("fade-rise grid gap-5 p-5", featured ? "sm:col-span-2 sm:p-7 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]" : "content-start")} style={step(i)}>
+      {!featured && cover}
+      <div className="grid content-between gap-5">
+        <div className="min-w-0">
+          <h3 className={cx("font-semibold tracking-tight", featured && "text-xl")}>{project.name}</h3>
+          <p className={cx("truncate text-xs", t.mute)}>{project.client}</p>
+        </div>
         <Metric project={project} featured={featured} />
         {featured && (
           <ul className={cx("grid gap-1.5 text-sm", t.mute)}>
@@ -60,21 +64,29 @@ function WorkCard({ project, i }: { project: Project; i: number }) {
             ))}
           </ul>
         )}
+        <WorkFooter project={project} featured={featured} />
       </div>
-      <div className="grid gap-3">
-        <p className="grid text-sm">
-          {project.role}
-          <span className={cx("text-xs", t.mute)}>{project.years}</span>
-        </p>
-        <ul className="flex flex-wrap gap-1.5">
-          {project.stack.map((s) => (
-            <li key={s} className={cx(chip, t.chip)}>
-              {s}
-            </li>
-          ))}
-        </ul>
-      </div>
+      {featured && cover}
     </Card>
+  );
+}
+
+function WorkFooter({ project, featured }: { project: Project; featured: boolean }) {
+  const t = tone(featured);
+  return (
+    <div className="grid gap-3">
+      <p className="grid text-sm">
+        {project.role}
+        <span className={cx("text-xs", t.mute)}>{project.years}</span>
+      </p>
+      <ul className="flex flex-wrap gap-1.5">
+        {project.stack.map((s) => (
+          <li key={s} className={cx(chip, t.chip)}>
+            {s}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
@@ -82,6 +94,8 @@ function WorkCard({ project, i }: { project: Project; i: number }) {
 // headings separate the groups (a hairline would break at the column edge).
 function TalkList({ talks }: { talks: Talk[] }) {
   const years = [...new Set(talks.map((t) => t.year))];
+  // Hues follow each talk's place in the whole list, so neighbours across groups differ too.
+  const hueOf = (talk: Talk) => hueAt(talks.indexOf(talk), 1);
   return (
     <Card className="fade-rise col-span-full p-5 sm:p-7" style={step(0)}>
       <div className="gap-x-12 md:columns-2">
@@ -92,8 +106,9 @@ function TalkList({ talks }: { talks: Talk[] }) {
               {talks
                 .filter((t) => t.year === year)
                 .map((t) => (
-                  <li key={t.title} className="flex items-start justify-between gap-4">
-                    <span className="grid">
+                  <li key={t.title} className="flex items-start gap-4">
+                    <Cover seed={t.title} hue={hueOf(t)} icon={MicrophoneStageIcon} src={t.cover} sizes="96px" small className="aspect-video w-24 flex-none" />
+                    <span className="grid min-w-0 flex-1">
                       <span className="font-medium text-pretty">{t.title}</span>
                       <span className="text-sm text-mute">{t.event}</span>
                     </span>
@@ -108,24 +123,28 @@ function TalkList({ talks }: { talks: Talk[] }) {
   );
 }
 
-// Products: one tall feature on the navy slab beside two stacked, never three equal cards.
+// Products: one tall feature on the navy slab beside two stacked, never three equal cards. The
+// feature's cover sits on top; the stacked two put theirs on the left from sm.
 function ProductCard({ product, i }: { product: Product; i: number }) {
   const featured = i === 0;
   const t = tone(featured);
   return (
-    <Card feature={featured} className={cx("fade-rise grid content-between gap-4 p-5", featured && "sm:row-span-2 sm:p-7")} style={step(i)}>
-      <div className="grid gap-4">
-        {/* eslint-disable-next-line @next/next/no-img-element -- tiny local SVG logos; the image optimizer adds nothing. */}
-        <img src={product.logo} alt="" width={64} height={64} className={cx("rounded-full", featured ? "size-16" : "size-10")} />
-        <div className="grid gap-1">
-          <h3 className={cx("font-semibold tracking-tight", featured && "text-3xl")}>{product.name}</h3>
-          <p className={cx(t.mute, featured ? "text-base" : "text-sm")}>{product.pitch}</p>
+    <Card feature={featured} className={cx("fade-rise grid gap-4 p-5", featured ? "content-start sm:row-span-2 sm:p-7" : "sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]")} style={step(i)}>
+      <Cover seed={product.slug} hue={hueAt(i, 2)} icon={CubeIcon} src={product.cover} className={featured ? "aspect-[4/3]" : "aspect-video sm:aspect-auto sm:h-full"} />
+      <div className="grid content-between gap-4">
+        <div className="grid gap-4">
+          {/* eslint-disable-next-line @next/next/no-img-element -- tiny local SVG logos; the image optimizer adds nothing. */}
+          <img src={product.logo} alt="" width={64} height={64} className={cx("rounded-full", featured ? "size-16" : "size-10")} />
+          <div className="grid gap-1">
+            <h3 className={cx("font-semibold tracking-tight", featured && "text-3xl")}>{product.name}</h3>
+            <p className={cx(t.mute, featured ? "text-base" : "text-sm")}>{product.pitch}</p>
+          </div>
         </div>
+        <Link href={`/products/${product.slug}`} className={cx("group inline-flex items-center gap-1.5 text-sm font-medium", t.link)}>
+          Open {product.name}
+          <ArrowRightIcon size={14} aria-hidden="true" className="transition-transform duration-300 ease-out-soft group-hover:translate-x-0.5" />
+        </Link>
       </div>
-      <Link href={`/products/${product.slug}`} className={cx("group inline-flex items-center gap-1.5 text-sm font-medium", t.link)}>
-        Open {product.name}
-        <ArrowRightIcon size={14} aria-hidden="true" className="transition-transform duration-300 ease-out-soft group-hover:translate-x-0.5" />
-      </Link>
     </Card>
   );
 }

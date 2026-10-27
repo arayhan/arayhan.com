@@ -1,6 +1,7 @@
 import type { Project } from "@/domain/portfolio";
 
 // Every number must come from the CV or from Rayhan directly (docs/PRODUCT.md).
+// TODO(content): a `cover` screenshot per project; until then the shelf draws a placeholder.
 export const projects: Project[] = [
   {
     id: "anify",

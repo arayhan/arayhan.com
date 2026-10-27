@@ -2,6 +2,7 @@ import type { Talk } from "@/domain/portfolio";
 
 // TODO(content): carried over from the old site (release/v1), whose own note says these titles
 // still need confirming against the real talk archive. Confirm or correct each row.
+// TODO(content): a `cover` photo per talk; until then the shelf draws a placeholder.
 export const talks: Talk[] = [
   { title: "Firebase for Frontend Engineers", event: "GDG Depok DevFest", year: "2025", topic: "Firebase" },
   { title: "Scaling React Codebases with Clean Architecture", event: "GDG Depok Meetup", year: "2025", topic: "React" },

@@ -21,6 +21,8 @@ export type Project = {
   stack: string[];
   metric: Metric | null;
   impactPending: boolean;
+  /** Cover image (public path); the UI draws a placeholder until there is one. */
+  cover?: string;
 };
 
 export type Role = {
@@ -47,9 +49,10 @@ export type NavLink = { label: string; href: string };
 
 export type NavGroup = { label: string; links: NavLink[]; extra?: NavLink[] };
 
-export type Talk = { title: string; event: string; year: string; topic: string };
+/** `cover`: an image (public path); the UI draws a placeholder until there is one. */
+export type Talk = { title: string; event: string; year: string; topic: string; cover?: string };
 
-export type Product = { slug: string; name: string; pitch: string; logo: string };
+export type Product = { slug: string; name: string; pitch: string; logo: string; cover?: string };
 
 /** Same-brightness hues for decoration (badges, commits, covers, orbit); actions use the accent. */
 export type Hue = "blue" | "violet" | "teal" | "amber" | "rose";
