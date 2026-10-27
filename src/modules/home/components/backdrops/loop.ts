@@ -78,18 +78,6 @@ export function usePointer(): RefObject<Pointer> {
   return pointer;
 }
 
-/** Calls `onChange` whenever the colour theme flips (toggle or OS); returns the cleanup. */
-export function watchTheme(onChange: () => void): () => void {
-  const attr = new MutationObserver(onChange);
-  attr.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-  const media = matchMedia("(prefers-color-scheme: dark)");
-  media.addEventListener("change", onChange);
-  return () => {
-    attr.disconnect();
-    media.removeEventListener("change", onChange);
-  };
-}
-
 export const cssVar = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
 /** `el`'s box relative to `root`, or null when it is not rendered (display: none). */

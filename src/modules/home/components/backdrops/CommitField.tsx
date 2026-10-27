@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { cssVar, prefersReducedMotion, useFrameLoop, usePointer, watchTheme } from "./loop";
+import { useRef } from "react";
+import { cssVar, prefersReducedMotion, useFrameLoop, usePointer } from "./loop";
 
 const PITCH = 24;
 const CELL = 17;
@@ -51,14 +51,6 @@ export function CommitField() {
     commits: [] as Commit[],
     next: 0,
   });
-
-  useEffect(
-    () =>
-      watchTheme(() => {
-        st.current.key = "";
-      }),
-    [],
-  );
 
   useFrameLoop(root, (t) => {
     const el = root.current;

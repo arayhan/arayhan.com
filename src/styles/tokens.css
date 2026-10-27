@@ -1,33 +1,33 @@
 /* Rayhan design tokens. DESIGN.md is the spec; change both together.
    Raw names here; globals.css maps them onto Tailwind (canvas -> bg-canvas, size-hero -> text-hero,
    card-radius -> rounded-card, card-shadow -> shadow-card).
-   Light is the bare :root; dark redefines colors only, for the OS setting and for the manual toggle.
-   One palette: navy-black ink on near-white, one blue accent, a navy feature surface.
+   Dark only, by the owner's choice: no light theme and no toggle.
+   One palette: light ink on deep navy, one blue accent, a navy feature surface.
    Everything is flat: no gradients, no blurred shadows. */
 
 :root {
-  /* Color: near-white page, white cards, navy-black ink */
-  --canvas: #f7f8fa;
-  --ink: #0e1a2b;
-  --mute: #4b5565;
-  --line: #e6eaf2;
-  /* The hero's commit grid: light blue-grey squares (dark: one step off the canvas) */
-  --grid: #e6eaf2;
-  --surface: #ffffff;
-  --soft: #f0f3f8;
-  /* The one accent. --accent-text is the same blue: it already clears 4.5:1 on white. */
-  --accent: #1d4ed8;
-  --on-accent: #ffffff;
-  --accent-text: #1d4ed8;
-  --accent-soft: #eef3ff;
-  /* The featured cell: a navy slab with light text; --feature-accent is the accent on it */
-  --feature: #13243f;
-  --on-feature: #f4f5f7;
+  /* Color: deep navy page, navy cards, light ink */
+  --canvas: #0a1220;
+  --ink: #eef1f6;
+  --mute: #97a3b6;
+  --line: #1f2c42;
+  /* The hero's commit grid: one step off the canvas, so it stays quiet */
+  --grid: #121d31;
+  --surface: #0f1a2c;
+  --soft: #16233a;
+  /* The one accent, for actions, links and focus */
+  --accent: #60a5fa;
+  --on-accent: #0b1b3a;
+  --accent-text: #60a5fa;
+  --accent-soft: rgb(96 165 250 / 0.12);
+  /* The featured cell: a lighter navy slab; --feature-accent is the accent on it */
+  --feature: #172c4f;
+  --on-feature: #eef1f6;
   --feature-mute: #a9b6ca;
-  --feature-accent: #8fb0ff;
+  --feature-accent: #93c5fd;
   /* Tactile edges: the darker bottom lip of a pressable control or a card */
-  --accent-lip: #1e3a8a;
-  --slab-lip: #d8dee8;
+  --accent-lip: #1d4ed8;
+  --slab-lip: #050a14;
 
   /* Shape and elevation */
   --card-radius: 16px;
@@ -49,49 +49,5 @@
   --dur-rise: 800ms;
   --stagger: 60ms;
 
-  color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --canvas: #0a1220;
-    --ink: #eef1f6;
-    --mute: #97a3b6;
-    --line: #1f2c42;
-    --grid: #121d31;
-    --surface: #0f1a2c;
-    --soft: #16233a;
-    --accent: #60a5fa;
-    --on-accent: #0b1b3a;
-    --accent-text: #60a5fa;
-    --accent-soft: rgb(96 165 250 / 0.12);
-    --feature: #172c4f;
-    --on-feature: #eef1f6;
-    --feature-mute: #a9b6ca;
-    --feature-accent: #93c5fd;
-    --accent-lip: #1d4ed8;
-    --slab-lip: #050a14;
-    color-scheme: dark;
-  }
-}
-
-:root[data-theme="dark"] {
-  --canvas: #0a1220;
-  --ink: #eef1f6;
-  --mute: #97a3b6;
-  --line: #1f2c42;
-  --grid: #121d31;
-  --surface: #0f1a2c;
-  --soft: #16233a;
-  --accent: #60a5fa;
-  --on-accent: #0b1b3a;
-  --accent-text: #60a5fa;
-  --accent-soft: rgb(96 165 250 / 0.12);
-  --feature: #172c4f;
-  --on-feature: #eef1f6;
-  --feature-mute: #a9b6ca;
-  --feature-accent: #93c5fd;
-  --accent-lip: #1d4ed8;
-  --slab-lip: #050a14;
   color-scheme: dark;
 }

@@ -4,7 +4,6 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { menuGroups, quickLinks, showcaseLinks } from "@/content/navigation";
 import { profile } from "@/content/profile";
 import { site } from "@/content/site";
-import { themeInitScript } from "@/utils/theme";
 import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
@@ -29,11 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // data-theme is set before paint by themeInitScript, so the server markup cannot match it.
-    <html lang="en" className={`${geist.variable} ${geistMono.variable}`} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-      </head>
+    <html lang="en" className={`${geist.variable} ${geistMono.variable}`}>
       <body>
         <a
           href="#main"

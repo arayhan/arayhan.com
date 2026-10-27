@@ -250,36 +250,6 @@ h3 {
   }
 }
 
-/* Theme switch: ThemeToggle grows the new snapshot as a circle; the default cross-fade would fight it. */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-
-/* Theme toggle shows the icon of the theme it switches to. */
-.theme-sun {
-  display: none;
-}
-
-:root[data-theme="dark"] .theme-sun {
-  display: block;
-}
-
-:root[data-theme="dark"] .theme-moon {
-  display: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-sun {
-    display: block;
-  }
-
-  :root:not([data-theme="light"]) .theme-moon {
-    display: none;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

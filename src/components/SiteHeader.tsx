@@ -4,7 +4,6 @@ import { actionClass } from "./ui/action";
 import { Logo } from "./Logo";
 import { QuickNav } from "./QuickNav";
 import { SiteMenu } from "./SiteMenu";
-import { ThemeToggle } from "./ThemeToggle";
 
 type Props = {
   quickLinks: NavLink[];
@@ -34,7 +33,6 @@ export function SiteHeader({ quickLinks, showcase, groups, socials, email }: Pro
           <a href={`mailto:${email}`} aria-label="Email me" className={`${iconBase} hidden lg:inline-grid xl:hidden`}>
             <EnvelopeSimpleIcon size={18} aria-hidden="true" />
           </a>
-          <ThemeToggle className={`${iconBase} inline-grid`} />
           <SiteMenu showcase={showcase} groups={groups} socials={socials} email={email} />
         </div>
       </div>
