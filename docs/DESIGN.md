@@ -9,8 +9,13 @@ is a separate file: [`docs/rules/ui-styling.md`](rules/ui-styling.md).
 
 ## Direction
 
-Design read: a developer portfolio for recruiters, in a professional, minimal
-language. Tailwind v4, Geist, purposeful motion.
+Design read: a developer portfolio for recruiters and clients, in a calm tactile-card
+language (enterprise restraint, playful lipped buttons). Tailwind v4, Geist, purposeful
+motion. Taste pass on 2026-10-27 (`taste-skills`): dials VARIANCE 6, MOTION 5, DENSITY 4
+(developer-portfolio preset). Rules it enforced here: one label per intent ("Email me",
+"See my work"), at most four text elements in the hero, no decorative dots, no three
+equal cards, bento cells match the content count, long lists get their own component.
+(A dark creator-style restructure was tried and reverted on the owner's request.)
 
 | Dial | Value | Meaning here |
 |---|---|---|
@@ -169,7 +174,9 @@ screen (so a list never changes under a reader) and under reduced motion.
    (a small badge, or the product's own logo from `public/products/*.svg`, then value over
    label); a full-width secondary "Open /term" button. All from `profile.terms` (`label`,
    `icon`, `hue` per term; a fact can override `hue`).
-3. "Email me" + "See my work", social icons. (The bio paragraph left the hero.)
+3. "Email me" + "See my work" (scrolls to the shelf). The bio paragraph and the social
+   icons left the hero (socials live in the Menu panel); the proof card's button is
+   "See all N", also scrolling to the shelf.
 3a. **Orbit** (`shapes/OrbitSystem`, client, `lg` up; picked from four shape variants): the
    proof card sits centred in the right column inside three tilted rings, each carrying a
    glossy sphere in its term's hue. Spheres pass behind the card on the far half and in
@@ -183,16 +190,19 @@ screen (so a list never changes under a reader) and under reduced motion.
    boosts and flips them (scrollY sampled per frame, no listener); hovering a row pauses it,
    lifts the photo and dims the others.
 
-**Term shelf** (`TermShelf`, client, right under the hero): everything behind the active
-/term. A heading in the term's hue text with the count ("/works · 5 projects"), the three
-terms as small tabs (they set the same active term) and an "All work / talks / products"
-link, then a card grid (1 / 2 / 3 columns):
-- **Works** (`content/projects.ts`): badge, name, client, the metric (or "Impact being
-  measured" when `impactPending`, never an invented figure), role · years, stack chips.
+**Term shelf** (`TermShelf`, client, `#shelf`, right under the hero): everything behind the
+active /term. A heading in the term's hue text with the count ("/works · 5 projects"), the
+three terms as small tabs (they set the same active term) and an "Open /term" link to its
+page. Each term has its own composition, never the same card grid (taste pass):
+- **Works** (`content/projects.ts`): a bento. The first project is featured across two
+  columns with its big metric and highlight lines, so five projects fill exactly two rows
+  (lg 2 + 1 then 3; sm 2 then 2 + 2). Cards show the metric (or "Impact being measured"
+  when `impactPending`, never an invented figure), role over years, stack chips.
 - **Talks** (`content/talks.ts`, carried over from the old site and `TODO(content)`
-  unconfirmed): badge, topic chip, title, event · year.
+  unconfirmed): one card of year groups in two columns (title, event, topic chip); the
+  year headings separate groups, no per-row hairlines.
 - **Products** (`content/products.ts`, the single product list the menu and routes also
-  use): logo, name, pitch, "Open" link.
+  use): one tall feature beside two stacked, never three equal cards.
 Cards rise in with a stagger when the term changes (CSS `fade-rise`).
 
 Placeholders (album photos, unconfirmed socials) are
