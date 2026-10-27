@@ -27,7 +27,7 @@ export function Hero({ profile, counts }: { profile: Profile; counts: number[] }
   return (
     <section aria-labelledby="hero-title" className="relative isolate grid grid-cols-[minmax(0,1fr)] overflow-x-clip">
       <HeroBackdrop />
-      <div className="grid grid-cols-[minmax(0,1fr)] pt-10 pb-12 md:pt-14 lg:py-6">
+      <div className="grid grid-cols-[minmax(0,1fr)] pt-14 pb-16 md:pt-20 md:pb-20 lg:py-20">
         <HeroShowcase intro={profile.intro} terms={profile.terms} counts={counts} badge={<StatusBadge status={profile.status} avatar={profile.avatar} />}>
           <div className="fade-rise flex flex-wrap gap-2.5 pt-1" style={step(3)}>
             <a href={`mailto:${profile.email}`} className={actionClass("primary")}>

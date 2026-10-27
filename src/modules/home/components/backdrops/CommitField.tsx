@@ -3,11 +3,11 @@
 import { useRef } from "react";
 import { cssVar, prefersReducedMotion, useFrameLoop, usePointer } from "./loop";
 
-const PITCH = 24;
-const CELL = 17;
-const RADIUS = 5;
+const PITCH = 30;
+const CELL = 22;
+const RADIUS = 6;
 const LIFE_MS = 3200;
-const RIPPLE_R = 170;
+const RIPPLE_R = 200;
 // Kept soft: the field is texture under the copy, never louder than it.
 const BASE_ALPHA = 0.85;
 const RIPPLE_ALPHA = 0.3;

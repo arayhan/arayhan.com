@@ -54,7 +54,7 @@
   --size-sub: clamp(1rem, 0.95rem + 0.3vw, 1.1875rem);
 
   /* Layout */
-  --page-max: 1200px;
+  --page-max: 1360px;
   --header-h: 4.5rem;
 
   /* Motion */
