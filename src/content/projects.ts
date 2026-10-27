@@ -21,7 +21,7 @@ export const projects: Project[] = [
   {
     id: "smile",
     name: "SMILE 5.0",
-    client: "Indonesia Ministry of Health · UNDP · UNICC",
+    client: "Indonesia Ministry of Health, UNDP and UNICC",
     role: "Frontend Developer",
     tag: "Part-time",
     years: "2022-now",

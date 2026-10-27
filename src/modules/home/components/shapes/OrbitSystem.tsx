@@ -1,10 +1,10 @@
 "use client";
 
-import { useId, useRef } from "react";
+import { useRef } from "react";
 import { boxIn, prefersReducedMotion, useFrameLoop, usePointer } from "../backdrops/loop";
-import { hueVar, lipVar, type ShapeProps } from "./common";
+import type { ShapeProps } from "./common";
 
-// One ring per /term: tilt, size past the card's half-width, flatness, sphere radius, speed.
+// One ring per /term: tilt, size past the card's half-width, flatness, dot radius, speed.
 const RINGS = [
   { tilt: -16, reach: 0.66, flat: 0.3, r: 9, speed: 0.00042, phase: 0.4 },
   { tilt: 14, reach: 0.8, flat: 0.26, r: 7, speed: -0.00031, phase: 2.2 },
@@ -13,19 +13,18 @@ const RINGS = [
 const TILT_DEG = 7;
 
 /**
- * Shape 2, "Orbit": three tilted rings around the proof card, each carrying a glossy sphere
- * in its term's hue. A sphere passes behind the card on the far half of its ring and in
- * front on the near half (a second layer above the card holds the near spheres, so the
- * depth is real; the rings stay behind so no line crosses the card's text). The active
- * term's ring lights in its hue; the system tilts toward the pointer.
+ * Shape 2, "Orbit": three tilted rings around the proof card, each carrying a flat dot. A dot
+ * passes behind the card on the far half of its ring and in front on the near half (a second
+ * layer above the card holds the near dots, so the depth is real; the rings stay behind so no
+ * line crosses the card's text). The active term's ring and dot take the accent, the others
+ * stay ink; the system tilts toward the pointer.
  */
-export function OrbitSystem({ index, hues }: ShapeProps) {
+export function OrbitSystem({ index }: ShapeProps) {
   const root = useRef<HTMLDivElement>(null);
   const back = useRef<SVGSVGElement>(null);
   const front = useRef<SVGSVGElement>(null);
   const pointer = usePointer();
   const tilt = useRef({ x: 0, y: 0 });
-  const id = useId().replace(/:/g, "");
 
   useFrameLoop(root, (t) => {
     const el = root.current;
@@ -78,35 +77,29 @@ export function OrbitSystem({ index, hues }: ShapeProps) {
   });
 
   const ringStroke = (i: number) => ({
-    stroke: i === index ? hueVar(hues[i] ?? "blue") : "var(--mute)",
+    stroke: i === index ? "var(--accent)" : "var(--mute)",
     strokeOpacity: i === index ? 1 : 0.35,
     strokeWidth: i === index ? 2 : 1.25,
     transition: "stroke 500ms ease, stroke-opacity 500ms ease, stroke-width 500ms ease",
   });
 
+  // Flat fill; the opacity style is driven per frame (near or far half), so colour lives in `fill`.
+  const dotFill = (i: number) => (i === index ? "var(--accent)" : "var(--ink)");
+
   return (
     <div ref={root} className="absolute inset-0">
       <svg ref={back} className="absolute inset-0 size-full overflow-visible">
-        <defs>
-          {hues.map((h, i) => (
-            <radialGradient key={i} id={`${id}-orb-${i}`} cx="35%" cy="30%" r="75%">
-              <stop offset="0%" style={{ stopColor: "#fff", stopOpacity: 0.95 }} />
-              <stop offset="35%" style={{ stopColor: hueVar(h) }} />
-              <stop offset="100%" style={{ stopColor: lipVar(h) }} />
-            </radialGradient>
-          ))}
-        </defs>
         {RINGS.map((_, i) => (
           <ellipse key={i} data-ring={i} fill="none" style={ringStroke(i)} />
         ))}
         {RINGS.map((ring, i) => (
-          <circle key={i} data-orb={i} r={ring.r} fill={`url(#${id}-orb-${i})`} style={{ opacity: 0 }} />
+          <circle key={i} data-orb={i} r={ring.r} fill={dotFill(i)} style={{ opacity: 0, transition: "fill 500ms ease" }} />
         ))}
       </svg>
-      {/* Above the card (z-20): the spheres on the near half of their orbits. */}
+      {/* Above the card (z-20): the dots on the near half of their orbits. */}
       <svg ref={front} className="absolute inset-0 z-20 size-full overflow-visible">
         {RINGS.map((ring, i) => (
-          <circle key={i} data-orb={i} r={ring.r} fill={`url(#${id}-orb-${i})`} style={{ opacity: 0 }} />
+          <circle key={i} data-orb={i} r={ring.r} fill={dotFill(i)} style={{ opacity: 0, transition: "fill 500ms ease" }} />
         ))}
       </svg>
     </div>

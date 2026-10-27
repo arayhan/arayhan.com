@@ -9,11 +9,11 @@ export const alt = `${profile.name}, ${profile.role}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const INK = "#020617";
-const TEXT = "#f1f5f9";
-const MUTE = "#94a3b8";
-const ACCENT = "#60a5fa";
-const ON_ACCENT = "#0b1b3a";
+const INK = "#0a1220";
+const TEXT = "#eef1f6";
+const MUTE = "#97a3b6";
+const ACCENT = "#ff7a3d";
+const ON_ACCENT = "#0a1220";
 
 /**
  * Pulls only the glyphs the card uses, as TTF, from Google Fonts at build time. If the network is

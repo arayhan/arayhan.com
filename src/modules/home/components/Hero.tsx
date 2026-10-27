@@ -17,7 +17,7 @@ function StatusBadge({ status, avatar }: { status: Profile["status"]; avatar: Pr
       ) : null}
       <span className="min-w-0">
         <span aria-hidden="true">$ </span>
-        {status.prompt} <span className="text-accent">→</span> <b className="font-medium text-ink">{status.role}</b> @ {status.org}
+        {status.prompt} <span className="text-accent-text">→</span> <b className="font-medium text-ink">{status.role}</b> @ {status.org}
       </span>
     </p>
   );

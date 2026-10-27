@@ -15,7 +15,7 @@ export default function Page() {
         <h2 id="stack-title" className="text-xl font-semibold">Tech stack</h2>
       </section>
       <p>
-        <Link href="/uses" className="text-accent underline underline-offset-4">
+        <Link href="/uses" className="text-accent-text underline underline-offset-4">
           See what I use every day
         </Link>
       </p>

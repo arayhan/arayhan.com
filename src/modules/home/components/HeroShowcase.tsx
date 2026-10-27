@@ -6,7 +6,7 @@ import { Fragment, useRef, type CSSProperties, type FocusEvent, type ReactNode }
 import { actionClass } from "@/components/ui/action";
 import { Card } from "@/components/ui/Card";
 import { IconBadge } from "@/components/ui/IconBadge";
-import type { Hue, Profile, ShowcaseIcon, ShowcaseStat } from "@/domain/portfolio";
+import type { Profile, ShowcaseIcon, ShowcaseStat } from "@/domain/portfolio";
 import { useActiveTerm } from "./ActiveTerm";
 import { CountUp } from "./CountUp";
 import { HeroShape } from "./shapes/HeroShape";
@@ -20,8 +20,6 @@ type Props = {
   children: ReactNode;
 };
 
-const pad = (n: number) => String(n).padStart(2, "0");
-
 const ICONS: Record<ShowcaseIcon, Icon> = {
   work: BriefcaseIcon,
   product: CubeIcon,
@@ -31,26 +29,18 @@ const ICONS: Record<ShowcaseIcon, Icon> = {
   award: MedalIcon,
 };
 
-// The active /term takes its category's text shade (contrast-safe on the page).
-const TERM_HUE: Record<Hue, string> = {
-  blue: "var(--hue-blue-text)",
-  violet: "var(--hue-violet-text)",
-  amber: "var(--hue-amber-text)",
-  green: "var(--hue-green-text)",
-};
-
-function StatMark({ stat, hue }: { stat: ShowcaseStat; hue: Hue }) {
+function StatMark({ stat }: { stat: ShowcaseStat }) {
   if (stat.logo) {
     // eslint-disable-next-line @next/next/no-img-element -- tiny local SVG logos; the image optimizer adds nothing.
     return <img src={stat.logo} alt="" width={28} height={28} className="size-7 flex-none rounded-full" />;
   }
   if (!stat.icon) return <span className="size-7 flex-none" />;
-  return <IconBadge icon={ICONS[stat.icon]} hue={stat.hue ?? hue} size="sm" />;
+  return <IconBadge icon={ICONS[stat.icon]} size="sm" />;
 }
 
 /**
  * Name first, then a muted dwinawan-style sentence: hovering, focusing or tapping a /term
- * lights it in its hue and swaps the proof card, whose big number counts up. The active term
+ * lights it in the accent and swaps the proof card, whose big number counts up. The active term
  * is shared with the shelf below (ActiveTerm); pointer or focus inside here holds it still.
  */
 export function HeroShowcase({ intro, terms, counts, badge, children }: Props) {
@@ -90,7 +80,6 @@ export function HeroShowcase({ intro, terms, counts, badge, children }: Props) {
                 onFocus={() => pick(i)}
                 onClick={() => pick(i)}
                 className="hero-term"
-                style={{ "--term-hue": TERM_HUE[t.hue] } as CSSProperties}
               >
                 {t.term}
               </button>
@@ -102,10 +91,9 @@ export function HeroShowcase({ intro, terms, counts, badge, children }: Props) {
       </div>
 
       <div className="relative grid min-w-0 lg:block lg:min-h-[34rem]">
-        <HeroShape index={active} hues={terms.map((t) => t.hue)} />
+        <HeroShape index={active} />
         <Card
           as="article"
-          dotted
           id="hero-proof"
           aria-live="polite"
           className="fade-rise z-10 min-w-0 overflow-hidden lg:absolute lg:top-1/2 lg:left-1/2 lg:w-[21rem] lg:-translate-x-1/2 lg:-translate-y-[42%]"
@@ -113,14 +101,11 @@ export function HeroShowcase({ intro, terms, counts, badge, children }: Props) {
         >
           <div key={current.term} className="fade-rise">
             <div className="flex items-center gap-3 px-5 pt-5">
-              <IconBadge icon={ICONS[current.icon]} hue={current.hue} />
+              <IconBadge icon={ICONS[current.icon]} tone="accent" />
               <div className="min-w-0 flex-1">
                 <p className="font-semibold tracking-tight">{current.label}</p>
                 <p className="truncate text-xs text-mute">{current.title}</p>
               </div>
-              <span className="self-start font-mono text-xs text-mute">
-                {pad(active + 1)} / {pad(terms.length)}
-              </span>
             </div>
 
             <div className="grid gap-1 px-5 pt-4 pb-4">
@@ -134,7 +119,7 @@ export function HeroShowcase({ intro, terms, counts, badge, children }: Props) {
             <dl>
               {current.more.map((s) => (
                 <div key={s.value} className="flex items-center gap-3 border-t border-line px-5 py-2.5">
-                  <StatMark stat={s} hue={current.hue} />
+                  <StatMark stat={s} />
                   <div className="flex min-w-0 flex-col-reverse">
                     <dt className="truncate text-xs text-mute">{s.label}</dt>
                     <dd className="text-sm font-semibold tracking-tight">{s.value}</dd>

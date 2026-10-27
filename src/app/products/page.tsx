@@ -11,7 +11,7 @@ export default function Page() {
       <ul className="flex flex-wrap gap-x-6 gap-y-2 text-lg font-medium">
         {products.map((p) => (
           <li key={p.slug}>
-            <Link href={`/products/${p.slug}`} className="transition-colors hover:text-accent">
+            <Link href={`/products/${p.slug}`} className="transition-colors hover:text-accent-text">
               {p.name}
             </Link>
           </li>

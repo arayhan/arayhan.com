@@ -14,7 +14,7 @@ const sizes: Record<ActionSize, string> = {
 
 const variants: Record<ActionVariant, string> = {
   primary: "bg-accent text-on-accent shadow-lip-accent hover:bg-accent/92",
-  secondary: "border border-line bg-soft text-ink shadow-lip-slab hover:border-ink/25 hover:bg-surface",
+  secondary: "border border-line bg-surface text-ink shadow-lip-slab hover:border-ink/30",
 };
 
 export function actionClass(variant: ActionVariant, size: ActionSize = "md"): string {

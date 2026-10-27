@@ -153,7 +153,7 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
       >
         <p aria-hidden="true" className="flex items-center border-b border-line bg-soft px-[18px] py-3.5 font-mono text-[13px]">
           <span className="text-mute">{site.host}</span>
-          <span className="whitespace-pre text-accent">{path}</span>
+          <span className="whitespace-pre text-accent-text">{path}</span>
           <span className="caret ml-px inline-block h-[15px] w-[7px] bg-accent" />
         </p>
 
@@ -161,7 +161,7 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
           <div>
             <p className="mb-1 text-xs font-medium text-mute">Showcase</p>
             {showcase.map(({ label, href }) => (
-              <Link key={href} {...linkProps(href)} className="block py-0.5 text-xl font-semibold tracking-tight transition-colors hover:text-accent focus-visible:text-accent">
+              <Link key={href} {...linkProps(href)} className="block py-0.5 text-xl font-semibold tracking-tight transition-colors hover:text-accent-text focus-visible:text-accent-text">
                 {label}
               </Link>
             ))}
@@ -172,7 +172,7 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
                 <div key={group.label}>
                   <p className="mb-1 text-xs font-medium text-mute">{group.label}</p>
                   {group.links.map(({ label, href }) => (
-                    <Link key={href} {...linkProps(href)} className="block py-0.5 text-[15px] transition-colors hover:text-accent">
+                    <Link key={href} {...linkProps(href)} className="block py-0.5 text-[15px] transition-colors hover:text-accent-text">
                       {label}
                     </Link>
                   ))}
@@ -181,7 +181,7 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
                       {group.extra.map(({ label, href }, i) => (
                         <span key={href}>
                           {i > 0 && ", "}
-                          <Link {...linkProps(href)} className="transition-colors hover:text-accent">
+                          <Link {...linkProps(href)} className="transition-colors hover:text-accent-text">
                             {label}
                           </Link>
                         </span>

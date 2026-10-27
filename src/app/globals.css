@@ -10,18 +10,11 @@
   --color-soft: var(--soft);
   --color-accent: var(--accent);
   --color-on-accent: var(--on-accent);
-  --color-hue-blue: var(--hue-blue);
-  --color-hue-violet: var(--hue-violet);
-  --color-hue-amber: var(--hue-amber);
-  --color-hue-green: var(--hue-green);
-  --color-hue-blue-soft: var(--hue-blue-soft);
-  --color-hue-violet-soft: var(--hue-violet-soft);
-  --color-hue-amber-soft: var(--hue-amber-soft);
-  --color-hue-green-soft: var(--hue-green-soft);
-  --color-hue-blue-text: var(--hue-blue-text);
-  --color-hue-violet-text: var(--hue-violet-text);
-  --color-hue-amber-text: var(--hue-amber-text);
-  --color-hue-green-text: var(--hue-green-text);
+  --color-accent-text: var(--accent-text);
+  --color-accent-soft: var(--accent-soft);
+  --color-feature: var(--feature);
+  --color-on-feature: var(--on-feature);
+  --color-feature-mute: var(--feature-mute);
 
   --radius-card: var(--card-radius);
   --radius-control: var(--control-radius);
@@ -65,7 +58,7 @@ h3 {
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-text);
   outline-offset: 3px;
 }
 
@@ -133,7 +126,7 @@ h3 {
     text-align: center;
   }
 
-  /* A /term in the hero sentence: muted like the sentence, ink on hover, its hue when it drives the card. */
+  /* A /term in the hero sentence: muted like the sentence, ink on hover, accent when it drives the card. */
   .hero-term {
     cursor: pointer;
     color: inherit;
@@ -145,29 +138,9 @@ h3 {
     color: var(--ink);
   }
 
-  /* --term-hue is set per term (its category's text shade). */
   .hero-term[aria-pressed="true"] {
-    color: var(--term-hue, var(--accent));
+    color: var(--accent-text);
   }
-}
-
-/* Card corner texture: a faint dot field behind the content, fading out from the top-right. */
-.card-dots {
-  isolation: isolate;
-}
-
-.card-dots::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  right: 0;
-  width: min(60%, 220px);
-  height: 140px;
-  pointer-events: none;
-  background-image: radial-gradient(var(--dot) 1px, transparent 1.25px);
-  background-size: 9px 9px;
-  mask-image: radial-gradient(ellipse at 100% 0%, #000, transparent 70%);
 }
 
 .marquee-mask {
