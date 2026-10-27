@@ -16,6 +16,16 @@
   --color-on-feature: var(--on-feature);
   --color-feature-mute: var(--feature-mute);
   --color-feature-accent: var(--feature-accent);
+  --color-hue-blue: var(--hue-blue);
+  --color-hue-violet: var(--hue-violet);
+  --color-hue-teal: var(--hue-teal);
+  --color-hue-amber: var(--hue-amber);
+  --color-hue-rose: var(--hue-rose);
+  --color-hue-blue-soft: var(--hue-blue-soft);
+  --color-hue-violet-soft: var(--hue-violet-soft);
+  --color-hue-teal-soft: var(--hue-teal-soft);
+  --color-hue-amber-soft: var(--hue-amber-soft);
+  --color-hue-rose-soft: var(--hue-rose-soft);
 
   --radius-card: var(--card-radius);
   --radius-control: var(--control-radius);
@@ -127,7 +137,7 @@ h3 {
     text-align: center;
   }
 
-  /* A /term in the hero sentence: muted like the sentence, ink on hover, accent when it drives the card. */
+  /* A /term in the hero sentence: muted like the sentence, ink on hover, its hue when it drives the card. */
   .hero-term {
     cursor: pointer;
     color: inherit;
@@ -139,8 +149,9 @@ h3 {
     color: var(--ink);
   }
 
+  /* --term-hue is set per term. */
   .hero-term[aria-pressed="true"] {
-    color: var(--accent-text);
+    color: var(--term-hue, var(--accent-text));
   }
 }
 

@@ -11,11 +11,13 @@ const RIPPLE_R = 170;
 // Kept soft: the field is texture under the copy, never louder than it.
 const BASE_ALPHA = 0.85;
 const RIPPLE_ALPHA = 0.3;
-// Commit intensity in discrete steps, like a contribution graph: one accent, three levels.
+// Commit intensity in discrete steps, like a contribution graph: three levels.
 const LEVELS = [0.22, 0.4, 0.62];
+// The five same-brightness hues; blue twice, so the field leans toward the brand.
+const HUE_VARS = ["--hue-blue", "--hue-blue", "--hue-violet", "--hue-teal", "--hue-amber", "--hue-rose"];
 const STEPS = 4;
 
-type Commit = { i: number; level: number; start: number };
+type Commit = { i: number; level: number; hue: number; start: number };
 
 // Thins the field out behind the copy (left on desktop, top on phones) so the text stays the
 // loudest thing. Stepped, not smooth, so the field reads as flat bands rather than a gradient;
@@ -33,8 +35,8 @@ function cell(ctx: CanvasRenderingContext2D, x: number, y: number, size: number)
 
 /**
  * "Commit field": the hero sits on a soft field of rounded squares, a
- * contribution graph seen from far away. Cells "commit" at random, popping into one of three
- * accent levels and fading back, and the cursor sends a soft ripple through the cells around it. Texture only:
+ * contribution graph seen from far away. Cells "commit" at random, popping into one of the
+ * hues at one of three levels and fading back, and the cursor sends a soft ripple through the cells around it. Texture only:
  * no labels, no data. One canvas, the static grid cached offscreen, only live cells redrawn.
  */
 export function CommitField() {
@@ -48,6 +50,7 @@ export function CommitField() {
     rows: 0,
     base: null as HTMLCanvasElement | null,
     accent: "",
+    hues: [] as string[],
     commits: [] as Commit[],
     next: 0,
   });
@@ -70,6 +73,7 @@ export function CommitField() {
       c.width = Math.round(rect.width * dpr);
       c.height = Math.round(rect.height * dpr);
       s.accent = cssVar("--accent");
+      s.hues = HUE_VARS.map(cssVar);
       const base = document.createElement("canvas");
       base.width = c.width;
       base.height = c.height;
@@ -96,10 +100,10 @@ export function CommitField() {
 
     if (prefersReducedMotion()) {
       // A still, evenly scattered set of commits.
-      ctx.fillStyle = s.accent;
       for (let i = 0; i < total; i += 37) {
         const x = (i % s.cols) * PITCH;
         const y = Math.floor(i / s.cols) * PITCH;
+        ctx.fillStyle = s.hues[i % s.hues.length];
         ctx.globalAlpha = LEVELS[i % LEVELS.length] * fade(x, y, rect.width, rect.height);
         cell(ctx, x, y, CELL);
       }
@@ -108,11 +112,10 @@ export function CommitField() {
     }
 
     if (t > s.next && total) {
-      s.commits.push({ i: Math.floor(Math.random() * total), level: Math.floor(Math.random() * LEVELS.length), start: t });
+      s.commits.push({ i: Math.floor(Math.random() * total), level: Math.floor(Math.random() * LEVELS.length), hue: Math.floor(Math.random() * HUE_VARS.length), start: t });
       s.next = t + 260 + Math.random() * 360;
     }
     s.commits = s.commits.filter((m) => t - m.start < LIFE_MS);
-    ctx.fillStyle = s.accent;
     for (const m of s.commits) {
       const q = (t - m.start) / LIFE_MS;
       const pop = q < 0.12 ? q / 0.12 : 1;
@@ -121,12 +124,14 @@ export function CommitField() {
       const x = (m.i % s.cols) * PITCH;
       const y = Math.floor(m.i / s.cols) * PITCH;
       ctx.globalAlpha = (q < 0.12 ? pop : 1 - (q - 0.12) / 0.88) * LEVELS[m.level] * fade(x, y, rect.width, rect.height);
+      ctx.fillStyle = s.hues[m.hue];
       cell(ctx, x + off, y + off, size);
     }
 
     const p = pointer.current;
     const px = p.x - rect.left;
     const py = p.y - rect.top;
+    ctx.fillStyle = s.accent;
     if (p.active && px > -RIPPLE_R && py > -RIPPLE_R && px < rect.width + RIPPLE_R && py < rect.height + RIPPLE_R) {
       const c0 = Math.max(0, Math.floor((px - RIPPLE_R) / PITCH));
       const c1 = Math.min(s.cols - 1, Math.ceil((px + RIPPLE_R) / PITCH));

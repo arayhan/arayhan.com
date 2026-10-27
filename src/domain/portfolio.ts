@@ -51,6 +51,9 @@ export type Talk = { title: string; event: string; year: string; topic: string }
 
 export type Product = { slug: string; name: string; pitch: string; logo: string };
 
+/** Same-brightness hues for decoration (badges, commits, covers, orbit); actions use the accent. */
+export type Hue = "blue" | "violet" | "teal" | "amber" | "rose";
+
 /** Icons a proof fact can carry; the UI maps each to a glyph. */
 export type ShowcaseIcon = "work" | "product" | "team" | "startup" | "talk" | "award";
 
@@ -58,6 +61,8 @@ export type ShowcaseStat = {
   value: string;
   label: string;
   icon?: ShowcaseIcon;
+  /** Badge hue for this fact; defaults to its term's. */
+  hue?: Hue;
   /** A product's own logo (public path), shown instead of an icon. */
   logo?: string;
 };
@@ -67,6 +72,7 @@ export type ShowcaseTerm = {
   /** Card heading, e.g. "Works". */
   label: string;
   icon: ShowcaseIcon;
+  hue: Hue;
   title: string;
   href: string;
   /** The card's big number; its first figure counts up when the card swaps in. */

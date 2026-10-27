@@ -5,6 +5,7 @@ import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { useEffect, useRef, type CSSProperties } from "react";
 import { actionClass } from "@/components/ui/action";
 import { Card } from "@/components/ui/Card";
+import { HUE_TEXT } from "@/components/ui/hue";
 import type { Product, Profile, Project, Talk } from "@/domain/portfolio";
 import { cx } from "@/utils/cx";
 import { useActiveTerm } from "./ActiveTerm";
@@ -159,7 +160,7 @@ export function TermShelf({ terms, projects, talks, products }: Props) {
     <section ref={root} id="shelf" aria-labelledby="shelf-title" className="mx-auto grid w-full max-w-page scroll-mt-24 gap-6 px-4 pt-4 pb-24 sm:px-8 lg:px-14">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <h2 key={active} id="shelf-title" aria-live="polite" className="fade-rise text-2xl font-semibold tracking-tight">
-          <span className="text-accent-text">{term.term}</span> <span className="font-normal text-mute">{shelf.count}</span>
+          <span className={HUE_TEXT[term.hue]}>{term.term}</span> <span className="font-normal text-mute">{shelf.count}</span>
         </h2>
         <div className="flex flex-wrap items-center gap-2">
           {terms.map((t, i) => (

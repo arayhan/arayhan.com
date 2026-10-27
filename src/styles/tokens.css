@@ -2,7 +2,8 @@
    Raw names here; globals.css maps them onto Tailwind (canvas -> bg-canvas, size-hero -> text-hero,
    card-radius -> rounded-card, card-shadow -> shadow-card).
    Dark only, by the owner's choice: no light theme and no toggle.
-   One palette: light ink on deep navy, one blue accent, a navy feature surface.
+   One palette: light ink on deep navy, one blue accent, a navy feature surface, and five
+   same-brightness hues for decoration.
    Everything is flat: no gradients, no blurred shadows. */
 
 :root {
@@ -28,6 +29,18 @@
   /* Tactile edges: the darker bottom lip of a pressable control or a card */
   --accent-lip: #1d4ed8;
   --slab-lip: #050a14;
+  /* Hues: one brightness, five colours, for badges, commits, covers and the orbit (never for
+     actions; those stay the accent). Fills take a navy glyph; each clears 4.5:1 as text. */
+  --hue-blue: #60a5fa;
+  --hue-violet: #a78bfa;
+  --hue-teal: #2dd4bf;
+  --hue-amber: #fbbf24;
+  --hue-rose: #fb7185;
+  --hue-blue-soft: rgb(96 165 250 / 0.14);
+  --hue-violet-soft: rgb(167 139 250 / 0.14);
+  --hue-teal-soft: rgb(45 212 191 / 0.14);
+  --hue-amber-soft: rgb(251 191 36 / 0.14);
+  --hue-rose-soft: rgb(251 113 133 / 0.14);
 
   /* Shape and elevation */
   --card-radius: 16px;

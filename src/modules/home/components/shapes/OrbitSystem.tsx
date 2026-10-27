@@ -16,10 +16,10 @@ const TILT_DEG = 7;
  * Shape 2, "Orbit": three tilted rings around the proof card, each carrying a flat dot. A dot
  * passes behind the card on the far half of its ring and in front on the near half (a second
  * layer above the card holds the near dots, so the depth is real; the rings stay behind so no
- * line crosses the card's text). The active term's ring and dot take the accent, the others
+ * line crosses the card's text). The active term's ring and dot take its hue, the others
  * stay ink; the system tilts toward the pointer.
  */
-export function OrbitSystem({ index }: ShapeProps) {
+export function OrbitSystem({ index, hues }: ShapeProps) {
   const root = useRef<HTMLDivElement>(null);
   const back = useRef<SVGSVGElement>(null);
   const front = useRef<SVGSVGElement>(null);
@@ -77,14 +77,14 @@ export function OrbitSystem({ index }: ShapeProps) {
   });
 
   const ringStroke = (i: number) => ({
-    stroke: i === index ? "var(--accent)" : "var(--mute)",
+    stroke: i === index ? `var(--hue-${hues[i] ?? "blue"})` : "var(--mute)",
     strokeOpacity: i === index ? 1 : 0.35,
     strokeWidth: i === index ? 2 : 1.25,
     transition: "stroke 500ms ease, stroke-opacity 500ms ease, stroke-width 500ms ease",
   });
 
   // Flat fill; the opacity style is driven per frame (near or far half), so colour lives in `fill`.
-  const dotFill = (i: number) => (i === index ? "var(--accent)" : "var(--ink)");
+  const dotFill = (i: number) => (i === index ? `var(--hue-${hues[i] ?? "blue"})` : "var(--ink)");
 
   return (
     <div ref={root} className="absolute inset-0">
