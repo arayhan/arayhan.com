@@ -21,8 +21,11 @@ category hues generic and asked for no gradients, "playful but professional", an
 love dark colours (navy, dark blue, black, white, dark grey). Result: **one blue accent on
 navy-black ink and a near-white page, a navy feature slab, and everything flat** (no
 gradients, no blurred shadows, no glossy spheres). An orange accent was tried and turned
-down; the owner's objection was the background combination, not the blue. The hero ground
-is now near-white with a light blue-grey grid and blue-only commits.
+down; the owner's objection was the background combination, not the blue.
+Then (same day) the owner made the site **dark only** (no toggle), asked for colour "with
+the same tone" (five same-brightness hues for decoration; actions stay blue), bigger commit
+squares with a gap, more hero padding, a wider page (1360px) and an image on every work,
+talk and product (drawn placeholders until real ones exist).
 
 | Dial | Value | Meaning here |
 |---|---|---|
@@ -42,33 +45,36 @@ Source: [`src/styles/tokens.css`](../src/styles/tokens.css), mapped to Tailwind 
 `src/app/globals.css` (`bg-canvas`, `text-ink`, `bg-feature`, `rounded-card`,
 `shadow-card`, `shadow-lip-accent`, ...).
 
-| Token | Light | Dark | Role |
-|---|---|---|---|
-| `canvas` | `#F7F8FA` | `#0A1220` | Page ground, near-white (dark: deep navy) |
-| `surface` | `#FFFFFF` | `#0F1A2C` | Cards, panels, secondary buttons |
-| `soft` | `#F0F3F8` | `#16233A` | Chips, address strip, icon hover |
-| `ink` | `#0E1A2B` | `#EEF1F6` | Text, ink icon badges, idle orbit dots |
-| `mute` | `#4B5565` | `#97A3B6` | Secondary text, idle icons |
-| `line` | `#E6EAF2` | `#1F2C42` | Hairlines, card borders |
-| `grid` | `#E6EAF2` | `#121D31` | The hero's commit grid: light blue-grey squares, quieter in dark |
-| `accent` | `#1D4ED8` | `#60A5FA` | **The one accent** as a fill: logo, primary button, active tab, active orbit, commits |
-| `on-accent` | `#FFFFFF` | `#0B1B3A` | Text on accent |
-| `accent-text` | `#1D4ED8` | `#60A5FA` | Accent as text (links, active /term, focus ring); 4.5:1+ on the page |
-| `accent-soft` | `#EEF3FF` | accent 12% | Notice background |
-| `feature`, `on-feature`, `feature-mute`, `feature-accent` | `#13243F`, `#F4F5F7`, `#A9B6CA`, `#8FB0FF` | `#172C4F`, `#EEF1F6`, `#A9B6CA`, `#93C5FD` | The navy slab a bento leads with; `feature-accent` is the accent on it (plain blue is too dark there) |
-| `accent-lip`, `slab-lip` | `#1E3A8A`, `#D8DEE8` | `#1D4ED8`, `#050A14` | The flat 2px bottom edge of controls and cards |
-| `card-radius`, `control-radius` | 16px, 12px | | `rounded-card`, `rounded-control` |
-| `card-shadow` | `0 2px 0 slab-lip` | same | `shadow-card`: a lip, never a blur |
+| Token | Value | Role |
+|---|---|---|
+| `canvas` | `#0A1220` | Page ground, deep navy |
+| `surface` | `#0F1A2C` | Cards, panels, secondary buttons |
+| `soft` | `#16233A` | Chips, address strip, icon hover |
+| `ink` | `#EEF1F6` | Text, ink icon badges, idle orbit dots |
+| `mute` | `#97A3B6` | Secondary text, idle icons |
+| `line` | `#1F2C42` | Hairlines, card borders |
+| `grid` | `#121D31` | The hero's commit grid, one step off the canvas |
+| `accent` | `#60A5FA` | **The one action colour**: logo, primary button, active tab, links, focus, cursor ripple |
+| `on-accent` | `#0B1B3A` | Text and glyphs on accent and on hue fills |
+| `accent-text` | `#60A5FA` | Accent as text |
+| `accent-soft` | accent 12% | Notice background |
+| `feature`, `on-feature`, `feature-mute`, `feature-accent` | `#172C4F`, `#EEF1F6`, `#A9B6CA`, `#93C5FD` | The navy slab a bento leads with; `feature-accent` is the accent on it |
+| `hue-{blue,violet,teal,amber,rose}` | `#60A5FA`, `#A78BFA`, `#2DD4BF`, `#FBBF24`, `#FB7185` | Decoration only: badges, commits, covers, orbit, active /term; each clears 4.5:1 as text |
+| `hue-*-soft` | the hue at 14% | Cover grounds |
+| `accent-lip`, `slab-lip` | `#1D4ED8`, `#050A14` | The flat 2px bottom edge of controls and cards |
+| `card-radius`, `control-radius` | 16px, 12px | `rounded-card`, `rounded-control` |
+| `card-shadow` | `0 2px 0 slab-lip` | `shadow-card`: a lip, never a blur |
+| `page-max` | 1360px | `max-w-page`: header, hero, shelf and stub pages |
 
-**One accent, flat.** Blue is the only colour that is not a neutral; navy is the dark
-neutral. No gradients anywhere (fills, shadows, masks, orbit dots), no second accent, no
-category hues. Neutrals are cool with a navy bias, in both themes.
+**One action colour, five decorative hues, flat.** Blue drives every action, link and focus
+state. The five hues share one brightness so they read as one family; they colour things
+that are not pressed (badges, commit squares, covers, the orbit, the active /term and the
+shelf heading). Navy is the dark neutral. No gradients anywhere (fills, shadows, masks,
+orbit dots).
 
-Theme: light and dark, following the OS by default. The menu toggle saves an explicit
-choice to `localStorage` (`theme`); an inline script in `<head>` applies it before
-first paint. Never flip one section to the other theme. Switching with the toggle grows the
-new theme as a circle out of the button over 520ms (View Transitions API, `ThemeToggle`;
-the default cross-fade is disabled in `globals.css`). No support or reduced motion: instant.
+Theme: **dark only**, by the owner's choice (2026-10-27). There is no light theme, no
+toggle and no OS switch; `color-scheme: dark`. The favicon keeps its own
+`prefers-color-scheme` query because it sits in the browser's chrome, not the page.
 
 ## Typography
 
@@ -97,11 +103,16 @@ accent color, never a second face.
   slab with a border and a 2px `slab-lip`. Pressing sinks the face 2px onto the lip (the shadow goes to none). Sizes
   44px and 36px.
 - **Icon badges** (`IconBadge.tsx`): flat filled circles (28px or 40px) with a Phosphor
-  `fill` glyph; `ink` by default, `accent` for the one thing in focus (the proof card's
-  header). Decorative; the text beside them carries the meaning. Not repeated on every card.
+  `fill` glyph: a `hue` fill with a navy glyph, or `ink` without a hue. Decorative; the
+  text beside them carries the meaning. Not repeated on every card.
+- **Covers** (`Cover.tsx`): an item's image in a `rounded-control` frame (`next/image` from
+  the item's `cover`). Until one exists (`TODO(content)`) it draws a placeholder in the
+  item's hue: the commit motif (a repeating faint grid plus seeded brighter cells, fixed
+  pixel size at any cover size, the same item always the same) with the item's glyph in a
+  navy circle. Never a stock photo standing in for the owner's work.
 - **Notices** (`Notice.tsx`): `rounded-control` strip in `accent-soft` with an `accent-text`
   title and a mute line. For states only (for example "In progress" on stub pages).
-- Icon buttons (theme, socials) are `rounded-control` with a `soft` hover. The Menu toggle
+- Icon buttons (socials) are `rounded-control` with a `soft` hover. The Menu toggle
   stays a 40px circle (owner-tuned). The logo square keeps radius 7/32.
 
 ## Logo and favicon
@@ -123,7 +134,7 @@ owner's request; the cursor now lives only in the menu's address line.
   (`QuickNav`, client: the current page gets ink color and a 1px accent underline).
 - Right: the email address as a small secondary button (from `xl`, as on dwinawan.com; an
   envelope icon stands in from `lg` to `xl`, where the nav is too tight),
-  theme toggle, a hairline divider, and the **Menu** toggle:
+  a hairline divider, and the **Menu** toggle:
   the word "Menu" beside a 40px round icon (hairline border). **Hover opens it** (mouse
   only): it stays open while the pointer is on the trigger or the panel and closes 220ms
   after leaving both; a mouse click never closes it. Tap, Enter/Space and Ctrl/Cmd K
@@ -146,8 +157,8 @@ pages via `src/components/StubPage.tsx` until content exists).
 ## Hero
 
 `src/modules/home/components/Hero.tsx` (server) with client leaves, followed by the term
-shelf (below). The hero fits its content (no full-screen height, the owner wanted it
-shorter), so the shelf heading shows above the fold at 1440x900. References the owner
+shelf (below). The hero fits its content plus 80px of padding top and bottom from `lg` (the
+owner asked for more room, not a full screen); the CTAs stay above the fold at 1440x900. References the owner
 chose: the type of theodorusclarence.com and dwinawan.com.
 
 One active /term drives the whole page (`ActiveTerm` context, wrapping hero and shelf in
@@ -156,9 +167,10 @@ terms every 8s, but holds while the pointer or focus is in the hero, while the s
 screen (so a list never changes under a reader) and under reduced motion.
 
 0. **Backdrop** (`backdrops/CommitField`, picked from five variants): a full-bleed canvas of
-   soft rounded cells (17px on a 24px pitch, base grid at 85% of `--grid`, commits in three
-   accent levels at 22, 40 and 62%, ripple at 30%: texture, never louder than the copy), a
-   contribution graph seen from far away. Cells "commit" at random and fade back; the cursor
+   soft rounded cells (22px on a 30px pitch, an 8px gap, radius 6; base grid at 85% of
+   `--grid`; commits in the five hues, blue weighted twice, at 22, 40 and 62%; ripple in the
+   accent at 30%: texture, never louder than the copy), a contribution graph seen from far
+   away. Cells "commit" at random and fade back; the cursor
    sends a soft ripple through nearby cells. Thinned behind the copy in four flat steps, not
    a smooth fade (alpha baked into the drawing). The static grid is cached
    offscreen; only live cells redraw; paused offscreen; still under reduced motion.
@@ -176,11 +188,12 @@ screen (so a list never changes under a reader) and under reduced motion.
    then one light, muted sentence (Dwinawan-style): "Fullstack engineer who makes complicated
    products feel simple. Wander through my **/works**, **/talks** and **/products**." Each
    term is a button in the sentence's own grey: hover turns it ink, and the active one
-   takes `accent-text`. Hover, focus or tap swaps the **proof card**: header with the term's
-   accent `IconBadge`, label ("Works") and title line (no pagination); the big number that
-   counts up, its label and detail; one hairline row per supporting fact (an ink badge, or
-   the product's own logo from `public/products/*.svg`, then value over label); a
-   full-width secondary "See all N" button. All from `profile.terms` (`label`, `icon`).
+   takes its hue. Hover, focus or tap swaps the **proof card**: header with the term's
+   `IconBadge` in its hue, label ("Works") and title line (no pagination); the big number
+   that counts up, its label and detail; one hairline row per supporting fact (a badge in
+   the fact's hue, or the product's own logo from `public/products/*.svg`, then value over
+   label); a full-width secondary "See all N" button. All from `profile.terms` (`label`,
+   `icon`, `hue`; a fact can override `hue`). Terms: works blue, talks violet, products teal.
 3. "Email me" + "See my work" (scrolls to the shelf). The bio paragraph and the social
    icons left the hero (socials live in the Menu panel); the proof card's button is
    "See all N", also scrolling to the shelf.
@@ -188,7 +201,7 @@ screen (so a list never changes under a reader) and under reduced motion.
    proof card sits centred in the right column inside three tilted rings, each carrying a
    flat dot. Dots pass behind the card on the far half and in front on the near half (a
    second layer above the card holds the near dots; rings stay behind so no line crosses
-   the text). The active term's ring and dot turn accent, the others stay ink; the system
+   the text). The active term's ring and dot take its hue, the others stay ink; the system
    tilts toward the pointer. Still under reduced motion; phones get the proof card alone.
    (Turned down: the floating card board, and the Glyph, Bauhaus and Ribbon shapes.) The
    cut-out photo (`profile.portrait`) is kept for the About page.
@@ -197,23 +210,25 @@ screen (so a list never changes under a reader) and under reduced motion.
    lifts the photo and dims the others.
 
 **Term shelf** (`TermShelf`, client, `#shelf`, right under the hero): everything behind the
-active /term. A heading with the term in `accent-text` and the count ("/works 5 projects"), the
+active /term. A heading with the term in its hue and the count ("/works 5 projects"), the
 three terms as small tabs (they set the same active term) and an "Open /term" link to its
 page. Each term has its own composition, never the same card grid (taste pass):
 - **Works** (`content/projects.ts`): a bento. The first project is featured across two
   columns on the navy `feature` slab with its big metric (`feature-accent` when it is a
-  measured `improvement`) and highlight lines; no repeated icon badges, so five projects fill exactly two rows
-  (lg 2 + 1 then 3; sm 2 then 2 + 2). Cards show the metric (or "Impact being measured"
+  measured `improvement`) and highlight lines, its cover beside the copy from `md`; no
+  repeated icon badges, so five projects fill exactly two rows (lg 2 + 1 then 3; sm 2 then
+  2 + 2). The other cards put their cover on top; covers cycle the hues (`hueAt`). Cards show the metric (or "Impact being measured"
   when `impactPending`, never an invented figure), role over years, stack chips.
 - **Talks** (`content/talks.ts`, carried over from the old site and `TODO(content)`
-  unconfirmed): one card of year groups in two columns (title, event, topic chip); the
-  year headings separate groups, no per-row hairlines.
+  unconfirmed): one card of year groups in two columns (a 96px cover thumbnail, title,
+  event, topic chip); the year headings separate groups, no per-row hairlines.
 - **Products** (`content/products.ts`, the single product list the menu and routes also
-  use): one tall feature on the navy slab beside two stacked, never three equal cards.
+  use): one tall feature on the navy slab (cover on top) beside two stacked (cover on the
+  left from `sm`), never three equal cards.
 Cards rise in with a stagger when the term changes (CSS `fade-rise`).
 
-Placeholders (album photos, unconfirmed socials) are
-`TODO(content)`; nothing renders an empty photo frame; unconfirmed social URLs are `null` and not rendered.
+Placeholders (album photos, covers, unconfirmed socials) are `TODO(content)`; covers draw
+the branded placeholder above, nothing else renders an empty photo frame; unconfirmed social URLs are `null` and not rendered.
 
 ## Motion
 
@@ -225,7 +240,6 @@ Placeholders (album photos, unconfirmed socials) are
 | Proof number counts up | The number is the visual | rAF on swap only, ~0.9s ease-out; final value for screen readers |
 | Commit field cells and ripple | The ground feels alive, quietly | One canvas, cached grid, live cells only; paused offscreen |
 | Orbit dots, ring light, tilt | The hero's visual answers the sentence | rAF on SVG attributes, one layer behind the card and one in front; static under reduced motion |
-| Theme circle reveal | The switch reads as one gesture from the button | View Transitions API, clip-path on the new snapshot, 520ms |
 | Menu toggle lines meet, then cross | The button explains its own state change | CSS transitions with staggered delays |
 | Menu path typing + cursor | Ties the menu to the logo and the /slash language | 22ms per character; instant under reduced motion |
 | Marquee drift, speed-up on scroll | Album feels alive without taking over | rAF transform; static, hand-scrollable under reduced motion |
@@ -240,7 +254,8 @@ Only `transform` and `opacity` animate (plus the panel's visibility). Under
 - **Zero em or en dashes** in visible copy. Ranges use a hyphen.
 - One label per intent across the page: contact is always "Email me".
 - No locale or time strips, version labels, pagination, scroll cues or section numbers.
-- No emoji. No gradients. One accent; navy is the only other colour and it is a neutral.
+- No emoji. No gradients. Blue is the only action colour; the five hues never mark a
+  button or link.
 - Never invent a number. Every figure comes from the CV or from Rayhan directly.
 - Icons come from Phosphor only (`@phosphor-icons/react/dist/ssr`), 20px in the menu,
   16px inside buttons and the menu footer.
