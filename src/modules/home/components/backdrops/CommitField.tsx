@@ -9,7 +9,7 @@ const RADIUS = 5;
 const LIFE_MS = 3200;
 const RIPPLE_R = 170;
 // Kept soft: the field is texture under the copy, never louder than it.
-const BASE_ALPHA = 0.6;
+const BASE_ALPHA = 0.85;
 const RIPPLE_ALPHA = 0.3;
 // Commit intensity in discrete steps, like a contribution graph: one accent, three levels.
 const LEVELS = [0.22, 0.4, 0.62];
@@ -85,7 +85,7 @@ export function CommitField() {
       if (b) {
         b.setTransform(dpr, 0, 0, dpr, 0, 0);
         b.clearRect(0, 0, rect.width, rect.height);
-        b.fillStyle = cssVar("--line");
+        b.fillStyle = cssVar("--grid");
         for (let r = 0; r < s.rows; r++) {
           for (let q = 0; q < s.cols; q++) {
             b.globalAlpha = BASE_ALPHA * fade(q * PITCH, r * PITCH, rect.width, rect.height);

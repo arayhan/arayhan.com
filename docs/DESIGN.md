@@ -18,9 +18,11 @@ equal cards, bento cells match the content count, long lists get their own compo
 (A dark creator-style restructure was tried and reverted on the owner's request.)
 Second taste pass, same day, on colour: the owner found the blue-on-slate plus four
 category hues generic and asked for no gradients, "playful but professional", and said they
-love dark colours (navy, dark blue, black, white, dark grey). Result: **one signal orange
-accent on navy-black ink and cool white, a navy feature slab, and everything flat** (no
-gradients, no blurred shadows, no glossy spheres).
+love dark colours (navy, dark blue, black, white, dark grey). Result: **one blue accent on
+navy-black ink and a near-white page, a navy feature slab, and everything flat** (no
+gradients, no blurred shadows, no glossy spheres). An orange accent was tried and turned
+down; the owner's objection was the background combination, not the blue. The hero ground
+is now near-white with a light blue-grey grid and blue-only commits.
 
 | Dial | Value | Meaning here |
 |---|---|---|
@@ -32,8 +34,7 @@ gradients, no blurred shadows, no glossy spheres).
 fitness-app card board: white rounded cards on a cool grey page, filled colour icon circles,
 buttons with a pressed bottom edge, tinted status strips, hairline list rows, a faint dot
 texture in card corners. Kept professional by: one accent for every action, link and
-active state (orange since the second pass; the category hues and the dot texture are
-gone); no emoji; calm motion; Geist, not a rounded display face. The proof is real numbers.
+active state (blue; the category hues and the dot texture are gone); no emoji; calm motion; Geist, not a rounded display face. The proof is real numbers.
 
 ## Tokens
 
@@ -43,22 +44,23 @@ Source: [`src/styles/tokens.css`](../src/styles/tokens.css), mapped to Tailwind 
 
 | Token | Light | Dark | Role |
 |---|---|---|---|
-| `canvas` | `#F4F5F7` | `#0A1220` | Page ground, cool white (dark: deep navy) |
-| `surface` | `#FCFCFD` | `#0F1A2C` | Cards, panels, secondary buttons |
-| `soft` | `#EEF0F4` | `#16233A` | Chips, address strip, icon hover |
+| `canvas` | `#F7F8FA` | `#0A1220` | Page ground, near-white (dark: deep navy) |
+| `surface` | `#FFFFFF` | `#0F1A2C` | Cards, panels, secondary buttons |
+| `soft` | `#F0F3F8` | `#16233A` | Chips, address strip, icon hover |
 | `ink` | `#0E1A2B` | `#EEF1F6` | Text, ink icon badges, idle orbit dots |
 | `mute` | `#4B5565` | `#97A3B6` | Secondary text, idle icons |
-| `line` | `#E1E5EB` | `#1F2C42` | Hairlines, card borders, the commit grid |
-| `accent` | `#FF6A2B` | `#FF7A3D` | **The one accent** as a fill: logo, primary button, active tab, active orbit, commits |
-| `on-accent` | `#0E1A2B` | `#0A1220` | Text on accent (ink, not white: 6:1) |
-| `accent-text` | `#C2410C` | `#FF8A52` | Accent as text on light surfaces (links, active /term, focus ring); 4.5:1+ |
-| `accent-soft` | `#FFF0E8` | accent 12% | Notice background |
-| `feature`, `on-feature`, `feature-mute` | `#13243F`, `#F4F5F7`, `#A9B6CA` | `#172C4F`, `#EEF1F6`, `#A9B6CA` | The navy slab a bento leads with; plain `accent` reads 5:1 on it |
-| `accent-lip`, `slab-lip` | `#C2410C`, `#D3D9E2` | `#B8430F`, `#050A14` | The flat 2px bottom edge of controls and cards |
+| `line` | `#E6EAF2` | `#1F2C42` | Hairlines, card borders |
+| `grid` | `#E6EAF2` | `#121D31` | The hero's commit grid: light blue-grey squares, quieter in dark |
+| `accent` | `#1D4ED8` | `#60A5FA` | **The one accent** as a fill: logo, primary button, active tab, active orbit, commits |
+| `on-accent` | `#FFFFFF` | `#0B1B3A` | Text on accent |
+| `accent-text` | `#1D4ED8` | `#60A5FA` | Accent as text (links, active /term, focus ring); 4.5:1+ on the page |
+| `accent-soft` | `#EEF3FF` | accent 12% | Notice background |
+| `feature`, `on-feature`, `feature-mute`, `feature-accent` | `#13243F`, `#F4F5F7`, `#A9B6CA`, `#8FB0FF` | `#172C4F`, `#EEF1F6`, `#A9B6CA`, `#93C5FD` | The navy slab a bento leads with; `feature-accent` is the accent on it (plain blue is too dark there) |
+| `accent-lip`, `slab-lip` | `#1E3A8A`, `#D8DEE8` | `#1D4ED8`, `#050A14` | The flat 2px bottom edge of controls and cards |
 | `card-radius`, `control-radius` | 16px, 12px | | `rounded-card`, `rounded-control` |
 | `card-shadow` | `0 2px 0 slab-lip` | same | `shadow-card`: a lip, never a blur |
 
-**One accent, flat.** Orange is the only colour that is not a neutral; navy is the dark
+**One accent, flat.** Blue is the only colour that is not a neutral; navy is the dark
 neutral. No gradients anywhere (fills, shadows, masks, orbit dots), no second accent, no
 category hues. Neutrals are cool with a navy bias, in both themes.
 
@@ -91,7 +93,7 @@ accent color, never a second face.
   slab (`feature` fill, `on-feature` text); one per grid, the cell the grid leads with.
   Lists inside a card are full-bleed hairline rows.
 - **Controls** (`src/components/ui/action.ts`): `rounded-control` (12px), semibold.
-  Primary is orange `accent` with ink text and a 2px `accent-lip`; secondary is a `surface`
+  Primary is blue `accent` with white text and a 2px `accent-lip`; secondary is a `surface`
   slab with a border and a 2px `slab-lip`. Pressing sinks the face 2px onto the lip (the shadow goes to none). Sizes
   44px and 36px.
 - **Icon badges** (`IconBadge.tsx`): flat filled circles (28px or 40px) with a Phosphor
@@ -154,7 +156,7 @@ terms every 8s, but holds while the pointer or focus is in the hero, while the s
 screen (so a list never changes under a reader) and under reduced motion.
 
 0. **Backdrop** (`backdrops/CommitField`, picked from five variants): a full-bleed canvas of
-   soft rounded cells (17px on a 24px pitch, base grid at 60% of `--line`, commits in three
+   soft rounded cells (17px on a 24px pitch, base grid at 85% of `--grid`, commits in three
    accent levels at 22, 40 and 62%, ripple at 30%: texture, never louder than the copy), a
    contribution graph seen from far away. Cells "commit" at random and fade back; the cursor
    sends a soft ripple through nearby cells. Thinned behind the copy in four flat steps, not
@@ -199,8 +201,8 @@ active /term. A heading with the term in `accent-text` and the count ("/works 5 
 three terms as small tabs (they set the same active term) and an "Open /term" link to its
 page. Each term has its own composition, never the same card grid (taste pass):
 - **Works** (`content/projects.ts`): a bento. The first project is featured across two
-  columns on the navy `feature` slab with its big metric (accent when it is a measured
-  `improvement`) and highlight lines; no repeated icon badges, so five projects fill exactly two rows
+  columns on the navy `feature` slab with its big metric (`feature-accent` when it is a
+  measured `improvement`) and highlight lines; no repeated icon badges, so five projects fill exactly two rows
   (lg 2 + 1 then 3; sm 2 then 2 + 2). Cards show the metric (or "Impact being measured"
   when `impactPending`, never an invented figure), role over years, stack chips.
 - **Talks** (`content/talks.ts`, carried over from the old site and `TODO(content)`

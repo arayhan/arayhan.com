@@ -15,6 +15,7 @@
   --color-feature: var(--feature);
   --color-on-feature: var(--on-feature);
   --color-feature-mute: var(--feature-mute);
+  --color-feature-accent: var(--feature-accent);
 
   --radius-card: var(--card-radius);
   --radius-control: var(--control-radius);

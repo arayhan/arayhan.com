@@ -20,7 +20,7 @@ const step = (i: number) => ({ "--i": Math.min(i, 8) }) as CSSProperties;
 const chip = "rounded-control px-2 py-0.5 text-xs";
 // The featured cell is the navy slab, so its secondary text and chips take the slab's shades.
 const tone = (featured: boolean) =>
-  featured ? { mute: "text-feature-mute", chip: "bg-on-feature/10 text-on-feature", link: "text-accent" } : { mute: "text-mute", chip: "bg-soft text-mute", link: "text-accent-text" };
+  featured ? { mute: "text-feature-mute", chip: "bg-on-feature/10 text-on-feature", link: "text-feature-accent" } : { mute: "text-mute", chip: "bg-soft text-mute", link: "text-accent-text" };
 
 function Metric({ project, featured }: { project: Project; featured: boolean }) {
   const { metric } = project;

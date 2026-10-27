@@ -12,8 +12,8 @@ export const contentType = "image/png";
 const INK = "#0a1220";
 const TEXT = "#eef1f6";
 const MUTE = "#97a3b6";
-const ACCENT = "#ff7a3d";
-const ON_ACCENT = "#0a1220";
+const ACCENT = "#60a5fa";
+const ON_ACCENT = "#0b1b3a";
 
 /**
  * Pulls only the glyphs the card uses, as TTF, from Google Fonts at build time. If the network is
