@@ -36,11 +36,11 @@ briefly fail. Accepted for a personal site.
 |---|---|
 | `SSH_HOST` | `43.157.241.50` |
 | `SSH_USER` | `ubuntu` |
-| `SSH_KEY` | private half of the deploy key `arayhan_deploy` (ed25519, no passphrase) |
+| `SSH_KEY` | private half of `arayhan_vps`, the one key for this server (ed25519, no passphrase) |
 | `SSH_KNOWN_HOSTS` | `ssh-keyscan 43.157.241.50` output; pins the server's host key |
 
-The deploy key's public half is in `/home/ubuntu/.ssh/authorized_keys` on the server, with the
-comment `arayhan.com deploy`.
+The key's public half is in `/home/ubuntu/.ssh/authorized_keys` on the server, with the
+comment `arayhan-vps`. The same key logs the owner in and deploys baiti and selfwire too (2026-10-31).
 
 ## Server setup (once)
 
@@ -63,7 +63,7 @@ comment `arayhan.com deploy`.
 - Roll back: revert the commit on `main` and push (preferred), or on the server
   `git -C ~/arayhan.com checkout -f <sha> && pnpm -C ~/arayhan.com build && pm2 reload arayhan`
   (the next push to main undoes it).
-- Rotate the key: make a new key pair, add its public line to `authorized_keys`, update the
-  `SSH_KEY` secret, then remove the old line.
+- Rotate the key: make a new key pair, add its public line to `authorized_keys` of `ubuntu` and
+  `selfwire`, update the key secret of every repo that deploys here, then remove the old line.
 - Nginx edits happen in `/etc/nginx/sites-available/arayhan.com` on the server (certbot has
   added its TLS lines there); `sudo nginx -t && sudo systemctl reload nginx`.
