@@ -1,17 +1,14 @@
-import type { CSSProperties } from "react";
 import Image from "next/image";
-import { ArrowDownIcon } from "@phosphor-icons/react/dist/ssr";
+import type { CSSProperties } from "react";
 import type { Profile } from "@/domain/portfolio";
-import { actionClass } from "@/components/ui/action";
+import { HoldZone } from "./ActiveTerm";
 import { AlbumMarquee } from "./AlbumMarquee";
-import { HeroCollage, type CollageTile } from "./HeroCollage";
 import { HeroIntro } from "./HeroIntro";
-
-const step = (i: number) => ({ "--i": i }) as CSSProperties;
+import { HeroShowcase, type Showcase } from "./HeroShowcase";
 
 function StatusBadge({ status, avatar }: { status: Profile["status"]; avatar: Profile["avatar"] }) {
   return (
-    <p className="fade-rise flex w-max max-w-full items-center gap-2.5 rounded-full border border-line bg-surface py-1.5 pr-3.5 pl-1.5 text-left font-mono text-[12.5px] text-mute shadow-control" style={step(0)}>
+    <p className="fade-rise flex w-max max-w-full items-center gap-2.5 rounded-full border border-line bg-surface py-1.5 pr-3.5 pl-1.5 text-left font-mono text-[12.5px] text-mute shadow-control" style={{ "--i": 0 } as CSSProperties}>
       {avatar ? (
         <Image src={avatar.src} alt={avatar.alt} width={26} height={26} className="size-[26px] flex-none rounded-full bg-soft" />
       ) : null}
@@ -23,24 +20,20 @@ function StatusBadge({ status, avatar }: { status: Profile["status"]; avatar: Pr
   );
 }
 
-/** Centered copy over a collage of works and products that runs out of the hero's bottom edge. */
-export function Hero({ profile, tiles }: { profile: Profile; tiles: CollageTile[] }) {
+/**
+ * The whole home page: the copy beside the portrait and the active term's featured item, and a
+ * bento of that term's next items under both. Hovering a /term swaps the images (HeroShowcase).
+ */
+export function Hero({ profile, showcases }: { profile: Profile; showcases: Showcase[] }) {
   return (
-    <section aria-labelledby="hero-title" className="relative isolate grid grid-cols-[minmax(0,1fr)] overflow-x-clip pt-16 md:pt-24">
-      <HeroIntro intro={profile.intro} terms={profile.terms} badge={<StatusBadge status={profile.status} avatar={profile.avatar} />}>
-        <div className="fade-rise flex flex-wrap justify-center gap-2.5 pt-1" style={step(3)}>
-          <a href={`mailto:${profile.email}`} className={actionClass("primary")}>
-            Email me
-          </a>
-          <a href="#shelf" className={actionClass("secondary")}>
-            See my work
-            <ArrowDownIcon size={16} aria-hidden="true" />
-          </a>
+    <HoldZone aria-labelledby="hero-title" className="mx-auto grid w-full max-w-page grid-cols-[minmax(0,1fr)] gap-3 px-4 pt-6 pb-20 sm:gap-4 sm:px-8 md:pt-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:px-14">
+      <HeroIntro intro={profile.intro} terms={profile.terms} email={profile.email} badge={<StatusBadge status={profile.status} avatar={profile.avatar} />} />
+      <HeroShowcase showcases={showcases} portrait={profile.portrait} />
+      {profile.album.length > 0 && (
+        <div className="lg:col-span-2">
+          <AlbumMarquee photos={profile.album} />
         </div>
-      </HeroIntro>
-      <HeroCollage tiles={tiles} />
-
-      {profile.album.length > 0 && <AlbumMarquee photos={profile.album} />}
-    </section>
+      )}
+    </HoldZone>
   );
 }

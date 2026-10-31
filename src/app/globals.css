@@ -106,6 +106,35 @@ h3 {
   animation-delay: calc(var(--i, 0) * var(--stagger));
 }
 
+/* The hero showcase swapping terms: the new tiles rise in one by one (--i), the old layer sinks
+   and fades on top of them (HeroShowcase). */
+@keyframes show-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes show-out {
+  to {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+
+.show-in {
+  animation: show-in 450ms var(--ease-out-soft) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+
+.show-out {
+  animation: show-out 260ms ease-in both;
+}
+
 @keyframes caret {
   0%,
   55% {
@@ -149,17 +178,11 @@ h3 {
     color: var(--ink);
   }
 
-  /* A hero collage tile: tilted by --r and dropped by --y (set per tile); hover straightens
-     and lifts it. Its own element, so fade-rise on the wrapper never overrides the tilt. */
-  .collage-tile {
-    transform: translateY(var(--y, 0px)) rotate(var(--r, 0deg));
-    transition:
-      transform 400ms var(--ease-out-soft),
-      box-shadow 400ms var(--ease-out-soft);
-  }
-
-  .collage-tile:hover {
-    transform: translateY(calc(var(--y, 0px) - 6px)) rotate(0deg);
+  /* A showcase text tile and the portrait panel: a tint of --tile-hue (set per tile) over white.
+     A computed colour, so the panel's background-color transition eases between term hues. */
+  .tile-tint {
+    background-color: color-mix(in srgb, var(--tile-hue, var(--accent)) 14%, var(--surface));
+    transition: background-color 450ms var(--ease-out-soft);
   }
 
   /* --term-hue is set per term. */
