@@ -34,6 +34,7 @@ Each is a subagent under `.claude/agents/`. Dispatch by name.
 | [docs/STATE.md](docs/STATE.md) | Where the project is right now — phase, next task, blockers. Read first, every session |
 | [docs/PROGRESS.md](docs/PROGRESS.md) | Decision/progress log — every agent appends what it decided and why |
 | [docs/DESIGN.md](docs/DESIGN.md) | Visual system — tokens, typography, components, do's and don'ts |
+| [docs/DEPLOY.md](docs/DEPLOY.md) | Hosting — the owner's server, auto-deploy on push to main, secrets, rollback |
 
 Add rows for whatever else this project grows — a database doc, a design-process doc. Keep the table ordered by reading order, not alphabetically.
 
@@ -118,7 +119,7 @@ pnpm install
 pnpm dev                # http://localhost:3000
 ```
 
-The site is fully static: no database, no server code, no required env vars.
+The site is fully static: no database, no server code, no required env vars. It runs with `next start` behind Nginx on the owner's server; every green push to `main` deploys itself ([docs/DEPLOY.md](docs/DEPLOY.md)).
 
 ## DX
 
