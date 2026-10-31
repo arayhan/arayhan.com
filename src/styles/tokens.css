@@ -14,8 +14,6 @@
   --line: #e3e7ee;
   --surface: #ffffff;
   --soft: #eef1f5;
-  /* The hero's commit grid, one step off the canvas */
-  --grid: #e8ecf2;
   /* The one accent, for actions, links and focus */
   --accent: #2563eb;
   --on-accent: #ffffff;

@@ -56,7 +56,7 @@ export function Cover({ seed, hue, icon: Glyph, src, sizes = "(min-width: 1024px
   const lit: { x: number; y: number; opacity: number }[] = [];
   for (let i = 0; i < SPAN.cols * SPAN.rows; i++) {
     const r = next();
-    if (r < 0.3) lit.push({ x: (i % SPAN.cols) * pitch + 3, y: Math.floor(i / SPAN.cols) * pitch + 3, opacity: r < 0.1 ? 0.6 : 0.32 });
+    if (r < 0.24) lit.push({ x: (i % SPAN.cols) * pitch + 3, y: Math.floor(i / SPAN.cols) * pitch + 3, opacity: r < 0.08 ? 0.5 : 0.24 });
   }
 
   return (
@@ -64,7 +64,7 @@ export function Cover({ seed, hue, icon: Glyph, src, sizes = "(min-width: 1024px
       <svg className="absolute inset-0 size-full">
         <defs>
           <pattern id={`cover-${id}`} width={pitch} height={pitch} patternUnits="userSpaceOnUse">
-            <rect x={3} y={3} width={cell} height={cell} rx={radius} fill="currentColor" opacity={0.12} />
+            <rect x={3} y={3} width={cell} height={cell} rx={radius} fill="currentColor" opacity={0.08} />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill={`url(#cover-${id})`} />

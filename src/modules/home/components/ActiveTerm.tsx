@@ -6,10 +6,8 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 const ADVANCE_MS = 8000;
 
 type ActiveTerm = {
-  /** Index of the /term driving the hero card, the orbit and the shelf. */
+  /** Index of the /term lit in the hero sentence and shown by the shelf. */
   active: number;
-  /** False until the first change, so the card's number only counts up after a swap. */
-  swapped: boolean;
   pick: (i: number) => void;
   /** The hero reports pointer or focus inside it. */
   holdHero: (held: boolean) => void;
@@ -26,27 +24,20 @@ const Ctx = createContext<ActiveTerm | null>(null);
  */
 export function ActiveTermProvider({ count, children }: { count: number; children: ReactNode }) {
   const [active, setActive] = useState(0);
-  const [swapped, setSwapped] = useState(false);
   const [heroHeld, holdHero] = useState(false);
   const [shelfHeld, holdShelf] = useState(false);
   const reduced = useReducedMotion();
   const cycling = !reduced && !heroHeld && !shelfHeld;
 
-  const pick = useCallback((i: number) => {
-    setSwapped(true);
-    setActive(i);
-  }, []);
+  const pick = useCallback((i: number) => setActive(i), []);
 
   useEffect(() => {
     if (!cycling) return;
-    const id = window.setTimeout(() => {
-      setSwapped(true);
-      setActive((i) => (i + 1) % count);
-    }, ADVANCE_MS);
+    const id = window.setTimeout(() => setActive((i) => (i + 1) % count), ADVANCE_MS);
     return () => window.clearTimeout(id);
   }, [active, cycling, count]);
 
-  const value = useMemo(() => ({ active, swapped, pick, holdHero, holdShelf }), [active, swapped, pick]);
+  const value = useMemo(() => ({ active, pick, holdHero, holdShelf }), [active, pick]);
   return <Ctx value={value}>{children}</Ctx>;
 }
 

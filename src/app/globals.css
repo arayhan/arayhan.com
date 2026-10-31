@@ -137,7 +137,7 @@ h3 {
     text-align: center;
   }
 
-  /* A /term in the hero sentence: muted like the sentence, ink on hover, its hue when it drives the card. */
+  /* A /term in the hero sentence: muted like the sentence, ink on hover, its hue when it drives the shelf. */
   .hero-term {
     cursor: pointer;
     color: inherit;
@@ -147,6 +147,19 @@ h3 {
 
   .hero-term:hover {
     color: var(--ink);
+  }
+
+  /* A hero collage tile: tilted by --r and dropped by --y (set per tile); hover straightens
+     and lifts it. Its own element, so fade-rise on the wrapper never overrides the tilt. */
+  .collage-tile {
+    transform: translateY(var(--y, 0px)) rotate(var(--r, 0deg));
+    transition:
+      transform 400ms var(--ease-out-soft),
+      box-shadow 400ms var(--ease-out-soft);
+  }
+
+  .collage-tile:hover {
+    transform: translateY(calc(var(--y, 0px) - 6px)) rotate(0deg);
   }
 
   /* --term-hue is set per term. */
