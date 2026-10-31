@@ -2,8 +2,8 @@ import type { Talk } from "@/domain/portfolio";
 
 // TODO(content): carried over from the old site (release/v1), whose own note says these titles
 // still need confirming against the real talk archive. Confirm or correct each row.
-// TODO(content): a cover photo per talk, dropped in as public/covers/<title-in-kebab-case>.webp;
-// until then the shelf draws a placeholder.
+// TODO(content): the covers in public/covers/<title-in-kebab-case>.webp are Unsplash stand-ins
+// (docs/cover-credits.md); replace each with a real photo of the talk at the same path.
 export const talks: Talk[] = [
   { title: "Firebase for Frontend Engineers", event: "GDG Depok DevFest", year: "2025", topic: "Firebase" },
   { title: "Scaling React Codebases with Clean Architecture", event: "GDG Depok Meetup", year: "2025", topic: "React" },

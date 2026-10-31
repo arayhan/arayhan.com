@@ -1,8 +1,8 @@
 import type { Project } from "@/domain/portfolio";
 
 // Every number must come from the CV or from Rayhan directly (docs/PRODUCT.md).
-// TODO(content): a cover screenshot per project, dropped in as public/covers/<id>.webp (e.g.
-// anify.webp); until then the hero and shelf draw a placeholder.
+// TODO(content): the covers in public/covers/<id>.webp are Unsplash stand-ins
+// (docs/cover-credits.md); replace each with a real screenshot at the same path.
 export const projects: Project[] = [
   {
     id: "anify",

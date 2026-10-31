@@ -116,8 +116,10 @@ accent color, never a second face.
 - **Covers** (`Cover.tsx`): an item's image (`next/image` from the item's `cover`). Until
   one exists (`TODO(content)`) it draws a placeholder in the item's hue: a quiet grid of
   rounded squares plus seeded brighter cells (fixed pixel size at any cover size, the same
-  item always the same) with the item's glyph in a white circle. Never a stock photo
-  standing in for the owner's work. **Drop-in:** a file at `public/covers/<key>.webp` (or
+  item always the same) with the item's glyph in a white circle. Today every item has an
+  **Unsplash stand-in** (the owner's choice, 2026-10-31), listed in
+  [`docs/cover-credits.md`](cover-credits.md) and marked `TODO(content)`; the drawn
+  placeholder is the fallback for any item without a file. **Drop-in:** a file at `public/covers/<key>.webp` (or
   png/jpg) becomes that item's cover at the next build, no code change; the key is the
   project `id`, the product `slug` or the talk title in kebab case
   (`src/server/covers.ts`, resolved in `app/page.tsx`).
