@@ -178,7 +178,7 @@ export function TermShelf({ terms, projects, talks, products }: Props) {
   return (
     <section ref={root} id="shelf" aria-labelledby="shelf-title" className="mx-auto grid w-full max-w-page scroll-mt-24 gap-6 px-4 pt-4 pb-24 sm:px-8 lg:px-14">
       <div className="flex flex-wrap items-end justify-between gap-4">
-        <h2 key={active} id="shelf-title" aria-live="polite" className="fade-rise text-2xl font-semibold tracking-tight">
+        <h2 key={active} id="shelf-title" aria-live="polite" className="fade-rise text-2xl font-bold tracking-tight">
           <span className={HUE_TEXT[term.hue]}>{term.term}</span> <span className="font-normal text-mute">{shelf.count}</span>
         </h2>
         <div className="flex flex-wrap items-center gap-2">

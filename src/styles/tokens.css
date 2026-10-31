@@ -1,51 +1,50 @@
 /* Rayhan design tokens. DESIGN.md is the spec; change both together.
    Raw names here; globals.css maps them onto Tailwind (canvas -> bg-canvas, size-hero -> text-hero,
    card-radius -> rounded-card, card-shadow -> shadow-card).
-   Dark only, by the owner's choice: no light theme and no toggle.
-   One palette: light ink on deep navy, one blue accent, a navy feature surface, and five
-   same-brightness hues for decoration.
-   Everything is flat: no gradients, no blurred shadows. */
+   Light only, by the owner's choice: no dark theme and no toggle.
+   One palette: navy ink on a cool light grey, white cards, one blue accent, a navy feature slab,
+   and five hues for decoration. Fills are flat (no gradients); elevation is a hairline plus a
+   faint navy-tinted shadow. */
 
 :root {
-  /* Color: deep navy page, navy cards, light ink */
-  --canvas: #0a1220;
-  --ink: #eef1f6;
-  --mute: #97a3b6;
-  --line: #1f2c42;
-  /* The hero's commit grid: one step off the canvas, so it stays quiet */
-  --grid: #121d31;
-  --surface: #0f1a2c;
-  --soft: #16233a;
+  /* Color: cool light grey page, white cards, navy ink */
+  --canvas: #f3f5f8;
+  --ink: #0b1b3a;
+  --mute: #5b6678;
+  --line: #e3e7ee;
+  --surface: #ffffff;
+  --soft: #eef1f5;
+  /* The hero's commit grid, one step off the canvas */
+  --grid: #e8ecf2;
   /* The one accent, for actions, links and focus */
-  --accent: #60a5fa;
-  --on-accent: #0b1b3a;
-  --accent-text: #60a5fa;
-  --accent-soft: rgb(96 165 250 / 0.12);
-  /* The featured cell: a lighter navy slab; --feature-accent is the accent on it */
-  --feature: #172c4f;
+  --accent: #2563eb;
+  --on-accent: #ffffff;
+  --accent-text: #1d4ed8;
+  --accent-soft: rgb(37 99 235 / 0.1);
+  /* The featured cell: the one dark navy slab; --feature-accent is the accent on it */
+  --feature: #0f1f3d;
   --on-feature: #eef1f6;
   --feature-mute: #a9b6ca;
   --feature-accent: #93c5fd;
-  /* Tactile edges: the darker bottom lip of a pressable control or a card */
-  --accent-lip: #1d4ed8;
-  --slab-lip: #050a14;
-  /* Hues: one brightness, five colours, for badges, commits, covers and the orbit (never for
-     actions; those stay the accent). Fills take a navy glyph; each clears 4.5:1 as text. */
-  --hue-blue: #60a5fa;
-  --hue-violet: #a78bfa;
-  --hue-teal: #2dd4bf;
-  --hue-amber: #fbbf24;
-  --hue-rose: #fb7185;
-  --hue-blue-soft: rgb(96 165 250 / 0.14);
-  --hue-violet-soft: rgb(167 139 250 / 0.14);
-  --hue-teal-soft: rgb(45 212 191 / 0.14);
-  --hue-amber-soft: rgb(251 191 36 / 0.14);
-  --hue-rose-soft: rgb(251 113 133 / 0.14);
+  /* Hues: five colours for badges, covers and the active /term (never for actions; those stay
+     the accent). Fills take a white glyph; each clears 4.5:1 as text on white. */
+  --hue-blue: #2563eb;
+  --hue-violet: #7c3aed;
+  --hue-teal: #0f766e;
+  --hue-amber: #b45309;
+  --hue-rose: #e11d48;
+  --hue-blue-soft: rgb(37 99 235 / 0.1);
+  --hue-violet-soft: rgb(124 58 237 / 0.1);
+  --hue-teal-soft: rgb(15 118 110 / 0.1);
+  --hue-amber-soft: rgb(180 83 9 / 0.1);
+  --hue-rose-soft: rgb(225 29 72 / 0.1);
 
   /* Shape and elevation */
-  --card-radius: 16px;
+  --card-radius: 24px;
   --control-radius: 12px;
-  --card-shadow: 0 2px 0 var(--slab-lip);
+  --card-shadow: 0 1px 2px rgb(11 27 58 / 0.04), 0 12px 32px -16px rgb(11 27 58 / 0.14);
+  --card-shadow-lift: 0 1px 2px rgb(11 27 58 / 0.05), 0 18px 40px -18px rgb(11 27 58 / 0.22);
+  --control-shadow: 0 1px 2px rgb(11 27 58 / 0.08);
 
   /* Type scale, fluid from ~375px to ~1280px */
   --size-hero: clamp(1.625rem, 1.05rem + 2.1vw, 2.5rem);
@@ -62,5 +61,5 @@
   --dur-rise: 800ms;
   --stagger: 60ms;
 
-  color-scheme: dark;
+  color-scheme: light;
 }

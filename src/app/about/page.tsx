@@ -9,10 +9,10 @@ export default function Page() {
   return (
     <StubPage path="/about" title="About" intro={sectionIntros["/about"]}>
       <section id="journey" aria-labelledby="journey-title" className="scroll-mt-24 border-t border-line pt-6">
-        <h2 id="journey-title" className="text-xl font-semibold">Journey</h2>
+        <h2 id="journey-title" className="text-xl font-bold tracking-tight">Journey</h2>
       </section>
       <section id="stack" aria-labelledby="stack-title" className="scroll-mt-24 border-t border-line pt-6">
-        <h2 id="stack-title" className="text-xl font-semibold">Tech stack</h2>
+        <h2 id="stack-title" className="text-xl font-bold tracking-tight">Tech stack</h2>
       </section>
       <p>
         <Link href="/uses" className="text-accent-text underline underline-offset-4">

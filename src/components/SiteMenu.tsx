@@ -146,7 +146,7 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
         onPointerLeave={onHoverLeave}
         aria-label="Site menu"
         className={cx(
-          "absolute top-[calc(100%-6px)] right-3 z-50 max-h-[calc(100dvh-5.5rem)] w-[min(660px,calc(100%-24px))] overflow-y-auto rounded-card border border-line bg-surface shadow-card card-dots duration-300 ease-out-soft sm:right-8 lg:right-14",
+          "absolute top-[calc(100%-6px)] right-3 z-50 max-h-[calc(100dvh-5.5rem)] w-[min(660px,calc(100%-24px))] overflow-y-auto rounded-card border border-line bg-surface shadow-card duration-300 ease-out-soft sm:right-8 lg:right-14",
           // Visibility only transitions on close: opening, the panel must be focusable on its first frame.
           open ? "visible translate-y-0 opacity-100 transition-[opacity,transform]" : "invisible -translate-y-1.5 opacity-0 transition-[opacity,transform,visibility]",
         )}

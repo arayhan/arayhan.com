@@ -30,8 +30,8 @@
   --radius-card: var(--card-radius);
   --radius-control: var(--control-radius);
   --shadow-card: var(--card-shadow);
-  --shadow-lip-accent: 0 2px 0 var(--accent-lip);
-  --shadow-lip-slab: 0 2px 0 var(--slab-lip);
+  --shadow-card-lift: var(--card-shadow-lift);
+  --shadow-control: var(--control-shadow);
 
   --font-sans: var(--font-geist), system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, Consolas, monospace;

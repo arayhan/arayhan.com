@@ -72,7 +72,7 @@ export function Cover({ seed, hue, icon: Glyph, src, sizes = "(min-width: 1024px
           <rect key={`${x}-${y}`} x={x} y={y} width={cell} height={cell} rx={radius} fill="currentColor" opacity={opacity} />
         ))}
       </svg>
-      <span className={cx("relative grid place-items-center rounded-full bg-canvas", small ? "size-8" : "size-12")}>
+      <span className={cx("relative grid place-items-center rounded-full bg-surface shadow-control", small ? "size-8" : "size-12")}>
         <Glyph size={small ? 15 : 22} weight="fill" />
       </span>
     </div>

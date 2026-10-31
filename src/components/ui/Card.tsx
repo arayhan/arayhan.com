@@ -4,7 +4,7 @@ import { cx } from "@/utils/cx";
 type Props<T extends ElementType> = { as?: T; feature?: boolean } & ComponentPropsWithoutRef<T>;
 
 /**
- * The system's one surface: hairline border, 16px radius, a flat 2px lip like the buttons.
+ * The system's one surface: white, hairline border, 24px radius and a faint navy-tinted shadow.
  * `feature` makes it the navy slab, for the one cell a grid leads with.
  */
 export function Card<T extends ElementType = "div">({ as, feature, className, ...rest }: Props<T>) {

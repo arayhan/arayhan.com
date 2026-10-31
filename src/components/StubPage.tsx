@@ -19,7 +19,7 @@ export function StubPage({ path, title, intro, children }: Props) {
           {site.host}
           {path}
         </p>
-        <h1 className="text-hero font-semibold tracking-[-0.04em]">{title}</h1>
+        <h1 className="text-hero font-bold tracking-[-0.04em]">{title}</h1>
         {intro && <p className="max-w-[60ch] text-sub text-mute">{intro}</p>}
         <Notice title="In progress" className="mt-2">
           This page is being written.

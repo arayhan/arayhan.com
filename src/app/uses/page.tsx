@@ -9,7 +9,7 @@ export default function Page() {
     <StubPage path="/uses" title="Uses" intro={sectionIntros["/uses"]}>
       {usesAreas.map((area) => (
         <section key={area.id} id={area.id} aria-labelledby={`${area.id}-title`} className="scroll-mt-24 border-t border-line pt-6">
-          <h2 id={`${area.id}-title`} className="text-xl font-semibold">{area.label}</h2>
+          <h2 id={`${area.id}-title`} className="text-xl font-bold tracking-tight">{area.label}</h2>
         </section>
       ))}
     </StubPage>
