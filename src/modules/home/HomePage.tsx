@@ -4,6 +4,7 @@ import type { Product, Project, Talk } from "@/domain/portfolio";
 import { hueAt } from "@/components/ui/hue";
 import { profile } from "@/content/profile";
 import { homeStructuredData } from "@/content/structured-data";
+import { AboutBento } from "./components/AboutBento";
 import { ActiveTermProvider } from "./components/ActiveTerm";
 import { Hero } from "./components/Hero";
 import type { CollageTile } from "./components/HeroCollage";
@@ -31,6 +32,7 @@ export function HomePage({ projects, products, talks }: Props) {
         <Hero profile={profile} tiles={collage(projects, products)} />
         <TermShelf terms={profile.terms} projects={projects} talks={talks} products={products} />
       </ActiveTermProvider>
+      <AboutBento profile={profile} featured={projects[0]} />
     </main>
   );
 }

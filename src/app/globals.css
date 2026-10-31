@@ -274,9 +274,22 @@ h3 {
   }
 }
 
+/* Rise in as the element scrolls into view; without scroll timelines it simply shows. */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: fade-rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .reveal {
+    animation: none;
   }
 
   *,
