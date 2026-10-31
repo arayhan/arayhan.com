@@ -32,11 +32,15 @@ bento cards. Result: navy ink on a cool light grey, white cards with a 24px radi
 and a faint navy-tinted shadow (still no gradients), heavier headings, a **minimal centered
 hero over a collage of the works and products**, and an About/Connect bento after the shelf.
 The commit-square backdrop, the orbit and the proof card are gone.
+On 2026-11-01 the owner sent a fashion-landing reference (a big headline beside two tall
+photos, over a bento of coloured text tiles and photo tiles) and asked for the hero alone:
+the home page is now **one split hero whose images follow the active /term**. The shelf, the
+About bento and the collage are gone.
 
 | Dial | Value | Meaning here |
 |---|---|---|
-| Design variance | 6 | A centered hero (the owner's reference) made uneven by the tilted collage |
-| Motion intensity | 5 | Rise-ins, a tile that straightens on hover; every motion has a reason |
+| Design variance | 6 | A split hero over a checkerboard bento of text and photo tiles |
+| Motion intensity | 5 | Rise-ins and a staggered crossfade when the term changes; every motion has a reason |
 | Visual density | 3 | Airy; one idea per screen |
 
 **Tactile cards, enterprise restraint** (owner's pick, 2026-10-26). The reference is a
@@ -68,14 +72,14 @@ Source: [`src/styles/tokens.css`](../src/styles/tokens.css), mapped to Tailwind 
 | `hue-*-soft` | the hue at 10% | Cover grounds, quiet shapes |
 | `card-radius`, `control-radius` | 24px, 12px | `rounded-card`, `rounded-control` |
 | `card-shadow` | hairline 1px plus `0 12px 32px -16px` navy at 14% | `shadow-card` |
-| `card-shadow-lift` | the same, deeper (22%) | `shadow-card-lift`: collage tiles, hovered About cells |
+| `card-shadow-lift` | the same, deeper (22%) | `shadow-card-lift`: hovered showcase text tiles |
 | `control-shadow` | `0 1px 2px` navy at 8% | `shadow-control`: buttons, chips, round icon buttons |
-| `page-max` | 1360px | `max-w-page`: header, shelf, About bento and stub pages (the hero collage is full bleed) |
+| `page-max` | 1360px | `max-w-page`: header, hero and stub pages |
 
 **One action colour, five decorative hues, flat fills.** Blue drives every action, link and
 focus state. The five hues share a weight so they read as one family; they colour things
-that are not pressed (badges, covers, the About shapes, the active /term and the shelf
-heading). Navy is the ink and the one dark slab. No gradients anywhere (fills, shadows,
+that are not pressed (badges, covers, showcase tiles, the portrait panel and the active
+/term). Navy is the ink and the one dark slab. No gradients anywhere (fills, shadows,
 masks, brand buttons). Shadows are soft but always tinted navy, never black.
 
 Theme: **light only**, by the owner's choice (2026-10-31; it was dark only from 2026-10-27).
@@ -92,7 +96,7 @@ accent color, never a second face.
 | Hero name (h1) | `text-display` 48 -> 76px, line-height 1, one line, centered | 700, `-0.045em` |
 | Hero sentence | `text-lede` 20 -> 28px, line-height 1.35, max 30ch, centered | 400, `-0.02em`, `mute` |
 | Page headline (stubs) | `text-hero` 26 -> 40px, line-height 1.16 | 700, `-0.04em` |
-| Section and bento titles | 24px (shelf) / 30px (About cells) | 700, `-0.03em` |
+| Showcase term label | `clamp(2rem, 1.2rem + 2.6vw, 3.5rem)`, in the term's hue | 700, `-0.04em` |
 | Page subtext | `text-sub` 16 -> 19px | 400, `mute` |
 | Eyebrow / labels | 14px | 500, `mute`, sentence case (no uppercase tracking) |
 | Buttons | 14px | 600 |
@@ -126,7 +130,7 @@ accent color, never a second face.
 - **Notices** (`Notice.tsx`): `rounded-control` strip in `accent-soft` with an `accent-text`
   title and a mute line. For states only (for example "In progress" on stub pages).
 - **Social links** (`SocialLinks.tsx`): `quiet` tone in the menu (`rounded-control`, `soft`
-  hover); `brand` tone in the About bento (56px circles in flat brand colours, white
+  hover); `brand` tone (unused since the About bento went; 56px circles in flat brand colours, white
   glyph; email takes the accent and is labelled "Email me"). The Menu toggle stays a 40px
   circle (owner-tuned). The logo square keeps radius 7/32.
 
@@ -171,90 +175,60 @@ pages via `src/components/StubPage.tsx` until content exists).
 
 ## Hero
 
-`src/modules/home/components/Hero.tsx` (server) with client leaves, then the term shelf and
-the About bento. Minimal and centered (the owner's first reference): copy on top, a collage
-of the work running out of the hero's bottom edge. 96px top padding from `md`; the CTAs stay
-above the fold at 1440x900. Type references the owner chose: theodorusclarence.com and
-dwinawan.com.
+The home page is the hero and nothing else (owner, 2026-11-01). `Hero.tsx` (server) inside
+`HoldZone`, a `<section>` that holds the active term while a mouse or focus is in it. The
+layout is the owner's fashion-landing reference: on `lg`, two columns
+(`minmax(0,1fr) minmax(0,1.15fr)`): the copy card on the left, the two images on the right.
+The showcase bento runs full width under both. Below `lg` everything stacks, and the two
+images stay side by side.
 
-One active /term drives the sentence and the shelf (`ActiveTerm` context, wrapping both in
-`HomePage`). Left alone it walks the terms every 8s, but holds while the pointer or focus is
-in the hero copy, while the shelf is on screen (so a list never changes under a reader) and
-under reduced motion.
+One active /term drives the sentence, the second action and every image (`ActiveTerm`).
+Left alone it walks the terms every 8s. It holds while the pointer or focus is anywhere in
+the hero, and under reduced motion.
 
-1. **Status chip**: a small white pill (border, control shadow) opening with a 26px round
-   avatar of the owner (`profile.avatar`), then a mono terminal line,
-   "$ whoami → **Solution Fullstack Engineer** @ Badr Interactive" (`profile.status`). Wraps
-   on narrow screens rather than truncating, text left-aligned.
-2. **Name and sentence** (`HeroIntro`, one centered column, max 46rem): the h1 is just
-   "I'm Rayhan", then one muted sentence: "Fullstack engineer who makes complicated products
-   feel simple. Wander through my **/works**, **/talks** and **/products**." Each term is a
-   button in the sentence's own grey: hover turns it ink, the active one takes its hue
-   (works blue, talks violet, products teal), and hover, focus or tap switches the shelf.
-3. "Email me" + "See my work" (scrolls to the shelf), centered.
-4. **Collage** (`HeroCollage`, server, decorative, `aria-hidden`): the five works and three
-   products interleaved, each a `Cover` (same seed, hue and glyph as its shelf card) in a
-   white 6px frame with `shadow-card-lift` and a small name chip at the top left. Five big
-   portrait tiles (4:5, `clamp(9rem, 21vw, 22rem)` wide, overlapping slightly) bleed off
-   both edges, each at a fixed tilt between -4 and 4 degrees and a small drop; three smaller
-   4:3 tiles sit over the gaps, lower down. The strip is clipped at the hero's bottom so the
-   tiles run out of it, as in the reference. Hover straightens a tile and lifts it 6px (CSS,
-   `.collage-tile`; the tilt lives on its own element so `fade-rise` never overrides it).
-   Not links: the shelf below lists the same items.
-5. **Album marquee** (`AlbumMarquee`), rendered only once `profile.album` has photos: two
-   rows in opposite directions; page scroll speed boosts and flips them; hovering a row
-   pauses it, lifts the photo and dims the others.
+1. **Copy card** (`HeroIntro`, white card, left aligned): the status chip (26px avatar plus
+   the mono "$ whoami → **Solution Fullstack Engineer** @ Badr Interactive" line), the h1
+   "I'm Rayhan" at `clamp(3.25rem, 2rem + 5vw, 6rem)`, then the muted sentence "Fullstack
+   engineer who makes complicated products feel simple. Wander through my **/works**,
+   **/talks** and **/products**." Each term is a button: hover turns it ink, and the active
+   one takes its hue (works blue, talks violet, products teal). Hover, focus or tap makes it
+   active. Actions: "Email me" (primary) and "Open /term" (secondary, the active term's page).
+2. **Portrait panel**: `profile.portrait` anchored to the bottom of a panel tinted with the
+   term's hue (`.tile-tint`, 14% over white, eased between hues). The term's label ("Works")
+   sits at the top left in its hue, with its count ("5 projects") under it.
+3. **Featured tile**: the term's first item as a full-height cover with a white chip
+   (name, sub line), linking to it.
+4. **Showcase bento** (`HeroShowcase`): the next items, up to five, one column each on `lg`.
+   Each column is a text tile (`.tile-tint` in the item's hue, a round glyph badge, the name,
+   a sub line) over the item's cover, with the order flipped every other column, so the
+   bento reads as a checkerboard. Each column is one link. A narrower navy CTA column ends
+   it, with the term's full count and "Open /term". Rows have a fixed height
+   (`clamp(18rem, 25vw, 23rem)` on `lg`), so a term with fewer items gets wider columns and
+   the hero never changes height. Below `lg` each item is a row of the two tiles.
+   - Works: name and metric label (or client). Talks: title and "event · year". Products:
+     name and pitch, linking to `/products/<slug>`. Hues from `hueAt`, as everywhere.
+5. **Album marquee** (`AlbumMarquee`), rendered only once `profile.album` has photos.
 
-(Gone on 2026-10-31: the commit-square canvas backdrop, the orbit around a proof card, and
-the proof card with its counting number. Earlier rounds also turned down an aurora, a
-dot lattice, a spotlight grid, a floating card board and several shape systems.)
+**Term change** (`Swap` in `HeroShowcase`): the old layer stays on top for 450ms and sinks
+and fades (`.show-out`, 260ms). The new tiles rise in along a diagonal (`.show-in`, 450ms,
+40ms per step of column plus row). The panel's tint eases to the new hue. The old layer is
+`inert` and `aria-hidden`, and a polite live line says "Showing 5 projects". Under reduced
+motion the swap is instant.
 
-**Term shelf** (`TermShelf`, client, `#shelf`, right under the hero): everything behind the
-active /term. A heading with the term in its hue and the count ("/works 5 projects"), the
-three terms as small tabs (they set the same active term) and an "Open /term" link to its
-page. Each term has its own composition, never the same card grid (taste pass):
-- **Works** (`content/projects.ts`): a bento. The first project is featured across two
-  columns on the navy `feature` slab with its big metric (`feature-accent` when it is a
-  measured `improvement`) and highlight lines, its cover beside the copy from `md`; no
-  repeated icon badges, so five projects fill exactly two rows (lg 2 + 1 then 3; sm 2 then
-  2 + 2). The other cards put their cover on top; covers cycle the hues (`hueAt`). Cards
-  show the metric (or "Impact being measured" when `impactPending`, never an invented
-  figure), role over years, stack chips.
-- **Talks** (`content/talks.ts`, carried over from the old site and `TODO(content)`
-  unconfirmed): one card of year groups in two columns (a 96px cover thumbnail, title,
-  event, topic chip); the year headings separate groups, no per-row hairlines.
-- **Products** (`content/products.ts`, the single product list the menu and routes also
-  use): one tall feature on the navy slab (cover on top) beside two stacked (cover on the
-  left from `sm`), never three equal cards.
-Cards rise in with a stagger when the term changes (CSS `fade-rise`).
+(Gone: on 2026-11-01 the term shelf, the About bento and the tilted collage; on 2026-10-31
+the commit-square backdrop, the orbit and the proof card. Earlier rounds also turned down an
+aurora, a dot lattice, a spotlight grid, a floating card board and several shape systems.)
 
-**About bento** (`AboutBento`, server, after the shelf; the owner's third reference): four
-cards, two columns from `md`.
-- **Featured project**: the first project's cover fills the cell; a navy chip carries
-  "Featured project" (bold, white) and the name; a round white arrow button links to `/work`.
-- **Profile**: the portrait cut-out (`profile.portrait`) in a 144px `hue-teal` circle, the
-  full name, `profile.role` and the whoami line.
-- **About me**: `profile.bio` and "More about me" to `/about`; flat CSS shapes in the hues
-  (an arch, a circle, a square) sit in the bottom corner. No 3D renders, no gradients.
-- **Let's connect**: "Find me on these platforms" and the `brand` social buttons (only
-  socials with a URL); a soft rose disc in the corner.
-Cells rise in on scroll (`.reveal`, a view timeline, no script) and lift 2px with a deeper
-shadow on hover.
-
-Placeholders (album photos, covers, unconfirmed socials) are `TODO(content)`; covers draw
-the branded placeholder above, nothing else renders an empty photo frame; unconfirmed
-social URLs are `null` and not rendered.
+Placeholders (album photos, covers, unconfirmed socials) are `TODO(content)`. Covers draw the
+branded placeholder above until an image exists.
 
 ## Motion
 
 | Motion | Why | How |
 |---|---|---|
 | Badge, name, sentence, actions fade up in sequence | Hierarchy: claim first, proof second | CSS keyframes, no JS |
-| Term swap | Shows the three kinds of proof in one sentence | `ActiveTerm` context; sentence and shelf change together |
-| Collage tiles rise in | The work arrives right after the claim | CSS `fade-rise`, staggered after the buttons |
-| Collage tile straightens and lifts on hover | Invites a closer look without leaving the hero | CSS transform transition, 400ms |
-| Shelf cards rise in | The list visibly answers the term | CSS `fade-rise`, 60ms stagger, capped at 8 |
-| About cells rise in on scroll, lift on hover | The section arrives as it is read | `animation-timeline: view()`; translate + shadow, 300ms |
+| Showcase crossfade | The images visibly answer the term | Old layer sinks and fades (260ms) over new tiles rising in a diagonal (450ms, 40ms steps) |
+| Term swap | Shows the three kinds of proof in one sentence | `ActiveTerm` context; sentence, action and images change together |
 | Menu toggle lines meet, then cross | The button explains its own state change | CSS transitions with staggered delays |
 | Menu path typing + cursor | Ties the menu to the logo and the /slash language | 22ms per character; instant under reduced motion |
 | Marquee drift, speed-up on scroll | Album feels alive without taking over | rAF transform; static, hand-scrollable under reduced motion |
