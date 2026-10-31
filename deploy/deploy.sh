@@ -21,13 +21,13 @@ main() {
   pm2 reload arayhan --update-env
 
   for _ in $(seq 1 20); do
-    if curl -fsS -o /dev/null http://127.0.0.1:3000/; then
+    if curl -fsS -o /dev/null http://127.0.0.1:3200/; then
       echo "live"
       return 0
     fi
     sleep 1
   done
-  echo "app did not answer on :3000 after reload" >&2
+  echo "app did not answer on :3200 after reload" >&2
   pm2 logs arayhan --lines 40 --nostream >&2 || true
   return 1
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # One-time (and safe to re-run) setup of the production server, as the `ubuntu` user with
-# sudo: Node 24, pnpm, pm2, Nginx, the app in ~/arayhan.com, and HTTPS. See docs/DEPLOY.md.
+# sudo: Node, pnpm, pm2, Nginx, the app in ~/arayhan.com on :3200, and HTTPS. See docs/DEPLOY.md.
 #
 #   bash setup-server.sh            # everything except HTTPS
 #   bash setup-server.sh --https    # also issue the certificate (DNS must point here first)
@@ -26,11 +26,12 @@ main() {
   sudo apt-get update -y
   sudo apt-get install -y ca-certificates curl git nginx certbot python3-certbot-nginx
 
-  if ! node -v 2>/dev/null | grep -q '^v24\.'; then
+  # The server is shared with baiti and selfwire: keep the Node and pnpm already there.
+  if ! command -v node >/dev/null; then
     curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash -
     sudo apt-get install -y nodejs
   fi
-  sudo corepack enable
+  command -v pnpm >/dev/null || sudo corepack enable
   command -v pm2 >/dev/null || sudo npm install -g pm2
 
   if [ ! -d "$dir/.git" ]; then
@@ -45,7 +46,7 @@ main() {
   if pm2 describe arayhan >/dev/null 2>&1; then
     pm2 reload arayhan --update-env
   else
-    pm2 start node_modules/next/dist/bin/next --name arayhan --cwd "$dir" -- start -p 3000 -H 127.0.0.1
+    pm2 start node_modules/next/dist/bin/next --name arayhan --cwd "$dir" -- start -p 3200 -H 127.0.0.1
   fi
   pm2 save
   sudo env PATH="$PATH:/usr/bin" pm2 startup systemd -u "$USER" --hp "$HOME" >/dev/null
@@ -55,7 +56,6 @@ main() {
     sudo cp "$dir/deploy/nginx/arayhan.com.conf" "$site"
   fi
   sudo ln -sf "$site" /etc/nginx/sites-enabled/arayhan.com
-  sudo rm -f /etc/nginx/sites-enabled/default
   sudo nginx -t
   sudo systemctl enable --now nginx
   sudo systemctl reload nginx
@@ -69,7 +69,7 @@ main() {
     sudo certbot --nginx -d arayhan.com -d www.arayhan.com --redirect -m "$email" --agree-tos -n
   fi
 
-  echo "done: $(git rev-parse --short HEAD) on :3000 behind Nginx"
+  echo "done: $(git rev-parse --short HEAD) on :3200 behind Nginx"
 }
 
 main "$@"

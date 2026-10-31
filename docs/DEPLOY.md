@@ -13,8 +13,8 @@ push to main
          pnpm install --frozen-lockfile
          pnpm build
          pm2 reload arayhan
-         smoke test http://127.0.0.1:3000/
-  -> Nginx :443 arayhan.com -> 127.0.0.1:3000 (www.arayhan.com -> 301 apex)
+         smoke test http://127.0.0.1:3200/
+  -> Nginx :443 arayhan.com -> 127.0.0.1:3200 (www.arayhan.com -> 301 apex)
 ```
 
 A failed install or build stops before `pm2 reload`, so the site keeps serving the last good
@@ -48,10 +48,15 @@ comment `arayhan-vps`. The same key logs the owner in and deploys baiti and self
 2. In the Tencent Cloud console firewall, allow TCP 22, 80 and 443.
 3. DNS: `arayhan.com` and `www` have an A record to `43.157.241.50` and **no AAAA record**
    (an AAAA to another host breaks Let's Encrypt and IPv6 visitors).
-4. Copy and run the script: `bash setup-server.sh`. It installs Node 24, pnpm (corepack),
-   pm2, Nginx and Certbot, adds 2GB swap on small machines, clones the repo to
-   `~/arayhan.com`, builds, starts `arayhan` under pm2 (restarts on reboot) and enables the
-   Nginx site. `BRANCH=dev bash setup-server.sh` builds another branch the first time.
+4. Copy and run the script: `bash setup-server.sh`. It installs Node 24 and pnpm only if
+   missing, plus pm2, Nginx and Certbot, adds 2GB swap on small machines, clones the repo to
+   `~/arayhan.com`, builds, starts `arayhan` under pm2 on `127.0.0.1:3200` (restarts on
+   reboot) and enables the Nginx site. `BRANCH=dev bash setup-server.sh` builds another
+   branch the first time.
+
+The server is shared. baiti runs on `:3000` and selfwire on `:3100`, each with its own Nginx
+site, under the same pm2 and the same system Node (22) and pnpm. Never upgrade those or
+remove another site from this repo's scripts.
 5. Once DNS points here: `bash ~/arayhan.com/deploy/setup-server.sh --https` issues the
    certificate for both names, redirects HTTP to HTTPS, and renews on its own.
 
