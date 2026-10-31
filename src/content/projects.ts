@@ -1,7 +1,8 @@
 import type { Project } from "@/domain/portfolio";
 
 // Every number must come from the CV or from Rayhan directly (docs/PRODUCT.md).
-// TODO(content): a `cover` screenshot per project; until then the shelf draws a placeholder.
+// TODO(content): a cover screenshot per project, dropped in as public/covers/<id>.webp (e.g.
+// anify.webp); until then the hero and shelf draw a placeholder.
 export const projects: Project[] = [
   {
     id: "anify",
