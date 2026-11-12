@@ -92,7 +92,8 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
         role="dialog"
         aria-label="Site menu"
         className={cx(
-          "fixed inset-x-0 top-[var(--header-h)] bottom-0 z-50 grid grid-rows-[1fr_auto] overflow-y-auto bg-surface duration-400 ease-out-soft",
+          // Absolute, not fixed: the header's backdrop-filter makes it the containing block for fixed children.
+          "absolute inset-x-0 top-full z-50 grid h-[calc(100dvh-var(--header-h))] grid-rows-[1fr_auto] overflow-y-auto bg-surface duration-400 ease-out-soft",
           // Visibility only transitions on close: opening, the panel must be focusable on its first frame.
           open ? "visible translate-y-0 opacity-100 transition-[opacity,transform]" : "invisible -translate-y-3 opacity-0 transition-[opacity,transform,visibility]",
         )}
