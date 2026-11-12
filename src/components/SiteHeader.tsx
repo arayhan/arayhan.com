@@ -18,7 +18,7 @@ const iconBase = "size-9 place-items-center rounded-control text-mute transition
 export function SiteHeader({ quickLinks, showcase, groups, socials, email }: Props) {
   return (
     <header className="site-header sticky top-[env(safe-area-inset-top,0px)] z-40 bg-canvas/85 backdrop-blur-md">
-      <div className="relative mx-auto flex h-18 max-w-page items-center justify-between gap-4 px-4 sm:px-8 lg:px-14">
+      <div className="relative flex h-18 items-center justify-between gap-4 px-4 sm:px-8 lg:px-14">
         <div className="flex min-w-0 items-center gap-10">
           <Logo />
           <QuickNav links={quickLinks} />

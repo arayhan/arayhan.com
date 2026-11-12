@@ -1,9 +1,10 @@
 "use client";
 
+import type { Icon } from "@phosphor-icons/react";
+import { BriefcaseIcon, HandshakeIcon, ImagesIcon, MicrophoneStageIcon } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { NavGroup, NavLink, Social } from "@/domain/portfolio";
-import { site } from "@/content/site";
 import { cx } from "@/utils/cx";
 import { SocialLinks } from "./SocialLinks";
 
@@ -14,26 +15,18 @@ type Props = {
   email: string;
 };
 
-const TYPE_MS = 22;
-// Grace period for crossing the gap between trigger and panel without the menu closing.
-const HOVER_CLOSE_MS = 220;
+const SHOWCASE_ICONS: Record<string, Icon> = { "/work": BriefcaseIcon, "/services": HandshakeIcon, "/talks": MicrophoneStageIcon, "/album": ImagesIcon };
 
 /**
- * The "address bar" menu: pointing at a link types its path after the site's host with a
- * blinking cursor. With a mouse it opens on hover over the trigger and stays open while the
- * pointer is on the trigger or the panel; a click, tap, Enter or Ctrl/Cmd K toggles it, and
- * Escape or a click outside closes it. The icon's three bars meet in the middle, then the
- * outer two cross into a centred X (styles in globals.css).
+ * The Menu: a click (tap, Enter or Ctrl/Cmd K) opens a panel centred under the header, as
+ * wide as the header's content. Escape, a click outside or a link closes it. The icon's three
+ * bars meet in the middle, then the outer two cross into a centred X (styles in globals.css).
  */
 export function SiteMenu({ showcase, groups, socials, email }: Props) {
   const [open, setOpen] = useState(false);
-  const [path, setPath] = useState("/");
   const openRef = useRef(false);
-  const target = useRef("/");
-  const timer = useRef<number | undefined>(undefined);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const closeTimer = useRef<number | undefined>(undefined);
 
   const setMenu = useCallback((next: boolean, viaKeyboard: boolean) => {
     openRef.current = next;
@@ -63,55 +56,10 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
     return () => {
       document.removeEventListener("keydown", onKey);
       document.removeEventListener("pointerdown", onPointerDown);
-      window.clearInterval(timer.current);
-      window.clearTimeout(closeTimer.current);
     };
   }, [setMenu]);
 
-  function typePath(href: string) {
-    if (href === target.current) return;
-    target.current = href;
-    window.clearInterval(timer.current);
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setPath(href);
-      return;
-    }
-    let length = 1;
-    setPath("/");
-    timer.current = window.setInterval(() => {
-      length += 1;
-      setPath(href.slice(0, length));
-      if (length >= href.length) window.clearInterval(timer.current);
-    }, TYPE_MS);
-  }
-
-  // Hover intent applies to mouse pointers only; touch and pen keep tap-to-toggle.
-  function onHoverEnter(event: React.PointerEvent) {
-    if (event.pointerType !== "mouse") return;
-    window.clearTimeout(closeTimer.current);
-    if (!openRef.current) setMenu(true, false);
-  }
-
-  function onHoverLeave(event: React.PointerEvent) {
-    if (event.pointerType !== "mouse") return;
-    window.clearTimeout(closeTimer.current);
-    closeTimer.current = window.setTimeout(() => setMenu(false, false), HOVER_CLOSE_MS);
-  }
-
-  function onToggleClick(event: React.MouseEvent) {
-    // A mouse already opened it by hovering and closes it by leaving, so a click there is
-    // the same intent, not a toggle. Touch, pen and keyboard still toggle.
-    if ((event.nativeEvent as PointerEvent).pointerType === "mouse" && openRef.current) return;
-    // detail is 0 for Enter/Space, so keyboard users get focus moved into the panel.
-    setMenu(!openRef.current, event.detail === 0);
-  }
-
-  const linkProps = (href: string) => ({
-    href,
-    onPointerEnter: () => typePath(href),
-    onFocus: () => typePath(href),
-    onClick: () => setMenu(false, false),
-  });
+  const close = () => setMenu(false, false);
 
   return (
     <>
@@ -121,9 +69,8 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
         type="button"
         aria-expanded={open}
         aria-controls="site-menu"
-        onClick={onToggleClick}
-        onPointerEnter={onHoverEnter}
-        onPointerLeave={onHoverLeave}
+        // detail is 0 for Enter/Space, so keyboard users get focus moved into the panel.
+        onClick={(event) => setMenu(!openRef.current, event.detail === 0)}
         className="menu-toggle group inline-flex items-center gap-2.5 rounded-full py-1 pr-1 pl-2 text-sm font-medium"
       >
         Menu
@@ -142,61 +89,56 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
         ref={panelRef}
         id="site-menu"
         role="dialog"
-        onPointerEnter={onHoverEnter}
-        onPointerLeave={onHoverLeave}
         aria-label="Site menu"
         className={cx(
-          "absolute top-[calc(100%-6px)] right-3 z-50 max-h-[calc(100dvh-5.5rem)] w-[min(660px,calc(100%-24px))] overflow-y-auto rounded-card border border-line bg-surface shadow-card duration-300 ease-out-soft sm:right-8 lg:right-14",
+          "absolute inset-x-4 top-[calc(100%-4px)] z-50 max-h-[calc(100dvh-5.5rem)] overflow-y-auto rounded-card border border-line bg-surface shadow-card duration-300 ease-out-soft sm:inset-x-8 lg:inset-x-14",
           // Visibility only transitions on close: opening, the panel must be focusable on its first frame.
           open ? "visible translate-y-0 opacity-100 transition-[opacity,transform]" : "invisible -translate-y-1.5 opacity-0 transition-[opacity,transform,visibility]",
         )}
       >
-        <p aria-hidden="true" className="flex items-center border-b border-line bg-soft px-[18px] py-3.5 font-mono text-[13px]">
-          <span className="text-mute">{site.host}</span>
-          <span className="whitespace-pre text-accent-text">{path}</span>
-          <span className="caret ml-px inline-block h-[15px] w-[7px] bg-accent" />
-        </p>
-
-        <div className="grid gap-[18px] p-5 sm:grid-cols-[1.2fr_1fr_1fr]">
-          <div>
-            <p className="mb-1 text-xs font-medium text-mute">Showcase</p>
-            {showcase.map(({ label, href }) => (
-              <Link key={href} {...linkProps(href)} className="block py-0.5 text-xl font-semibold tracking-tight transition-colors hover:text-accent-text focus-visible:text-accent-text">
-                {label}
-              </Link>
-            ))}
-          </div>
-          {[groups.slice(0, 2), groups.slice(2)].map((column, ci) => (
-            <div key={ci} className="grid content-start gap-4">
-              {column.map((group) => (
-                <div key={group.label}>
-                  <p className="mb-1 text-xs font-medium text-mute">{group.label}</p>
-                  {group.links.map(({ label, href }) => (
-                    <Link key={href} {...linkProps(href)} className="block py-0.5 text-[15px] transition-colors hover:text-accent-text">
-                      {label}
-                    </Link>
-                  ))}
-                  {group.extra && (
-                    <p className="mt-0.5 text-[13px] leading-relaxed text-mute">
-                      {group.extra.map(({ label, href }, i) => (
-                        <span key={href}>
-                          {i > 0 && ", "}
-                          <Link {...linkProps(href)} className="transition-colors hover:text-accent-text">
-                            {label}
-                          </Link>
-                        </span>
-                      ))}
-                    </p>
+        <div className="grid gap-6 p-5 sm:grid-cols-[1.3fr_1fr_1fr_1fr] sm:p-7">
+          <div className="grid content-start gap-1">
+            {showcase.map(({ label, href }) => {
+              const Glyph = SHOWCASE_ICONS[href];
+              return (
+                <Link key={href} href={href} onClick={close} className="group/link flex items-center gap-3 rounded-control py-1.5 font-display text-2xl font-semibold tracking-tight transition-colors hover:text-accent-text focus-visible:text-accent-text">
+                  {Glyph && (
+                    <span className="grid size-10 place-items-center rounded-full bg-soft text-ink transition-colors group-hover/link:bg-accent group-hover/link:text-on-accent">
+                      <Glyph size={20} weight="fill" aria-hidden="true" />
+                    </span>
                   )}
-                </div>
+                  {label}
+                </Link>
+              );
+            })}
+          </div>
+          {groups.map((group) => (
+            <div key={group.label} className="grid content-start">
+              <p className="mb-1.5 text-xs font-medium text-mute">{group.label}</p>
+              {group.links.map(({ label, href }) => (
+                <Link key={href} href={href} onClick={close} className="block py-1 text-[15px] transition-colors hover:text-accent-text">
+                  {label}
+                </Link>
               ))}
+              {group.extra && (
+                <p className="mt-1 text-[13px] leading-relaxed text-mute">
+                  {group.extra.map(({ label, href }, i) => (
+                    <span key={href}>
+                      {i > 0 && ", "}
+                      <Link href={href} onClick={close} className="transition-colors hover:text-accent-text">
+                        {label}
+                      </Link>
+                    </span>
+                  ))}
+                </p>
+              )}
             </div>
           ))}
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line py-2.5 pr-3.5 pl-2.5">
           <SocialLinks socials={socials} size={16} itemClassName="size-8" />
-          <span className="rounded-control bg-soft px-2.5 py-1 font-mono text-[12.5px] text-mute select-all">{email}</span>
+          <span className="rounded-full bg-soft px-3 py-1 font-mono text-[12.5px] text-mute select-all">{email}</span>
         </div>
       </div>
     </>

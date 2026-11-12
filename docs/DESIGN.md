@@ -151,35 +151,36 @@ inside a face is weight or the accent colour.
 + quarter arc), centred and stroked in `on-accent` on an `accent` rounded square, next to
 the wordmark **arayhan** (Geist 700, -0.055em). Letters are paths, not text, so the mark is
 identical at 16px and 180px. The blinking cursor bar was dropped from the mark on the
-owner's request; the cursor now lives only in the menu's address line.
+owner's request, and the menu's typed address line went on 2026-11-13, so no cursor remains.
 
 - `src/components/Logo.tsx`: geometry (`MARK`), `LogoMark`, `Logo` (mark + wordmark, links home).
 - `src/app/icon.svg`, `src/app/apple-icon.tsx` and `src/app/opengraph-image.tsx` copy `MARK`. Change them together.
 
 ## Navbar and menu
 
-`src/components/SiteHeader.tsx`, mounted once in `src/app/layout.tsx`. Sticky, 72px.
+`src/components/SiteHeader.tsx`, mounted once in `src/app/layout.tsx`. Sticky, 72px, full
+width with the hero's gutters (16 / 32 / 56px), no max width (owner, 2026-11-13).
 
 - Left: logo, then **Work, Services, Blog, Talks, About** as plain text from `lg`
   (`QuickNav`, client: the current page gets ink color and a 1px accent underline).
-- Right: the email address as a small secondary button (from `xl`, as on dwinawan.com; an
-  envelope icon stands in from `lg` to `xl`, where the nav is too tight),
-  a hairline divider, and the **Menu** toggle:
-  the word "Menu" beside a 40px round icon (hairline border). **Hover opens it** (mouse
-  only): it stays open while the pointer is on the trigger or the panel and closes 220ms
-  after leaving both; a mouse click never closes it. Tap, Enter/Space and Ctrl/Cmd K
-  toggle; keyboard opening moves focus to the first link, Escape returns it. Three equal 16 x 2px
-  bars on a whole-pixel grid (4px apart, so every bar renders identically at any display
-  scaling) meet in the middle and the outer two cross into a centred X; closed and hovered,
-  the outer bars ease apart by 1px each way; pressed, it scales to 0.95. Strict
-  symmetry is the rule (owner rejected an asymmetric pill). Styles in `globals.css`
-  (`.menu-toggle`). Escape and click-outside close it.
-- **Menu panel, "Address bar" style** (`SiteMenu`, client): a card whose `soft` top strip
-  reads `arayhan.com/` (the canonical host, `src/content/site.ts`) and types the path of whatever link is pointed at or focused, with
-  the logo's blinking cursor. Three plain-text columns: Showcase (Work, Services & Rates,
-  Talks, Album) in 20px semibold; Blog and Products; About with Uses' six areas as one
-  quiet line. Footer: social icons and the email as selectable text on a small slab.
-- What it must never become: icon tiles, chips, letter avatars, search slabs, kbd badges.
+- Right: the email address as a small secondary button (from `xl`; an envelope icon stands
+  in from `lg` to `xl`, where the nav is too tight), a hairline divider, and the **Menu**
+  toggle: the word "Menu" beside a 40px round icon (hairline border). **Click only**
+  (2026-11-13; hover-open is gone): tap, Enter/Space and Ctrl/Cmd K toggle; keyboard opening
+  moves focus to the first link, Escape returns it; a click outside or on a link closes it.
+  Three equal 16 x 2px bars on a whole-pixel grid (4px apart, so every bar renders
+  identically at any display scaling) meet in the middle and the outer two cross into a
+  centred X; closed and hovered, the outer bars ease apart by 1px each way; pressed, it
+  scales to 0.95. Strict symmetry is the rule (owner rejected an asymmetric pill). Styles
+  in `globals.css` (`.menu-toggle`).
+- **Menu panel, centred dropdown** (`SiteMenu`, client): a cream card under the whole header,
+  as wide as the header's content, sliding down 6px as it fades in. Four columns from `sm`:
+  Showcase (Work, Services & Rates, Talks, Album) in Lexend 24px semibold, each with a
+  40px `soft` circle holding a Phosphor `fill` glyph (briefcase, handshake, microphone,
+  images) that turns accent on hover; then Blog, Products, and About with Uses' six areas as
+  one quiet line. Footer: social icons and the email as selectable text on a pill.
+- What it must never become: chips, letter avatars, search slabs, kbd badges, a typed
+  address line (dropped 2026-11-13).
 
 All destinations live in `src/content/navigation.ts`; every one has a route (placeholder
 pages via `src/components/StubPage.tsx` until content exists).
@@ -246,7 +247,6 @@ sections to come; the hero reads only `intro` and `email`.
 | Photo pan | Depth behind the copy | `.hero-pan`: 5% drift over 36s, back and forth |
 | Spinning badge | Explains the only interaction (hover the wall) | `.spin`, 14s per turn |
 | Menu toggle lines meet, then cross | The button explains its own state change | CSS transitions with staggered delays |
-| Menu path typing + cursor | Ties the menu to the logo and the /slash language | 22ms per character; instant under reduced motion |
 | Buttons scale to 0.98 when pressed | Tactile feedback | CSS transform, 150ms |
 | Header hairline on scroll | State change: content is under the header | `animation-timeline: scroll()` |
 

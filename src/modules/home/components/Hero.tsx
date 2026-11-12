@@ -21,14 +21,14 @@ const TERMS = [
 
 const step = (i: number) => ({ "--i": i }) as CSSProperties;
 
-/** A pill with the label and a circled glyph; hovering grows it and opens the gap between the two. */
+/** A pill with the label and a circled glyph; hovering grows it a touch and pads the label out from the glyph. */
 function Action({ href, outline, children, icon }: { href: string; outline?: boolean; children: ReactNode; icon: ReactNode }) {
   const Tag = href.startsWith("/") ? Link : "a";
   return (
     <Tag
       href={href}
       className={cx(
-        "inline-flex h-[54px] items-center gap-3 rounded-full border-2 border-ink py-1 pr-1 pl-6 text-[15.5px] font-bold whitespace-nowrap transition-[transform,gap] duration-400 ease-out-soft hover:scale-[1.07] hover:gap-6 focus-visible:scale-[1.07] focus-visible:gap-6 active:scale-[1.02]",
+        "inline-flex h-[54px] items-center gap-3 rounded-full border-2 border-ink py-1 pr-1 pl-6 text-[15.5px] font-bold whitespace-nowrap transition-[transform,gap,padding] duration-400 ease-out-soft hover:scale-[1.03] hover:gap-4 hover:pl-7 focus-visible:scale-[1.03] focus-visible:gap-4 focus-visible:pl-7 active:scale-[0.99]",
         outline ? "bg-surface/60 text-ink backdrop-blur-sm" : "bg-ink text-surface",
       )}
     >
