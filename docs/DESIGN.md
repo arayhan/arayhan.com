@@ -36,18 +36,24 @@ On 2026-11-01 the owner sent a fashion-landing reference (a big headline beside 
 photos, over a bento of coloured text tiles and photo tiles) and asked for the hero alone:
 the home page is now **one split hero whose images follow the active /term**. The shelf, the
 About bento and the collage are gone.
+On 2026-11-12 and 13 the owner iterated a prototype through eleven rounds (scroll-pinned
+index, Swiss grid, a 3D wall, dark cinematic, cream, five font and backdrop variants) and
+approved this: **one screen, no scroll-driven motion**. The copy sits on 3/5 over a faint
+grayscale photo; a **globe-curved 3D wall of every project, talk and product** loops on 2/5
+and spills over the copy. Greige page, Lexend headline on an endless letter wave, Plus Jakarta
+Sans body, pill buttons with a circled glyph, tech stacks as brand-colour logos.
 
 | Dial | Value | Meaning here |
 |---|---|---|
-| Design variance | 6 | A split hero over a checkerboard bento of text and photo tiles |
-| Motion intensity | 5 | Rise-ins and a staggered crossfade when the term changes; every motion has a reason |
+| Design variance | 7 | A one-screen hero whose 3D wall of cards spills over the copy |
+| Motion intensity | 6 | A wall that never stops, a headline wave, a panning photo; nothing reacts to scroll |
 | Visual density | 3 | Airy; one idea per screen |
 
 **Tactile cards, enterprise restraint** (owner's pick, 2026-10-26). The reference is a
 fitness-app card board: white rounded cards on a cool grey page, filled colour icon circles,
 buttons with a pressed bottom edge, tinted status strips, hairline list rows, a faint dot
 texture in card corners. Kept professional by: one accent for every action, link and
-active state (blue; the category hues and the dot texture are gone); no emoji; calm motion; Geist, not a rounded display face. The proof is real numbers.
+active state (blue; the category hues and the dot texture are gone); no emoji; calm motion; a clean sans, not a rounded display face. The proof is real numbers.
 
 ## Tokens
 
@@ -57,12 +63,13 @@ Source: [`src/styles/tokens.css`](../src/styles/tokens.css), mapped to Tailwind 
 
 | Token | Value | Role |
 |---|---|---|
-| `canvas` | `#F3F5F8` | Page ground, cool light grey |
-| `surface` | `#FFFFFF` | Cards, panels, secondary buttons, tile frames |
-| `soft` | `#EEF1F5` | Chips, address strip, icon hover |
+| `canvas` | `#EBE8E1` | Page ground, greige (grey plus cream, owner's pick 2026-11-13) |
+| `surface` | `#F8F6F1` | Cards, panels, secondary buttons, the glyph circle in buttons |
+| `soft` | `#E3DFD6` | Chips, address strip, icon hover |
 | `ink` | `#0B1B3A` | Text (navy), ink icon badges |
-| `mute` | `#5B6678` | Secondary text, idle icons |
-| `line` | `#E3E7EE` | Hairlines, card borders |
+| `mute` | `#5A5D6E` | Secondary text, idle icons |
+| `line` | `#D6D2C8` | Hairlines, card borders |
+| `wash` | canvas as `r g b` | Washes over photos: `rgb(var(--wash) / 0.8)` |
 | `accent` | `#2563EB` | **The one action colour**: logo, primary button, active tab, links, focus |
 | `on-accent` | `#FFFFFF` | Text and glyphs on accent |
 | `accent-text` | `#1D4ED8` | Accent as text |
@@ -70,11 +77,11 @@ Source: [`src/styles/tokens.css`](../src/styles/tokens.css), mapped to Tailwind 
 | `feature`, `on-feature`, `feature-mute`, `feature-accent` | `#0F1F3D`, `#EEF1F6`, `#A9B6CA`, `#93C5FD` | The navy slab a bento leads with, the one dark cell on the page; `feature-accent` is the accent on it |
 | `hue-{blue,violet,teal,amber,rose}` | `#2563EB`, `#7C3AED`, `#0F766E`, `#B45309`, `#E11D48` | Decoration only: badges, covers, the About shapes, active /term; each clears 4.5:1 as text on white; fills take a white glyph |
 | `hue-*-soft` | the hue at 10% | Cover grounds, quiet shapes |
-| `card-radius`, `control-radius` | 24px, 12px | `rounded-card`, `rounded-control` |
+| `card-radius`, `control-radius` | 18px, 12px | `rounded-card` (wall cards), `rounded-control` (covers, chips); buttons are full pills |
 | `card-shadow` | hairline 1px plus `0 12px 32px -16px` navy at 14% | `shadow-card` |
 | `card-shadow-lift` | the same, deeper (22%) | `shadow-card-lift`: hovered showcase text tiles |
 | `control-shadow` | `0 1px 2px` navy at 8% | `shadow-control`: buttons, chips, round icon buttons |
-| `page-max` | 1360px | `max-w-page`: header, hero and stub pages |
+| `page-max` | 1360px | `max-w-page`: header and stub pages (the hero is full width) |
 
 **One action colour, five decorative hues, flat fills.** Blue drives every action, link and
 focus state. The five hues share a weight so they read as one family; they colour things
@@ -88,18 +95,21 @@ its own `prefers-color-scheme` query because it sits in the browser's chrome, no
 
 ## Typography
 
-Geist and Geist Mono, via `next/font/google`. One family: emphasis is weight or the
-accent color, never a second face.
+Plus Jakarta Sans for everything, Lexend for the hero name only (`font-display`), Geist
+Mono for the menu's address line; all via `next/font/google`. The owner picked Lexend from
+four candidates (Bebas Neue, DM Serif Display, Playfair Display) on 2026-11-13. Emphasis
+inside a face is weight or the accent colour.
 
 | Role | Size | Weight / tracking |
 |---|---|---|
-| Hero name (h1) | `text-display` 48 -> 76px, line-height 1, one line, centered | 700, `-0.045em` |
-| Hero sentence | `text-lede` 20 -> 28px, line-height 1.35, max 30ch, centered | 400, `-0.02em`, `mute` |
+| Hero name (h1) | Lexend, `clamp(2.5rem, 1rem + 7vw, 9rem)`, on `xl` `min(9rem, 6.2vw, 18vh)`, one line | 600, `-0.05em`, line-height 1.1 |
+| Hero sentence | `clamp(1.05rem, 0.9rem + 0.6vw, 1.4rem)`, line-height 1.6, max 31ch | 400, `-0.012em`, `mute`; the first two words 600 ink |
 | Page headline (stubs) | `text-hero` 26 -> 40px, line-height 1.16 | 700, `-0.04em` |
-| Showcase term label | `clamp(2rem, 1.2rem + 2.6vw, 3.5rem)`, in the term's hue | 700, `-0.04em` |
+| Wall card title / sub line | 14px / 11.5px, white on the card's navy gradient, two lines max | 700 / 400 at 80% |
+| Wall card kind label | 10.5px uppercase, `0.04em` | 700, ink on `surface` |
 | Page subtext | `text-sub` 16 -> 19px | 400, `mute` |
 | Eyebrow / labels | 14px | 500, `mute`, sentence case (no uppercase tracking) |
-| Buttons | 14px | 600 |
+| Buttons | 14px (header), 15.5px (hero pills) | 600 / 700 |
 | Card title / row value | 16px / 14px | 600, `-0.01em` |
 | Card subtitle / row label | 12px | 400, `mute` |
 
@@ -112,8 +122,8 @@ accent color, never a second face.
 - **Controls** (`src/components/ui/action.ts`): `rounded-control` (12px), semibold,
   `shadow-control`. Primary is blue `accent` with white text; secondary is a white `surface`
   with a border. Pressing scales the face to 0.98. Sizes 44px and 36px.
-- **Radius rule:** cards and tile frames 24px (an image inside a 6px frame 18px), controls
-  12px, chips, badges and round icon buttons full.
+- **Radius rule:** cards 18px, covers and chips 12px, buttons, badges and round icon buttons
+  full (2026-11-13: every button is a pill).
 - **Icon badges** (`IconBadge.tsx`): flat filled circles (28px or 40px) with a Phosphor
   `fill` glyph: a `hue` fill with a white glyph, or `ink` without a hue. Decorative; the
   text beside them carries the meaning. Not repeated on every card.
@@ -175,68 +185,75 @@ pages via `src/components/StubPage.tsx` until content exists).
 
 ## Hero
 
-The home page is the hero and nothing else (owner, 2026-11-01). `Hero.tsx` (server) inside
-`HoldZone`, a `<section>` that holds the active term while a mouse or focus is in it. The
-layout is the owner's fashion-landing reference: on `lg`, two columns
-(`minmax(0,1fr) minmax(0,1.15fr)`): the copy card on the left, the two images on the right.
-The showcase bento runs full width under both. Below `lg` everything stacks, and the two
-images stay side by side.
+The home page is the hero and nothing else, and the hero is one screen (owner, 2026-11-13):
+`min-height: 100svh` minus the header, `height` fixed to that on `xl`. Nothing in it reacts
+to scroll. `Hero.tsx` (server) lays out two columns on `xl` (`3fr 2fr`): the copy on the
+left, the wall on the right, pulled 14vw into the copy column so its cards spill over the
+text. Below `xl` the copy comes first and the wall runs under it (60svh on phones, 70svh on
+tablets), clipped top and bottom only.
 
-One active /term drives the sentence, the second action and every image (`ActiveTerm`).
-Left alone it walks the terms every 8s. It holds while the pointer or focus is anywhere in
-the hero, and under reduced motion.
+1. **Background**: `public/hero.jpg` (an Unsplash stand-in, `TODO(content)`,
+   [`docs/cover-credits.md`](cover-credits.md)) in grayscale at 90%, panning 5% over 36s
+   (`.hero-pan`), under a left-to-right wash of the canvas colour (92% to 30% on `xl`, a
+   top-to-bottom wash when stacked) so the copy stays readable.
+2. **Copy**: the h1 "I'm Rayhan." in Lexend, one line, each letter its own span riding the
+   endless wave (`.wave`); the blue dot is the accent. The sentence "**Fullstack engineer**
+   who makes complicated products feel simple. Wander through my /works, /talks and
+   /products." with the /terms as underlined links to `/work`, `/talks` and `/products`.
+   Two pill actions: "Email me" (ink, a paper-plane glyph in a `surface` circle) and
+   "See my work" (outlined, an arrow in an ink circle); hovering grows a pill and opens the
+   gap before its glyph. The bottom row: the counts ("5 projects · 10 talks · 3 products",
+   from the lists) and a spinning badge reading "Hover the wall · Explore" with an arrow,
+   linking to `/work`.
+3. **Wall** (`HeroWall`, client): every project, talk and product as a card, interleaved so
+   each of the four columns mixes kinds, each column repeated until it has at least seven
+   cards and then doubled for a seamless loop. Columns alternate direction and run at 24 to
+   34px/s. The plane is tilted a little (`rotateX(6deg) rotateY(-6deg) rotateZ(3deg)`); the
+   outer columns turn away 30deg, sit 90px further back and lean 5deg, the inner ones 10deg
+   and 1.5deg. Per frame each card turns away toward the top and bottom (up to 26deg), comes
+   forward 90px and grows from 0.86 to 1 in the middle, so the wall reads as a globe.
+   Hovering a column slows it to a fifth.
+   - **Card**: the cover (`next/image`, or the `photo-slot` placeholder without one) under
+     a navy gradient; a kind label top-left ("Project" blue dot, "Talk" violet, "Product"
+     teal); the name, a sub line (role and years, event and year, or the pitch), and the
+     stack as 34px white discs holding the tech's mark in its brand colour
+     (`src/content/stacks.ts`, Simple Icons SVGs in `public/logos/` used as CSS masks), or
+     the product's own logo. Hover zooms the cover, turns the shadow blue and scales in an
+     arrow circle. Each card links to its section.
+   - Aspect ratios rotate through 4:5, 1:1, 3:4, 4:5, 5:4, 1:1 so the columns never align.
+4. **Header**: the existing sticky site header (logo, quick links, email, Menu) sits above
+   the hero as its glass bar; the hero adds no nav of its own.
 
-1. **Copy card** (`HeroIntro`, white card, left aligned): the status chip (26px avatar plus
-   the mono "$ whoami → **Solution Fullstack Engineer** @ Badr Interactive" line), the h1
-   "I'm Rayhan" at `clamp(3.25rem, 2rem + 5vw, 6rem)`, then the muted sentence "Fullstack
-   engineer who makes complicated products feel simple. Wander through my **/works**,
-   **/talks** and **/products**." Each term is a button: hover turns it ink, and the active
-   one takes its hue (works blue, talks violet, products teal). Hover, focus or tap makes it
-   active. Actions: "Email me" (primary) and "Open /term" (secondary, the active term's page).
-2. **Portrait panel**: `profile.portrait` anchored to the bottom of a panel tinted with the
-   term's hue (`.tile-tint`, 14% over white, eased between hues). The term's label ("Works")
-   sits at the top left in its hue, with its count ("5 projects") under it.
-3. **Featured tile**: the term's first item as a full-height cover with a white chip
-   (name, sub line), linking to it.
-4. **Showcase bento** (`HeroShowcase`): the next items, up to five, one column each on `lg`.
-   Each column is a text tile (`.tile-tint` in the item's hue, a round glyph badge, the name,
-   a sub line) over the item's cover, with the order flipped every other column, so the
-   bento reads as a checkerboard. Each column is one link. A narrower navy CTA column ends
-   it, with the term's full count and "Open /term". Rows have a fixed height
-   (`clamp(18rem, 25vw, 23rem)` on `lg`), so a term with fewer items gets wider columns and
-   the hero never changes height. Below `lg` each item is a row of the two tiles.
-   - Works: name and metric label (or client). Talks: title and "event · year". Products:
-     name and pitch, linking to `/products/<slug>`. Hues from `hueAt`, as everywhere.
-5. **Album marquee** (`AlbumMarquee`), rendered only once `profile.album` has photos.
+(Gone: on 2026-11-13 the split hero, the term-driven showcase, `ActiveTerm` and the album
+marquee; on 2026-11-01 the term shelf, the About bento and the tilted collage; on 2026-10-31
+the commit-square backdrop, the orbit and the proof card. The prototype rounds also turned
+down a pinned scroll index, a Swiss grid, a status ticker, a dark cinematic version, a cursor
+spotlight, cursor parallax, scroll-driven speed and skew, split-capsule buttons, Bebas Neue
+and two serifs.)
 
-**Term change** (`Swap` in `HeroShowcase`): the old layer stays on top for 450ms and sinks
-and fades (`.show-out`, 260ms). The new tiles rise in along a diagonal (`.show-in`, 450ms,
-40ms per step of column plus row). The panel's tint eases to the new hue. The old layer is
-`inert` and `aria-hidden`, and a polite live line says "Showing 5 projects". Under reduced
-motion the swap is instant.
-
-(Gone: on 2026-11-01 the term shelf, the About bento and the tilted collage; on 2026-10-31
-the commit-square backdrop, the orbit and the proof card. Earlier rounds also turned down an
-aurora, a dot lattice, a spotlight grid, a floating card board and several shape systems.)
-
-Placeholders (album photos, covers, unconfirmed socials) are `TODO(content)`. Covers draw the
-branded placeholder above until an image exists.
+`profile.terms`, `status`, `portrait`, `avatar` and `album` stay in the content for the
+sections to come; the hero reads only `intro` and `email`.
 
 ## Motion
 
 | Motion | Why | How |
 |---|---|---|
-| Badge, name, sentence, actions fade up in sequence | Hierarchy: claim first, proof second | CSS keyframes, no JS |
-| Showcase crossfade | The images visibly answer the term | Old layer sinks and fades (260ms) over new tiles rising in a diagonal (450ms, 40ms steps) |
-| Term swap | Shows the three kinds of proof in one sentence | `ActiveTerm` context; sentence, action and images change together |
+| Name, sentence, actions, counts fade up in sequence | Hierarchy: claim first, proof second | `.fade-rise`, CSS keyframes |
+| Headline letter wave | The name is alive without a cursor | `.wave`: each letter rises 0.07em and back over 3.2s, 90ms apart, forever |
+| The wall loops and curls | The whole portfolio passes by on one screen | GSAP ticker moves four tracks (24 to 34px/s, alternating direction); per frame each card gets `rotateX` by its height, depth and scale by its distance from the middle |
+| Hovering a column slows it | Lets the eye settle on a card | `slowTo` 0.2, eased at 8% per frame |
+| Card hover | Invites the click | Cover zooms 1.08, shadow turns blue, an arrow circle scales in |
+| Button hover | Tactile without colour change | The pill scales 1.07 and the gap to its glyph circle opens 12 to 24px |
+| Photo pan | Depth behind the copy | `.hero-pan`: 5% drift over 36s, back and forth |
+| Spinning badge | Explains the only interaction (hover the wall) | `.spin`, 14s per turn |
 | Menu toggle lines meet, then cross | The button explains its own state change | CSS transitions with staggered delays |
 | Menu path typing + cursor | Ties the menu to the logo and the /slash language | 22ms per character; instant under reduced motion |
-| Marquee drift, speed-up on scroll | Album feels alive without taking over | rAF transform; static, hand-scrollable under reduced motion |
 | Buttons scale to 0.98 when pressed | Tactile feedback | CSS transform, 150ms |
 | Header hairline on scroll | State change: content is under the header | `animation-timeline: scroll()` |
 
-Only `transform` and `opacity` animate (plus the panel's visibility). Under
-`prefers-reduced-motion: reduce` everything renders in its final state.
+Only `transform` and `opacity` animate (plus the panel's visibility). Nothing listens to
+scroll (owner, 2026-11-13). Under `prefers-reduced-motion: reduce` everything renders in
+its final state; the wall is laid out once and stands still.
 
 ## Do's and don'ts
 

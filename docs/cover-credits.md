@@ -30,3 +30,18 @@ picked (unsplash.com blocks automated browsers), so each row links the source im
 | `building-realtime-apps-with-firebase.webp` | A classroom session | https://images.unsplash.com/photo-1524178232363-1fb2b075b655 |
 | `react-fundamentals-codelab.webp` | Students at laptops | https://images.unsplash.com/photo-1523240795612-9a054b0db644 |
 | `ui-engineering-from-mockup-to-component.webp` | A microphone before an audience | https://images.unsplash.com/photo-1475721027785-f74eccf877e2 |
+
+## Hero photo
+
+`public/hero.jpg` is an Unsplash stand-in too (picked 2026-11-13), shown in grayscale behind
+the hero copy. Replace it with a real photo at the same path.
+
+| File | Shows | Source |
+|---|---|---|
+| `hero.jpg` | A bright workspace by a window, a plant and a laptop | https://images.unsplash.com/photo-1497215728101-856f4ea42174 |
+
+## Tech marks
+
+`public/logos/*.svg` are [Simple Icons](https://simpleicons.org) (CC0 1.0), used as CSS masks
+and filled with each brand's colour in `src/content/stacks.ts`. The brands' trademarks remain
+their owners'.
