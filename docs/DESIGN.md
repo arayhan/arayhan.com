@@ -173,12 +173,14 @@ width with the hero's gutters (16 / 32 / 56px), no max width (owner, 2026-11-13)
   centred X; closed and hovered, the outer bars ease apart by 1px each way; pressed, it
   scales to 0.95. Strict symmetry is the rule (owner rejected an asymmetric pill). Styles
   in `globals.css` (`.menu-toggle`).
-- **Menu panel, centred dropdown** (`SiteMenu`, client): a cream card under the whole header,
-  as wide as the header's content, sliding down 6px as it fades in. Four columns from `sm`:
-  Showcase (Work, Services & Rates, Talks, Album) in Lexend 24px semibold, each with a
-  40px `soft` circle holding a Phosphor `fill` glyph (briefcase, handshake, microphone,
-  images) that turns accent on hover; then Blog, Products, and About with Uses' six areas as
-  one quiet line. Footer: social icons and the email as selectable text on a pill.
+- **Menu panel, full screen** (`SiteMenu`, client): a cream overlay that fills the viewport
+  under the header (the header and its X stay), locking the page scroll. From `lg`, four
+  columns: Showcase (Work, Services & Rates, Talks, Album) in Lexend `clamp(2rem, 1.2rem +
+  2.6vw, 3.5rem)`, each with a 48px `soft` circle holding a Phosphor `fill` glyph (briefcase,
+  handshake, microphone, images) that turns accent on hover; then Blog, Products, and About
+  with Uses' six areas as one quiet line, in 18px. Below `lg` the columns stack. Footer:
+  social icons and the email as selectable text on a pill. A centred dropdown was tried the
+  same day and widened to this on the owner's request.
 - What it must never become: chips, letter avatars, search slabs, kbd badges, a typed
   address line (dropped 2026-11-13).
 

@@ -18,8 +18,8 @@ type Props = {
 const SHOWCASE_ICONS: Record<string, Icon> = { "/work": BriefcaseIcon, "/services": HandshakeIcon, "/talks": MicrophoneStageIcon, "/album": ImagesIcon };
 
 /**
- * The Menu: a click (tap, Enter or Ctrl/Cmd K) opens a panel centred under the header, as
- * wide as the header's content. Escape, a click outside or a link closes it. The icon's three
+ * The Menu: a click (tap, Enter or Ctrl/Cmd K) opens a full-screen overlay under the header
+ * and locks the page scroll. Escape, a click on the toggle or a link closes it. The icon's three
  * bars meet in the middle, then the outer two cross into a centred X (styles in globals.css).
  */
 export function SiteMenu({ showcase, groups, socials, email }: Props) {
@@ -31,6 +31,7 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
   const setMenu = useCallback((next: boolean, viaKeyboard: boolean) => {
     openRef.current = next;
     setOpen(next);
+    document.body.style.overflow = next ? "hidden" : "";
     // Focus moves only for keyboard users, so a mouse click never paints a focus ring.
     if (next && viaKeyboard) requestAnimationFrame(() => panelRef.current?.querySelector<HTMLElement>("a")?.focus());
     if (!next && viaKeyboard) buttonRef.current?.focus();
@@ -91,20 +92,20 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
         role="dialog"
         aria-label="Site menu"
         className={cx(
-          "absolute inset-x-4 top-[calc(100%-4px)] z-50 max-h-[calc(100dvh-5.5rem)] overflow-y-auto rounded-card border border-line bg-surface shadow-card duration-300 ease-out-soft sm:inset-x-8 lg:inset-x-14",
+          "fixed inset-x-0 top-[var(--header-h)] bottom-0 z-50 grid grid-rows-[1fr_auto] overflow-y-auto bg-surface duration-400 ease-out-soft",
           // Visibility only transitions on close: opening, the panel must be focusable on its first frame.
-          open ? "visible translate-y-0 opacity-100 transition-[opacity,transform]" : "invisible -translate-y-1.5 opacity-0 transition-[opacity,transform,visibility]",
+          open ? "visible translate-y-0 opacity-100 transition-[opacity,transform]" : "invisible -translate-y-3 opacity-0 transition-[opacity,transform,visibility]",
         )}
       >
-        <div className="grid gap-6 p-5 sm:grid-cols-[1.3fr_1fr_1fr_1fr] sm:p-7">
-          <div className="grid content-start gap-1">
+        <div className="grid content-start gap-10 px-4 pt-8 pb-6 sm:px-8 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-8 lg:px-14 lg:pt-14">
+          <div className="grid content-start gap-2">
             {showcase.map(({ label, href }) => {
               const Glyph = SHOWCASE_ICONS[href];
               return (
-                <Link key={href} href={href} onClick={close} className="group/link flex items-center gap-3 rounded-control py-1.5 font-display text-2xl font-semibold tracking-tight transition-colors hover:text-accent-text focus-visible:text-accent-text">
+                <Link key={href} href={href} onClick={close} className="group/link flex items-center gap-4 rounded-control py-1.5 font-display text-[clamp(2rem,1.2rem+2.6vw,3.5rem)] leading-none font-semibold tracking-[-0.04em] transition-colors hover:text-accent-text focus-visible:text-accent-text">
                   {Glyph && (
-                    <span className="grid size-10 place-items-center rounded-full bg-soft text-ink transition-colors group-hover/link:bg-accent group-hover/link:text-on-accent">
-                      <Glyph size={20} weight="fill" aria-hidden="true" />
+                    <span className="grid size-12 shrink-0 place-items-center rounded-full bg-soft text-ink transition-colors group-hover/link:bg-accent group-hover/link:text-on-accent">
+                      <Glyph size={22} weight="fill" aria-hidden="true" />
                     </span>
                   )}
                   {label}
@@ -114,14 +115,14 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
           </div>
           {groups.map((group) => (
             <div key={group.label} className="grid content-start">
-              <p className="mb-1.5 text-xs font-medium text-mute">{group.label}</p>
+              <p className="mb-2 text-xs font-medium text-mute">{group.label}</p>
               {group.links.map(({ label, href }) => (
-                <Link key={href} href={href} onClick={close} className="block py-1 text-[15px] transition-colors hover:text-accent-text">
+                <Link key={href} href={href} onClick={close} className="block py-1.5 text-lg font-medium transition-colors hover:text-accent-text">
                   {label}
                 </Link>
               ))}
               {group.extra && (
-                <p className="mt-1 text-[13px] leading-relaxed text-mute">
+                <p className="mt-2 text-sm leading-relaxed text-mute">
                   {group.extra.map(({ label, href }, i) => (
                     <span key={href}>
                       {i > 0 && ", "}
@@ -136,9 +137,9 @@ export function SiteMenu({ showcase, groups, socials, email }: Props) {
           ))}
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line py-2.5 pr-3.5 pl-2.5">
-          <SocialLinks socials={socials} size={16} itemClassName="size-8" />
-          <span className="rounded-full bg-soft px-3 py-1 font-mono text-[12.5px] text-mute select-all">{email}</span>
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line px-3 py-3 sm:px-7 lg:px-12">
+          <SocialLinks socials={socials} size={18} />
+          <span className="rounded-full bg-soft px-3.5 py-1.5 font-mono text-[12.5px] text-mute select-all">{email}</span>
         </div>
       </div>
     </>
