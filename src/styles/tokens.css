@@ -7,15 +7,15 @@
    faint navy-tinted shadow. */
 
 :root {
-  /* Color: a greige page (grey plus cream, owner's pick 2026-11-13), warm white cards, navy ink */
-  --canvas: #ebe8e1;
+  /* Color: a blue-grey page with cream surfaces (owner's pick 2026-11-13: blue dominant, cream the counterpoint), navy ink */
+  --canvas: #e3e8f1;
   --ink: #0b1b3a;
-  --mute: #5a5d6e;
-  --line: #d6d2c8;
-  --surface: #f8f6f1;
-  --soft: #e3dfd6;
+  --mute: #556179;
+  --line: #c9d2e2;
+  --surface: #f6f2ea;
+  --soft: #d8dfeb;
   /* The canvas as channels, for washes over photos: rgb(var(--wash) / 0.8) */
-  --wash: 235 232 225;
+  --wash: 227 232 241;
   /* The one accent, for actions, links and focus */
   --accent: #2563eb;
   --on-accent: #ffffff;

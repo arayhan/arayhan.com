@@ -40,7 +40,9 @@ On 2026-11-12 and 13 the owner iterated a prototype through eleven rounds (scrol
 index, Swiss grid, a 3D wall, dark cinematic, cream, five font and backdrop variants) and
 approved this: **one screen, no scroll-driven motion**. The copy sits on 3/5 over a faint
 grayscale photo; a **globe-curved 3D wall of every project, talk and product** loops on 2/5
-and spills over the copy. Greige page, Lexend headline, Plus Jakarta Sans body, pill buttons with a circled glyph, tech stacks as brand-colour logos.
+and spills over the copy. Blue-grey page with cream surfaces, Lexend headline, Plus Jakarta Sans body, pill buttons with a circled glyph, tech stacks as brand-colour logos. Later the
+same day the page went **blue-grey with cream surfaces**: blue dominant by area, cream as the
+warm counterpoint, navy ink and the blue accent unchanged.
 
 | Dial | Value | Meaning here |
 |---|---|---|
@@ -62,12 +64,12 @@ Source: [`src/styles/tokens.css`](../src/styles/tokens.css), mapped to Tailwind 
 
 | Token | Value | Role |
 |---|---|---|
-| `canvas` | `#EBE8E1` | Page ground, greige (grey plus cream, owner's pick 2026-11-13) |
-| `surface` | `#F8F6F1` | Cards, panels, secondary buttons, the glyph circle in buttons |
-| `soft` | `#E3DFD6` | Chips, address strip, icon hover |
+| `canvas` | `#E3E8F1` | Page ground, blue-grey: blue dominates by area (owner's pick 2026-11-13) |
+| `surface` | `#F6F2EA` | Cream: cards, panels, the header glass, secondary buttons, the glyph circle in buttons |
+| `soft` | `#D8DFEB` | Chips, address strip, icon hover |
 | `ink` | `#0B1B3A` | Text (navy), ink icon badges |
-| `mute` | `#5A5D6E` | Secondary text, idle icons |
-| `line` | `#D6D2C8` | Hairlines, card borders |
+| `mute` | `#556179` | Secondary text, idle icons |
+| `line` | `#C9D2E2` | Hairlines, card borders |
 | `wash` | canvas as `r g b` | Washes over photos: `rgb(var(--wash) / 0.8)` |
 | `accent` | `#2563EB` | **The one action colour**: logo, primary button, active tab, links, focus |
 | `on-accent` | `#FFFFFF` | Text and glyphs on accent |
