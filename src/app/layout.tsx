@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Lexend, Plus_Jakarta_Sans } from "next/font/google";
 import { SiteHeader } from "@/components/SiteHeader";
 import { menuGroups, quickLinks, showcaseLinks } from "@/content/navigation";
 import { profile } from "@/content/profile";
 import { site } from "@/content/site";
 import "./globals.css";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
+const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta", display: "swap" });
+const lexend = Lexend({ subsets: ["latin"], variable: "--font-lexend", display: "swap" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" });
 
 export const metadata: Metadata = {
@@ -28,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geist.variable} ${geistMono.variable}`}>
+    <html lang="en" className={`${jakarta.variable} ${lexend.variable} ${geistMono.variable}`}>
       <body>
         <a
           href="#main"

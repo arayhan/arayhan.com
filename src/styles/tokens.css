@@ -7,13 +7,15 @@
    faint navy-tinted shadow. */
 
 :root {
-  /* Color: cool light grey page, white cards, navy ink */
-  --canvas: #f3f5f8;
+  /* Color: a greige page (grey plus cream, owner's pick 2026-11-13), warm white cards, navy ink */
+  --canvas: #ebe8e1;
   --ink: #0b1b3a;
-  --mute: #5b6678;
-  --line: #e3e7ee;
-  --surface: #ffffff;
-  --soft: #eef1f5;
+  --mute: #5a5d6e;
+  --line: #d6d2c8;
+  --surface: #f8f6f1;
+  --soft: #e3dfd6;
+  /* The canvas as channels, for washes over photos: rgb(var(--wash) / 0.8) */
+  --wash: 235 232 225;
   /* The one accent, for actions, links and focus */
   --accent: #2563eb;
   --on-accent: #ffffff;
@@ -38,7 +40,7 @@
   --hue-rose-soft: rgb(225 29 72 / 0.1);
 
   /* Shape and elevation */
-  --card-radius: 24px;
+  --card-radius: 18px;
   --control-radius: 12px;
   --card-shadow: 0 1px 2px rgb(11 27 58 / 0.04), 0 12px 32px -16px rgb(11 27 58 / 0.14);
   --card-shadow-lift: 0 1px 2px rgb(11 27 58 / 0.05), 0 18px 40px -18px rgb(11 27 58 / 0.22);

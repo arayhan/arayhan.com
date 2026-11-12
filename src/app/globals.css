@@ -33,7 +33,8 @@
   --shadow-card-lift: var(--card-shadow-lift);
   --shadow-control: var(--control-shadow);
 
-  --font-sans: var(--font-geist), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: var(--font-jakarta), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-lexend), var(--font-jakarta), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, Consolas, monospace;
 
   --text-hero: var(--size-hero);
@@ -108,33 +109,6 @@ h3 {
 
 /* The hero showcase swapping terms: the new tiles rise in one by one (--i), the old layer sinks
    and fades on top of them (HeroShowcase). */
-@keyframes show-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@keyframes show-out {
-  to {
-    opacity: 0;
-    transform: translateY(8px) scale(0.98);
-  }
-}
-
-.show-in {
-  animation: show-in 450ms var(--ease-out-soft) both;
-  animation-delay: calc(var(--i, 0) * 40ms);
-}
-
-.show-out {
-  animation: show-out 260ms ease-in both;
-}
-
 @keyframes caret {
   0%,
   55% {
@@ -166,29 +140,76 @@ h3 {
     text-align: center;
   }
 
-  /* A /term in the hero sentence: muted like the sentence, ink on hover, its hue when it drives the shelf. */
-  .hero-term {
-    cursor: pointer;
-    color: inherit;
-    border-radius: 0.25rem;
-    transition: color 300ms ease;
-  }
+}
 
-  .hero-term:hover {
-    color: var(--ink);
+/* Hero (modules/home): the headline letters ride an endless wave, 90ms apart. */
+@keyframes wave {
+  0%,
+  100% {
+    translate: 0 0;
   }
+  50% {
+    translate: 0 -0.07em;
+  }
+}
 
-  /* A showcase text tile and the portrait panel: a tint of --tile-hue (set per tile) over white.
-     A computed colour, so the panel's background-color transition eases between term hues. */
-  .tile-tint {
-    background-color: color-mix(in srgb, var(--tile-hue, var(--accent)) 14%, var(--surface));
-    transition: background-color 450ms var(--ease-out-soft);
-  }
+.wave {
+  animation: wave 3.2s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
 
-  /* --term-hue is set per term. */
-  .hero-term[aria-pressed="true"] {
-    color: var(--term-hue, var(--accent-text));
+/* The faint photo behind the hero drifts 5% across and back over 36s. */
+@keyframes pan {
+  to {
+    translate: -5% -3%;
   }
+}
+
+.hero-pan {
+  animation: pan 36s ease-in-out infinite alternate;
+}
+
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+.spin {
+  animation: spin 14s linear infinite;
+}
+
+/* The wall's 3D stage; the cards' transforms are set per frame in HeroWall. */
+.wall {
+  perspective: 1200px;
+  perspective-origin: 50% 45%;
+}
+
+.wall-plane {
+  transform-style: preserve-3d;
+  transform: rotateX(6deg) rotateY(-6deg) rotateZ(3deg);
+}
+
+.wall-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Below xl the wall sits under the copy, so clip it top and bottom only (the sides still spill). */
+@media (max-width: 1279px) {
+  .wall {
+    clip-path: inset(0 -100vw);
+  }
+}
+
+/* A tech mark: the brand's SVG as a mask, filled with its colour (--c, --m set inline). */
+.stack-mark::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background: var(--c);
+  mask: var(--m) center / contain no-repeat;
+  -webkit-mask: var(--m) center / contain no-repeat;
 }
 
 .marquee-mask {

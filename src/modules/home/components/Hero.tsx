@@ -1,39 +1,118 @@
+import { ArrowRightIcon, ArrowUpRightIcon, PaperPlaneTiltIcon } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
-import type { CSSProperties } from "react";
+import Link from "next/link";
+import type { CSSProperties, ReactNode } from "react";
 import type { Profile } from "@/domain/portfolio";
-import { HoldZone } from "./ActiveTerm";
-import { AlbumMarquee } from "./AlbumMarquee";
-import { HeroIntro } from "./HeroIntro";
-import { HeroShowcase, type Showcase } from "./HeroShowcase";
+import { cx } from "@/utils/cx";
+import { HeroWall, type WallCard } from "./HeroWall";
 
-function StatusBadge({ status, avatar }: { status: Profile["status"]; avatar: Profile["avatar"] }) {
+type Props = {
+  intro: Profile["intro"];
+  email: string;
+  counts: { n: number; noun: string }[];
+  cards: WallCard[];
+};
+
+const TERMS = [
+  { term: "/works", href: "/work" },
+  { term: "/talks", href: "/talks" },
+  { term: "/products", href: "/products" },
+];
+
+const step = (i: number) => ({ "--i": i }) as CSSProperties;
+
+/** A pill with the label and a circled glyph; hovering grows it and opens the gap between the two. */
+function Action({ href, outline, children, icon }: { href: string; outline?: boolean; children: ReactNode; icon: ReactNode }) {
+  const Tag = href.startsWith("/") ? Link : "a";
   return (
-    <p className="fade-rise flex w-max max-w-full items-center gap-2.5 rounded-full border border-line bg-surface py-1.5 pr-3.5 pl-1.5 text-left font-mono text-[12.5px] text-mute shadow-control" style={{ "--i": 0 } as CSSProperties}>
-      {avatar ? (
-        <Image src={avatar.src} alt={avatar.alt} width={26} height={26} className="size-[26px] flex-none rounded-full bg-soft" />
-      ) : null}
-      <span className="min-w-0">
-        <span aria-hidden="true">$ </span>
-        {status.prompt} <span className="text-accent-text">→</span> <b className="font-medium text-ink">{status.role}</b> @ {status.org}
+    <Tag
+      href={href}
+      className={cx(
+        "inline-flex h-[54px] items-center gap-3 rounded-full border-2 border-ink py-1 pr-1 pl-6 text-[15.5px] font-bold whitespace-nowrap transition-[transform,gap] duration-400 ease-out-soft hover:scale-[1.07] hover:gap-6 focus-visible:scale-[1.07] focus-visible:gap-6 active:scale-[1.02]",
+        outline ? "bg-surface/60 text-ink backdrop-blur-sm" : "bg-ink text-surface",
+      )}
+    >
+      {children}
+      <span aria-hidden="true" className={cx("grid size-10 place-items-center rounded-full", outline ? "bg-ink text-surface" : "bg-surface text-ink")}>
+        {icon}
       </span>
-    </p>
+    </Tag>
   );
 }
 
 /**
- * The whole home page: the copy beside the portrait and the active term's featured item, and a
- * bento of that term's next items under both. Hovering a /term swaps the images (HeroShowcase).
+ * The whole home page in one screen: the copy on 3/5 over a faint, slowly panning photo, and the
+ * wall of cards (HeroWall) on 2/5, spilling over the copy. Each headline letter rides an endless
+ * wave (`.wave`), and the blocks rise in once (`.fade-rise`).
  */
-export function Hero({ profile, showcases }: { profile: Profile; showcases: Showcase[] }) {
+export function Hero({ intro, email, counts, cards }: Props) {
   return (
-    <HoldZone aria-labelledby="hero-title" className="mx-auto grid w-full max-w-page grid-cols-[minmax(0,1fr)] gap-3 px-4 pt-6 pb-20 sm:gap-4 sm:px-8 md:pt-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:px-14">
-      <HeroIntro intro={profile.intro} terms={profile.terms} email={profile.email} badge={<StatusBadge status={profile.status} avatar={profile.avatar} />} />
-      <HeroShowcase showcases={showcases} portrait={profile.portrait} />
-      {profile.album.length > 0 && (
-        <div className="lg:col-span-2">
-          <AlbumMarquee photos={profile.album} />
+    <section aria-labelledby="hero-title" className="relative grid min-h-[calc(100svh-var(--header-h))] overflow-hidden xl:h-[calc(100svh-var(--header-h))] xl:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+      {/* TODO(content): hero.jpg is an Unsplash stand-in (docs/cover-credits.md); replace it with a real photo at the same path. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="hero-pan absolute -inset-x-[8%] -inset-y-[6%]">
+          <Image src="/hero.jpg" alt="" fill priority sizes="100vw" className="object-cover opacity-90 grayscale" />
         </div>
-      )}
-    </HoldZone>
+        <div className="absolute inset-0 bg-[linear-gradient(rgb(var(--wash)/0.85),rgb(var(--wash)/0.6)_50%,rgb(var(--wash)/0.85))] xl:bg-[linear-gradient(90deg,rgb(var(--wash)/0.92),rgb(var(--wash)/0.8)_40%,rgb(var(--wash)/0.45)_70%,rgb(var(--wash)/0.3))]" />
+      </div>
+
+      <div className="relative z-[2] grid min-w-0 grid-rows-[1fr_auto] gap-6 px-4 pt-10 pb-7 sm:px-8 lg:px-14 xl:pr-[calc(14vw+24px)]">
+        <div className="grid gap-9 self-center">
+          <h1 id="hero-title" aria-label={`${intro.name}.`} className="fade-rise font-display text-[clamp(2.5rem,1rem+7vw,9rem)] leading-[1.1] font-semibold tracking-[-0.05em] whitespace-nowrap xl:text-[min(9rem,6.2vw,18vh)]" style={step(0)}>
+            {[...intro.name].map((c, i) => (
+              <span key={i} aria-hidden="true" className={cx("wave inline-block", c === " " && "w-[0.22em]")} style={step(i)}>
+                {c === " " ? " " : c}
+              </span>
+            ))}
+            <span aria-hidden="true" className="wave inline-block text-accent" style={step(intro.name.length)}>
+              .
+            </span>
+          </h1>
+          <p className="fade-rise max-w-[31ch] text-[clamp(1.05rem,0.9rem+0.6vw,1.4rem)] leading-[1.6] tracking-[-0.012em] text-pretty text-mute" style={step(2)}>
+            <b className="font-semibold text-ink">{intro.lead.split(" ").slice(0, 2).join(" ")}</b> {intro.lead.split(" ").slice(2).join(" ")} {intro.invite}{" "}
+            {TERMS.map((t, i) => (
+              <span key={t.term}>
+                {i > 0 && (i === TERMS.length - 1 ? " and " : ", ")}
+                <Link href={t.href} className="text-ink underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent-text">
+                  {t.term}
+                </Link>
+              </span>
+            ))}
+            .
+          </p>
+          <div className="fade-rise mt-1 flex flex-wrap gap-3.5" style={step(3)}>
+            <Action href={`mailto:${email}`} icon={<PaperPlaneTiltIcon size={18} />}>
+              Email me
+            </Action>
+            <Action href="/work" outline icon={<ArrowRightIcon size={18} />}>
+              See my work
+            </Action>
+          </div>
+        </div>
+
+        <div className="fade-rise flex flex-wrap items-end justify-between gap-6 text-[13px] text-mute" style={step(4)}>
+          <span className="flex gap-4">
+            {counts.map(({ n, noun }) => (
+              <span key={noun}>
+                <b className="font-semibold text-ink">{n}</b> {noun}
+              </span>
+            ))}
+          </span>
+          <Link href="/work" aria-label="Hover the wall to explore" className="relative grid size-[84px] place-items-center text-ink">
+            <svg aria-hidden="true" viewBox="0 0 100 100" className="spin absolute inset-0 size-full">
+              <defs>
+                <path id="hero-ring" d="M50 50m-36 0a36 36 0 1 1 72 0a36 36 0 1 1-72 0" />
+              </defs>
+              <text className="fill-ink text-[9.5px] font-bold tracking-[0.18em] uppercase">
+                <textPath href="#hero-ring">Hover the wall · Explore ·&#160;</textPath>
+              </text>
+            </svg>
+            <ArrowUpRightIcon size={20} aria-hidden="true" />
+          </Link>
+        </div>
+      </div>
+
+      <HeroWall cards={cards} />
+    </section>
   );
 }

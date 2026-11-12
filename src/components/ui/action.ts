@@ -5,7 +5,7 @@ export type ActionSize = "md" | "sm";
 
 // A hairline shadow for depth; pressing shrinks the face a touch.
 const base =
-  "inline-flex shrink-0 items-center justify-center gap-2 rounded-control font-semibold whitespace-nowrap transition-[transform,box-shadow,background-color,border-color] duration-150 ease-out-soft active:scale-[0.98]";
+  "inline-flex shrink-0 items-center justify-center gap-2 rounded-full font-semibold whitespace-nowrap transition-[transform,box-shadow,background-color,border-color] duration-150 ease-out-soft active:scale-[0.98]";
 
 const sizes: Record<ActionSize, string> = {
   md: "h-11 px-5 text-sm",

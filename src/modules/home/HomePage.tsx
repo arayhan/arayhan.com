@@ -1,11 +1,10 @@
 import { JsonLd } from "@/components/JsonLd";
 import type { Product, Project, Talk } from "@/domain/portfolio";
-import { hueAt } from "@/components/ui/hue";
 import { profile } from "@/content/profile";
+import { stackMarks } from "@/content/stacks";
 import { homeStructuredData } from "@/content/structured-data";
-import { ActiveTermProvider } from "./components/ActiveTerm";
 import { Hero } from "./components/Hero";
-import type { Showcase, ShowItem } from "./components/HeroShowcase";
+import type { WallCard } from "./components/HeroWall";
 
 type Props = {
   /** The content lists with `cover` resolved from public/covers/ (app/page.tsx). */
@@ -14,37 +13,33 @@ type Props = {
   talks: Talk[];
 };
 
-// What each /term shows in the hero, in the same hues as everywhere else. The featured item is
-// first; the bento takes the next five.
-function showcases({ projects, products, talks }: Props): Showcase[] {
-  const items: Record<Showcase["icon"], { noun: string; list: ShowItem[] }> = {
-    work: {
-      noun: "projects",
-      list: projects.map((p, i) => ({ key: p.id, name: p.name, sub: p.metric ? p.metric.label : p.client, cover: p.cover, hue: hueAt(i), href: "/work" })),
-    },
-    talk: {
-      noun: "talks",
-      list: talks.map((t, i) => ({ key: t.title, name: t.title, sub: `${t.event} · ${t.year}`, cover: t.cover, hue: hueAt(i, 1), href: "/talks" })),
-    },
-    product: {
-      noun: "products",
-      list: products.map((p, i) => ({ key: p.slug, name: p.name, sub: p.pitch, cover: p.cover, hue: hueAt(i, 2), href: `/products/${p.slug}` })),
-    },
-  };
-  return profile.terms.map((t) => {
-    const icon = t.icon === "talk" || t.icon === "product" ? t.icon : "work";
-    const { noun, list } = items[icon];
-    return { term: t.term, label: t.label, icon, hue: t.hue, href: t.href, total: list.length, noun, items: list.slice(0, 6) };
-  });
+const mark = (name: string) => {
+  const m = stackMarks[name];
+  return m ? [{ name, logo: `/logos/${m.slug}.svg`, color: m.color }] : [];
+};
+
+// Every project, talk and product becomes one card on the wall, interleaved so each column mixes kinds.
+function wallCards({ projects, talks, products }: Props): WallCard[] {
+  const lists: WallCard[][] = [
+    projects.map((p) => ({ key: p.id, kind: "project", name: p.name, sub: `${p.role} · ${p.years}`, cover: p.cover, href: "/work", marks: p.stack.flatMap(mark) })),
+    talks.map((t) => ({ key: t.title, kind: "talk", name: t.title, sub: `${t.event} · ${t.year}`, cover: t.cover, href: "/talks", marks: mark(t.topic) })),
+    products.map((p) => ({ key: p.slug, kind: "product", name: p.name, sub: p.pitch, cover: p.cover, href: `/products/${p.slug}`, marks: [{ name: p.name, logo: p.logo }] })),
+  ];
+  const out: WallCard[] = [];
+  for (let i = 0; lists.some((l) => l[i]); i++) lists.forEach((l) => l[i] && out.push(l[i]));
+  return out;
 }
 
 export function HomePage(props: Props) {
+  const counts = [
+    { n: props.projects.length, noun: "projects" },
+    { n: props.talks.length, noun: "talks" },
+    { n: props.products.length, noun: "products" },
+  ];
   return (
     <main id="main">
       <JsonLd data={homeStructuredData} />
-      <ActiveTermProvider count={profile.terms.length}>
-        <Hero profile={profile} showcases={showcases(props)} />
-      </ActiveTermProvider>
+      <Hero intro={profile.intro} email={profile.email} counts={counts} cards={wallCards(props)} />
     </main>
   );
 }
