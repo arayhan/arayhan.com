@@ -42,8 +42,7 @@ function Action({ href, outline, children, icon }: { href: string; outline?: boo
 
 /**
  * The whole home page in one screen: the copy on 3/5 over a faint, slowly panning photo, and the
- * wall of cards (HeroWall) on 2/5, spilling over the copy. Each headline letter rides an endless
- * wave (`.wave`), and the blocks rise in once (`.fade-rise`).
+ * wall of cards (HeroWall) on 2/5, spilling over the copy. The blocks rise in once (`.fade-rise`).
  */
 export function Hero({ intro, email, counts, cards }: Props) {
   return (
@@ -58,15 +57,9 @@ export function Hero({ intro, email, counts, cards }: Props) {
 
       <div className="relative z-[2] grid min-w-0 grid-rows-[1fr_auto] gap-6 px-4 pt-10 pb-7 sm:px-8 lg:px-14 xl:pr-[calc(14vw+24px)]">
         <div className="grid gap-9 self-center">
-          <h1 id="hero-title" aria-label={`${intro.name}.`} className="fade-rise font-display text-[clamp(2.5rem,1rem+7vw,9rem)] leading-[1.1] font-semibold tracking-[-0.05em] whitespace-nowrap xl:text-[min(9rem,6.2vw,18vh)]" style={step(0)}>
-            {[...intro.name].map((c, i) => (
-              <span key={i} aria-hidden="true" className={cx("wave inline-block", c === " " && "w-[0.22em]")} style={step(i)}>
-                {c === " " ? " " : c}
-              </span>
-            ))}
-            <span aria-hidden="true" className="wave inline-block text-accent" style={step(intro.name.length)}>
-              .
-            </span>
+          <h1 id="hero-title" className="fade-rise font-display text-[clamp(2.5rem,1rem+7vw,9rem)] leading-[1.1] font-semibold tracking-[-0.05em] whitespace-nowrap xl:text-[min(9rem,6.2vw,18vh)]" style={step(0)}>
+            {intro.name}
+            <span className="text-accent">.</span>
           </h1>
           <p className="fade-rise max-w-[31ch] text-[clamp(1.05rem,0.9rem+0.6vw,1.4rem)] leading-[1.6] tracking-[-0.012em] text-pretty text-mute" style={step(2)}>
             <b className="font-semibold text-ink">{intro.lead.split(" ").slice(0, 2).join(" ")}</b> {intro.lead.split(" ").slice(2).join(" ")} {intro.invite}{" "}

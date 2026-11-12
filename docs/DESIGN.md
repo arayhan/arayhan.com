@@ -40,13 +40,12 @@ On 2026-11-12 and 13 the owner iterated a prototype through eleven rounds (scrol
 index, Swiss grid, a 3D wall, dark cinematic, cream, five font and backdrop variants) and
 approved this: **one screen, no scroll-driven motion**. The copy sits on 3/5 over a faint
 grayscale photo; a **globe-curved 3D wall of every project, talk and product** loops on 2/5
-and spills over the copy. Greige page, Lexend headline on an endless letter wave, Plus Jakarta
-Sans body, pill buttons with a circled glyph, tech stacks as brand-colour logos.
+and spills over the copy. Greige page, Lexend headline, Plus Jakarta Sans body, pill buttons with a circled glyph, tech stacks as brand-colour logos.
 
 | Dial | Value | Meaning here |
 |---|---|---|
 | Design variance | 7 | A one-screen hero whose 3D wall of cards spills over the copy |
-| Motion intensity | 6 | A wall that never stops, a headline wave, a panning photo; nothing reacts to scroll |
+| Motion intensity | 6 | A wall that never stops and a panning photo; nothing reacts to scroll |
 | Visual density | 3 | Airy; one idea per screen |
 
 **Tactile cards, enterprise restraint** (owner's pick, 2026-10-26). The reference is a
@@ -196,8 +195,7 @@ tablets), clipped top and bottom only.
    [`docs/cover-credits.md`](cover-credits.md)) in grayscale at 90%, panning 5% over 36s
    (`.hero-pan`), under a left-to-right wash of the canvas colour (92% to 30% on `xl`, a
    top-to-bottom wash when stacked) so the copy stays readable.
-2. **Copy**: the h1 "I'm Rayhan." in Lexend, one line, each letter its own span riding the
-   endless wave (`.wave`); the blue dot is the accent. The sentence "**Fullstack engineer**
+2. **Copy**: the h1 "I'm Rayhan." in Lexend, one line; the blue dot is the accent. The sentence "**Fullstack engineer**
    who makes complicated products feel simple. Wander through my /works, /talks and
    /products." with the /terms as underlined links to `/work`, `/talks` and `/products`.
    Two pill actions: "Email me" (ink, a paper-plane glyph in a `surface` circle) and
@@ -239,7 +237,6 @@ sections to come; the hero reads only `intro` and `email`.
 | Motion | Why | How |
 |---|---|---|
 | Name, sentence, actions, counts fade up in sequence | Hierarchy: claim first, proof second | `.fade-rise`, CSS keyframes |
-| Headline letter wave | The name is alive without a cursor | `.wave`: each letter rises 0.07em and back over 3.2s, 90ms apart, forever |
 | The wall loops and curls | The whole portfolio passes by on one screen | GSAP ticker moves four tracks (24 to 34px/s, alternating direction); per frame each card gets `rotateX` by its height, depth and scale by its distance from the middle |
 | Hovering a column slows it | Lets the eye settle on a card | `slowTo` 0.2, eased at 8% per frame |
 | Card hover | Invites the click | Cover zooms 1.08, shadow turns blue, an arrow circle scales in |

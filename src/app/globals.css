@@ -142,22 +142,6 @@ h3 {
 
 }
 
-/* Hero (modules/home): the headline letters ride an endless wave, 90ms apart. */
-@keyframes wave {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-  50% {
-    translate: 0 -0.07em;
-  }
-}
-
-.wave {
-  animation: wave 3.2s ease-in-out infinite;
-  animation-delay: calc(var(--i, 0) * 90ms);
-}
-
 /* The faint photo behind the hero drifts 5% across and back over 36s. */
 @keyframes pan {
   to {
