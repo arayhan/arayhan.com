@@ -40,7 +40,7 @@ On 2026-11-12 and 13 the owner iterated a prototype through eleven rounds (scrol
 index, Swiss grid, a 3D wall, dark cinematic, cream, five font and backdrop variants) and
 approved this: **one screen, no scroll-driven motion**. The copy sits on 3/5 over a faint
 grayscale photo; a **globe-curved 3D wall of every project, talk and product** loops on 2/5
-and spills over the copy. Blue-grey page with cream surfaces, Lexend headline, Plus Jakarta Sans body, pill buttons with a circled glyph, tech stacks as brand-colour logos. Later the
+and spills over the copy. Blue-grey page with cream surfaces, DM Serif Display headline, Plus Jakarta Sans body, pill buttons with a circled glyph, tech stacks as brand-colour logos. Later the
 same day the page went **blue-grey with cream surfaces**: blue dominant by area, cream as the
 warm counterpoint, navy ink and the blue accent unchanged.
 
@@ -96,14 +96,15 @@ its own `prefers-color-scheme` query because it sits in the browser's chrome, no
 
 ## Typography
 
-Plus Jakarta Sans for everything, Lexend for the hero name only (`font-display`), Geist
-Mono for the menu's address line; all via `next/font/google`. The owner picked Lexend from
-four candidates (Bebas Neue, DM Serif Display, Playfair Display) on 2026-11-13. Emphasis
-inside a face is weight or the accent colour.
+Plus Jakarta Sans for everything, DM Serif Display for the hero name only (`font-serif`),
+Lexend for the menu's showcase links (`font-display`), Geist Mono for the email pill; all via
+`next/font/google`. The owner picked DM Serif Display from five candidates (Asimovian,
+Montserrat, Playfair Display, Kalam) on 2026-11-13, after Lexend had won an earlier round.
+Emphasis inside a face is weight or the accent colour.
 
 | Role | Size | Weight / tracking |
 |---|---|---|
-| Hero name (h1) | Lexend, `clamp(2.5rem, 1rem + 7vw, 9rem)`, on `xl` `min(9rem, 6.2vw, 18vh)`, one line | 600, `-0.05em`, line-height 1.1 |
+| Hero name (h1) | DM Serif Display, `clamp(2.6rem, 1rem + 7.4vw, 9.5rem)`, on `xl` `min(9.5rem, 6.6vw, 19vh)`, one line | 400, `-0.025em`, line-height 1 |
 | Hero sentence | `clamp(1.05rem, 0.9rem + 0.6vw, 1.4rem)`, line-height 1.6, max 31ch | 400, `-0.012em`, `mute`; the first two words 600 ink |
 | Page headline (stubs) | `text-hero` 26 -> 40px, line-height 1.16 | 700, `-0.04em` |
 | Wall card title / sub line | 14px / 11.5px, white on the card's navy gradient, two lines max | 700 / 400 at 80% |
@@ -200,7 +201,7 @@ tablets), clipped top and bottom only.
    [`docs/cover-credits.md`](cover-credits.md)) in grayscale at 90%, panning 5% over 36s
    (`.hero-pan`), under a left-to-right wash of the canvas colour (92% to 30% on `xl`, a
    top-to-bottom wash when stacked) so the copy stays readable.
-2. **Copy**: the h1 "I'm Rayhan." in Lexend, one line; the blue dot is the accent. The sentence "**Fullstack engineer**
+2. **Copy**: the h1 "I'm Rayhan." in DM Serif Display, one line; the blue dot is the accent. The sentence "**Fullstack engineer**
    who makes complicated products feel simple. Wander through my /works, /talks and
    /products." with the /terms as underlined links to `/work`, `/talks` and `/products`.
    Two pill actions: "Email me" (ink, a paper-plane glyph in a `surface` circle) and

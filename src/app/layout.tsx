@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Lexend, Plus_Jakarta_Sans } from "next/font/google";
+import { DM_Serif_Display, Geist_Mono, Lexend, Plus_Jakarta_Sans } from "next/font/google";
 import { SiteHeader } from "@/components/SiteHeader";
 import { menuGroups, quickLinks, showcaseLinks } from "@/content/navigation";
 import { profile } from "@/content/profile";
@@ -8,6 +8,7 @@ import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta", display: "swap" });
 const lexend = Lexend({ subsets: ["latin"], variable: "--font-lexend", display: "swap" });
+const dmSerif = DM_Serif_Display({ subsets: ["latin"], weight: "400", variable: "--font-dm-serif", display: "swap" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" });
 
 export const metadata: Metadata = {
@@ -29,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${jakarta.variable} ${lexend.variable} ${geistMono.variable}`}>
+    <html lang="en" className={`${jakarta.variable} ${lexend.variable} ${dmSerif.variable} ${geistMono.variable}`}>
       <body>
         <a
           href="#main"

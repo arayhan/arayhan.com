@@ -57,7 +57,7 @@ export function Hero({ intro, email, counts, cards }: Props) {
 
       <div className="relative z-[2] grid min-w-0 grid-rows-[1fr_auto] gap-6 px-4 pt-10 pb-7 sm:px-8 lg:px-14 xl:pr-[calc(14vw+24px)]">
         <div className="grid gap-9 self-center">
-          <h1 id="hero-title" className="fade-rise font-display text-[clamp(2.5rem,1rem+7vw,9rem)] leading-[1.1] font-semibold tracking-[-0.05em] whitespace-nowrap xl:text-[min(9rem,6.2vw,18vh)]" style={step(0)}>
+          <h1 id="hero-title" className="fade-rise font-serif text-[clamp(2.6rem,1rem+7.4vw,9.5rem)] leading-none font-normal tracking-[-0.025em] whitespace-nowrap xl:text-[min(9.5rem,6.6vw,19vh)]" style={step(0)}>
             {intro.name}
             <span className="text-accent">.</span>
           </h1>
